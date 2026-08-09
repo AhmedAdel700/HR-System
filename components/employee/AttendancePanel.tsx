@@ -24,9 +24,9 @@ type TodayState = "idle" | "in" | "out";
 
 function formatNow(): string {
   return new Intl.DateTimeFormat(undefined, {
-    hour: "numeric",
+    hour: "2-digit",
     minute: "2-digit",
-    hour12: true,
+    hour12: false,
   }).format(new Date());
 }
 

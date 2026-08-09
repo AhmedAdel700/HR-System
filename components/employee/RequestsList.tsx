@@ -1,12 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ChevronDown, Plus } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { MainButton } from "@/components/shared/MainButton";
 import {
-  demoRequests,
   leaveTypeSurface,
   type DemoRequest,
   type RequestStatus,
@@ -15,18 +14,27 @@ import {
   formatRequestMonthLabel,
   groupRequestsByMonth,
 } from "@/lib/employee/groupRequestsByMonth";
+import {
+  getRequestsSnapshot,
+  subscribeRequests,
+} from "@/lib/employee/requestsStore";
 import { cn } from "@/lib/utils";
 
 export function RequestsList() {
   const t = useTranslations("employee.requests");
   const locale = useLocale();
+  const requests = useSyncExternalStore(
+    subscribeRequests,
+    getRequestsSnapshot,
+    getRequestsSnapshot
+  );
   const monthGroups = useMemo(
-    () => groupRequestsByMonth(demoRequests),
-    []
+    () => groupRequestsByMonth(requests),
+    [requests]
   );
 
   const [openMonths, setOpenMonths] = useState<ReadonlySet<string>>(() => {
-    const newest = groupRequestsByMonth(demoRequests)[0]?.key;
+    const newest = groupRequestsByMonth(getRequestsSnapshot())[0]?.key;
     return newest ? new Set([newest]) : new Set();
   });
 

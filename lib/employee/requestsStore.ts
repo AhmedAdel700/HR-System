@@ -1,0 +1,76 @@
+import {
+  demoRequests,
+  type DemoRequest,
+  type RequestStatus,
+} from "@/lib/employee/demo-data";
+import type { RequestFormValues } from "@/schemas/employee/request.schema";
+
+let requests: DemoRequest[] = demoRequests.map((item) => ({ ...item }));
+const listeners = new Set<() => void>();
+
+function emit(): void {
+  for (const listener of listeners) {
+    listener();
+  }
+}
+
+export function subscribeRequests(listener: () => void): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+export function getRequestsSnapshot(): DemoRequest[] {
+  return requests;
+}
+
+export function getRequestById(id: string): DemoRequest | undefined {
+  return requests.find((item) => item.id === id);
+}
+
+export function canModifyRequest(status: RequestStatus): boolean {
+  return status === "pending";
+}
+
+export function updateRequest(
+  id: string,
+  values: RequestFormValues
+): DemoRequest | undefined {
+  const index = requests.findIndex((item) => item.id === id);
+  if (index < 0) return undefined;
+
+  const current = requests[index];
+  if (!current || !canModifyRequest(current.status)) return undefined;
+
+  const next: DemoRequest = {
+    ...current,
+    status: current.status,
+    from: values.from,
+    to: values.to,
+    reason: values.reason,
+    note: values.note?.trim() ? values.note.trim() : undefined,
+    startTime: values.startTime?.trim() ? values.startTime : undefined,
+    endTime: values.endTime?.trim() ? values.endTime : undefined,
+  };
+
+  requests = [
+    ...requests.slice(0, index),
+    next,
+    ...requests.slice(index + 1),
+  ];
+  emit();
+  return next;
+}
+
+export function deleteRequest(id: string): boolean {
+  const current = getRequestById(id);
+  if (!current || !canModifyRequest(current.status)) return false;
+
+  const next = requests.filter((item) => item.id !== id);
+  if (next.length === requests.length) return false;
+
+  requests = next;
+  emit();
+  return true;
+}

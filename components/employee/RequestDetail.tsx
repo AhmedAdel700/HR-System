@@ -1,33 +1,78 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useState, useSyncExternalStore, type ReactElement } from "react";
+import { useTranslations } from "next-intl";
+import { Pencil, Trash2 } from "lucide-react";
 import { notFound } from "next/navigation";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
+import { DeleteConfirmModal } from "@/components/shared/DeleteConfirmModal";
+import { MainButton } from "@/components/shared/MainButton";
+import { leaveTypeSurface } from "@/lib/employee/demo-data";
 import {
-  getDemoRequest,
-  leaveTypeSurface,
-} from "@/lib/employee/demo-data";
+  canModifyRequest,
+  deleteRequest,
+  getRequestById,
+  getRequestsSnapshot,
+  subscribeRequests,
+} from "@/lib/employee/requestsStore";
 import { cn } from "@/lib/utils";
 
-export async function RequestDetail({ id }: { id: string }) {
-  const t = await getTranslations("employee.requests");
-  const item = getDemoRequest(id);
+export function RequestDetail({ id }: { id: string }): ReactElement {
+  const t = useTranslations("employee.requests");
+  const router = useRouter();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
-  if (!item) notFound();
+  useSyncExternalStore(
+    subscribeRequests,
+    getRequestsSnapshot,
+    getRequestsSnapshot
+  );
+  const item = getRequestById(id);
+
+  if (!item) {
+    notFound();
+  }
+
+  const canModify = canModifyRequest(item.status);
+
+  const handleDelete = (): void => {
+    setDeleting(true);
+    const removed = deleteRequest(id);
+    setDeleting(false);
+    setConfirmOpen(false);
+    if (removed) {
+      router.push("/requests");
+    }
+  };
 
   return (
     <div className="space-y-5">
       <section className="space-y-2">
-        <div className="flex flex-wrap items-center gap-2">
+        <span
+          className={cn(
+            "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+            leaveTypeSurface[item.type].soft
+          )}
+        >
+          {t(`types.${item.type}`)}
+        </span>
+        <h1 className="text-xl font-semibold tracking-tight text-ink">
+          {t("detail")}
+        </h1>
+      </section>
+
+      <dl className="space-y-3 rounded-2xl border border-border bg-surface p-4 shadow-xs">
+        <div className="flex items-start justify-between gap-3">
+          <div className="min-w-0">
+            <dt className="text-xs text-text-muted">{t("dates")}</dt>
+            <dd className="mt-1 text-sm font-medium text-ink">
+              {item.from === item.to ? item.from : `${item.from} → ${item.to}`}
+            </dd>
+          </div>
           <span
             className={cn(
-              "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium",
-              leaveTypeSurface[item.type].soft
-            )}
-          >
-            {t(`types.${item.type}`)}
-          </span>
-          <span
-            className={cn(
-              "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+              "inline-flex shrink-0 rounded-full px-2.5 py-0.5 text-[11px] font-medium",
               item.status === "pending" && "bg-warning-50 text-warning-700",
               item.status === "approved" && "bg-success-50 text-success-700",
               item.status === "rejected" && "bg-danger-50 text-danger-700"
@@ -35,18 +80,6 @@ export async function RequestDetail({ id }: { id: string }) {
           >
             {t(`status.${item.status}`)}
           </span>
-        </div>
-        <h1 className="text-xl font-semibold tracking-tight text-ink">
-          {t("detail")}
-        </h1>
-      </section>
-
-      <dl className="space-y-3 rounded-2xl border border-border bg-surface p-4 shadow-xs">
-        <div>
-          <dt className="text-xs text-text-muted">{t("dates")}</dt>
-          <dd className="mt-1 text-sm font-medium text-ink">
-            {item.from === item.to ? item.from : `${item.from} → ${item.to}`}
-          </dd>
         </div>
         {item.startTime && item.endTime ? (
           <div>
@@ -72,12 +105,44 @@ export async function RequestDetail({ id }: { id: string }) {
         </div>
       </dl>
 
+      {canModify ? (
+        <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-2">
+          <MainButton
+            variant="edit"
+            block
+            link={`/requests/${item.id}/edit`}
+            startIcon={<Pencil className="size-4" />}
+          >
+            {t("edit")}
+          </MainButton>
+          <MainButton
+            variant="delete-soft"
+            block
+            startIcon={<Trash2 className="size-4" />}
+            onClick={() => setConfirmOpen(true)}
+          >
+            {t("delete")}
+          </MainButton>
+        </div>
+      ) : null}
+
       <Link
         href="/requests"
         className="inline-flex text-sm font-medium text-primary-600 hover:text-primary-700"
       >
         {t("back")}
       </Link>
+
+      <DeleteConfirmModal
+        open={confirmOpen}
+        title={t("deleteTitle")}
+        description={t("deleteDescription")}
+        confirmLabel={t("deleteConfirm")}
+        cancelLabel={t("deleteCancel")}
+        loading={deleting}
+        onCancel={() => setConfirmOpen(false)}
+        onConfirm={handleDelete}
+      />
     </div>
   );
 }

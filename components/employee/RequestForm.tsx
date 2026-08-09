@@ -1,23 +1,39 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, type ReactElement } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import { MainButton } from "@/components/shared/MainButton";
 import { MainDatePicker } from "@/components/shared/MainDatePicker";
 import { MainInput } from "@/components/shared/MainInput";
+import { MainTimeInput } from "@/components/shared/MainTimeInput";
 import type { RequestType } from "@/lib/employee/demo-data";
 import { leaveTypeSurface } from "@/lib/employee/demo-data";
+import { updateRequest } from "@/lib/employee/requestsStore";
 import {
   createRequestSchema,
   type RequestFormValues,
 } from "@/schemas/employee/request.schema";
 import { cn } from "@/lib/utils";
 
-export function RequestForm({ type }: { type: RequestType }) {
+export interface RequestFormProps {
+  type: RequestType;
+  mode?: "create" | "edit";
+  requestId?: string;
+  initialValues?: RequestFormValues;
+}
+
+export function RequestForm({
+  type,
+  mode = "create",
+  requestId,
+  initialValues,
+}: RequestFormProps): ReactElement {
   const t = useTranslations("employee.requests");
+  const router = useRouter();
+  const isEdit = mode === "edit";
 
   const schema = useMemo(
     () =>
@@ -39,10 +55,10 @@ export function RequestForm({ type }: { type: RequestType }) {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<RequestFormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
+    defaultValues: initialValues ?? {
       from: "",
       to: "",
       reason: "",
@@ -62,6 +78,16 @@ export function RequestForm({ type }: { type: RequestType }) {
       )
     : undefined;
 
+  const onSubmit = (values: RequestFormValues): void => {
+    if (isEdit && requestId) {
+      const updated = updateRequest(requestId, values);
+      if (updated) {
+        router.push(`/requests/${requestId}`);
+      }
+      return;
+    }
+  };
+
   return (
     <div className="space-y-5">
       <section className="space-y-2">
@@ -74,13 +100,13 @@ export function RequestForm({ type }: { type: RequestType }) {
           {t(`types.${type}`)}
         </span>
         <h1 className="text-xl font-semibold tracking-tight text-ink">
-          {t("new")}
+          {isEdit ? t("editTitle") : t("new")}
         </h1>
         <p className="text-sm text-text-secondary">{t(`typeHints.${type}`)}</p>
       </section>
 
       <form
-        onSubmit={handleSubmit(() => undefined)}
+        onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-4"
         noValidate
       >
@@ -119,19 +145,37 @@ export function RequestForm({ type }: { type: RequestType }) {
 
         {isPermission ? (
           <>
-            <MainInput
-              label={t("startTime")}
-              type="time"
-              required
-              error={errors.startTime?.message}
-              {...register("startTime")}
+            <Controller
+              name="startTime"
+              control={control}
+              render={({ field }) => (
+                <MainTimeInput
+                  label={t("startTime")}
+                  required
+                  placeholder={t("pickTime")}
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  error={errors.startTime?.message}
+                />
+              )}
             />
-            <MainInput
-              label={t("endTime")}
-              type="time"
-              required
-              error={errors.endTime?.message}
-              {...register("endTime")}
+            <Controller
+              name="endTime"
+              control={control}
+              render={({ field }) => (
+                <MainTimeInput
+                  label={t("endTime")}
+                  required
+                  placeholder={t("pickTime")}
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  error={errors.endTime?.message}
+                />
+              )}
             />
           </>
         ) : null}
@@ -152,13 +196,19 @@ export function RequestForm({ type }: { type: RequestType }) {
           {...register("note")}
         />
 
-        <MainButton type="submit" variant="primary" block className="mt-1">
-          {t("submit")}
+        <MainButton
+          type="submit"
+          variant="primary"
+          block
+          className="mt-1"
+          loading={isSubmitting}
+        >
+          {isEdit ? t("save") : t("submit")}
         </MainButton>
       </form>
 
       <Link
-        href="/requests/new"
+        href={isEdit && requestId ? `/requests/${requestId}` : "/requests/new"}
         className="inline-flex text-sm font-medium text-primary-600 hover:text-primary-700"
       >
         {t("back")}

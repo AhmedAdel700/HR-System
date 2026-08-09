@@ -18,11 +18,13 @@ const buttonVariants = cva(
           "bg-danger-500 text-text-inverse hover:bg-danger-600 active:bg-danger-700",
         warning:
           "bg-warning-500 text-ink hover:bg-warning-600 hover:text-text-inverse active:bg-warning-700 active:text-text-inverse",
-        edit: "bg-info-500 text-text-inverse hover:bg-info-600 active:bg-info-700",
+        edit: "bg-primary-500 text-text-inverse shadow-primary-sm hover:bg-primary-600 active:bg-primary-700",
         "add-soft":
           "border-success-100 bg-success-50 text-success-700 hover:border-success-200 hover:bg-success-100",
         "delete-soft":
           "border-danger-100 bg-danger-50 text-danger-700 hover:border-danger-200 hover:bg-danger-100",
+        "edit-soft":
+          "border-primary-200 bg-primary-50 text-primary-700 hover:border-primary-300 hover:bg-primary-100",
         "warning-soft":
           "border-warning-100 bg-warning-50 text-warning-700 hover:border-warning-200 hover:bg-warning-100",
         ghost:
