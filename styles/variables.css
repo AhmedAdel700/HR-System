@@ -1,0 +1,74 @@
+@theme {
+  /* ---------------------------------- */
+  /* Primary — Orange                   */
+  /* ---------------------------------- */
+  --color-primary-50:  #fff4ec;
+  --color-primary-100: #ffe7d5;
+  --color-primary-200: #ffcdab;
+  --color-primary-300: #f8ac79;
+  --color-primary-400: #ef8642;
+  --color-primary-500: #e35e00;  /* base brand color */
+  --color-primary-600: #ca4000;
+  --color-primary-700: #a72c00;
+  --color-primary-800: #822000;
+  --color-primary-900: #621908;
+  --color-primary-950: #380803;
+
+  /* ---------------------------------- */
+  /* Neutrals — warm-leaning gray        */
+  /* used for text, borders, surfaces    */
+  /* ---------------------------------- */
+  --color-neutral-50:  #fbf9f7;
+  --color-neutral-100: #f3f0ee;
+  --color-neutral-200: #e4e0de;
+  --color-neutral-300: #ccc8c5;
+  --color-neutral-400: #9c9794;
+  --color-neutral-500: #736f6c;
+  --color-neutral-600: #54504e;
+  --color-neutral-700: #3a3735;
+  --color-neutral-800: #22201e;
+  --color-neutral-900: #100e0d;
+  --color-neutral-950: #040403;
+
+  /* ---------------------------------- */
+  /* Semantic status colors              */
+  /* (common HR needs: approved/pending/ */
+  /*  rejected states, leave balances)   */
+  /* ---------------------------------- */
+  --color-success-500: #46a359;
+  --color-success-600: #2c8240;
+  --color-warning-500: #dfb127;
+  --color-warning-600: #c68d00;
+  --color-danger-500:  #d73431;
+  --color-danger-600:  #bb0916;
+
+  /* ---------------------------------- */
+  /* Radius                              */
+  /* ---------------------------------- */
+  --radius-xs:   0.25rem;   /* 4px  — badges, chips        */
+  --radius-sm:   0.375rem;  /* 6px  — inputs, small buttons */
+  --radius-md:   0.5rem;    /* 8px  — buttons (default)     */
+  --radius-lg:   0.75rem;   /* 12px — cards                 */
+  --radius-xl:   1rem;      /* 16px — modals, panels        */
+  --radius-2xl:  1.25rem;   /* 20px — large feature cards   */
+  --radius-full: 9999px;    /* pills, avatars               */
+
+  /* ---------------------------------- */
+  /* Shadows                             */
+  /* soft, low-contrast — suits a warm   */
+  /* neutral background, not pure black  */
+  /* ---------------------------------- */
+  --shadow-xs:  0 1px 2px 0 rgb(46 26 14 / 0.05);
+  --shadow-sm:  0 1px 3px 0 rgb(46 26 14 / 0.08),
+                0 1px 2px -1px rgb(46 26 14 / 0.06);
+  --shadow-md:  0 4px 8px -2px rgb(46 26 14 / 0.08),
+                0 2px 4px -2px rgb(46 26 14 / 0.06);
+  --shadow-lg:  0 12px 20px -4px rgb(46 26 14 / 0.10),
+                0 4px 8px -4px rgb(46 26 14 / 0.06);
+  --shadow-xl:  0 24px 36px -8px rgb(46 26 14 / 0.14),
+                0 8px 12px -6px rgb(46 26 14 / 0.08);
+
+  /* brand-tinted shadow — for primary buttons / focus states */
+  --shadow-primary-sm: 0 2px 6px -1px rgb(227 94 0 / 0.35);
+  --shadow-primary-md: 0 6px 16px -3px rgb(227 94 0 / 0.35);
+}
