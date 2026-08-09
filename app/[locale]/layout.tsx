@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getLocale, getMessages, getTranslations } from "next-intl/server";
 import {
   IBM_Plex_Mono,
   IBM_Plex_Sans,
@@ -56,6 +56,7 @@ export default async function LocaleLayout({
   }
 
   const locale = await getLocale();
+  const messages = await getMessages();
   const isArabic = locale === "ar";
   const dir = isArabic ? "rtl" : "ltr";
 
@@ -73,7 +74,9 @@ export default async function LocaleLayout({
       )}
     >
       <body className="flex min-h-full flex-col" suppressHydrationWarning>
-        <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

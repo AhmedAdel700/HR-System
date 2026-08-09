@@ -68,10 +68,6 @@ export function LoginForm() {
         {t("login.submit")}
       </MainButton>
 
-      <MainButton variant="ghost-brand" block link="/">
-        Enter app
-      </MainButton>
-
       <p className="text-center text-sm text-text-secondary">
         {t("login.noAccount")}{" "}
         <Link

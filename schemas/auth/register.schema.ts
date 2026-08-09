@@ -7,6 +7,8 @@ export type RegisterErrorMessages = {
   emailInvalid: string;
   phoneRequired: string;
   phoneInvalid: string;
+  branchRequired: string;
+  departmentRequired: string;
   passwordRequired: string;
   passwordMin: string;
   confirmPasswordRequired: string;
@@ -28,6 +30,8 @@ export function createRegisterSchema(errors: RegisterErrorMessages) {
         .string()
         .min(1, { error: errors.phoneRequired })
         .regex(/^[0-9]{8,15}$/, { error: errors.phoneInvalid }),
+      branch: z.string().min(1, { error: errors.branchRequired }),
+      department: z.string().min(1, { error: errors.departmentRequired }),
       password: z
         .string()
         .min(1, { error: errors.passwordRequired })

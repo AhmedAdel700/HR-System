@@ -98,7 +98,7 @@ export function AuthSplitCard({
           <LocaleSwitcher tone="light" />
         </div>
 
-        <div className="mx-auto w-full max-w-[96%]">
+        <div className="mx-auto w-full max-w-none">
           <div className="mb-7 lg:hidden">
             <div className="mb-4 inline-flex items-center gap-2.5 pe-24">
               <span className="grid size-9 place-items-center rounded-lg bg-primary-500 text-xs font-semibold text-text-inverse shadow-primary-sm">
