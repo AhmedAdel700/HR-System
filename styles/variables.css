@@ -1,74 +1,214 @@
 @theme {
-  /* ---------------------------------- */
-  /* Primary — Orange                   */
-  /* ---------------------------------- */
-  --color-primary-50:  #fff4ec;
-  --color-primary-100: #ffe7d5;
-  --color-primary-200: #ffcdab;
-  --color-primary-300: #f8ac79;
-  --color-primary-400: #ef8642;
-  --color-primary-500: #e35e00;  /* base brand color */
-  --color-primary-600: #ca4000;
-  --color-primary-700: #a72c00;
-  --color-primary-800: #822000;
-  --color-primary-900: #621908;
-  --color-primary-950: #380803;
+  /* ================================== */
+  /* Brand                              */
+  /* ================================== */
 
-  /* ---------------------------------- */
-  /* Neutrals — warm-leaning gray        */
-  /* used for text, borders, surfaces    */
-  /* ---------------------------------- */
-  --color-neutral-50:  #fbf9f7;
-  --color-neutral-100: #f3f0ee;
-  --color-neutral-200: #e4e0de;
-  --color-neutral-300: #ccc8c5;
-  --color-neutral-400: #9c9794;
-  --color-neutral-500: #736f6c;
-  --color-neutral-600: #54504e;
-  --color-neutral-700: #3a3735;
-  --color-neutral-800: #22201e;
-  --color-neutral-900: #100e0d;
-  --color-neutral-950: #040403;
+  /* Primary — refined burnt orange     */
+  --color-primary-50:  #fff7f0;
+  --color-primary-100: #ffeadb;
+  --color-primary-200: #ffd0b0;
+  --color-primary-300: #f5ab72;
+  --color-primary-400: #e8813a;
+  --color-primary-500: #d96512; /* brand */
+  --color-primary-600: #b84c08;
+  --color-primary-700: #933b0a;
+  --color-primary-800: #79320f;
+  --color-primary-900: #632b10;
+  --color-primary-950: #361405;
 
-  /* ---------------------------------- */
-  /* Semantic status colors              */
-  /* (common HR needs: approved/pending/ */
-  /*  rejected states, leave balances)   */
-  /* ---------------------------------- */
-  --color-success-500: #46a359;
-  --color-success-600: #2c8240;
-  --color-warning-500: #dfb127;
-  --color-warning-600: #c68d00;
-  --color-danger-500:  #d73431;
-  --color-danger-600:  #bb0916;
+  /* ================================== */
+  /* Foundations                        */
+  /* ================================== */
 
-  /* ---------------------------------- */
-  /* Radius                              */
-  /* ---------------------------------- */
-  --radius-xs:   0.25rem;   /* 4px  — badges, chips        */
-  --radius-sm:   0.375rem;  /* 6px  — inputs, small buttons */
-  --radius-md:   0.5rem;    /* 8px  — buttons (default)     */
-  --radius-lg:   0.75rem;   /* 12px — cards                 */
-  --radius-xl:   1rem;      /* 16px — modals, panels        */
-  --radius-2xl:  1.25rem;   /* 20px — large feature cards   */
-  --radius-full: 9999px;    /* pills, avatars               */
+  /* Neutrals — warm stone              */
+  --color-neutral-50:  #faf8f6;
+  --color-neutral-100: #f3f0ed;
+  --color-neutral-200: #e5e0db;
+  --color-neutral-300: #d0c9c2;
+  --color-neutral-400: #a39991;
+  --color-neutral-500: #7a716a;
+  --color-neutral-600: #5c544e;
+  --color-neutral-700: #433e39;
+  --color-neutral-800: #2c2926;
+  --color-neutral-900: #1c1a18;
+  --color-neutral-950: #0f0e0d;
 
-  /* ---------------------------------- */
-  /* Shadows                             */
-  /* soft, low-contrast — suits a warm   */
-  /* neutral background, not pure black  */
-  /* ---------------------------------- */
-  --shadow-xs:  0 1px 2px 0 rgb(46 26 14 / 0.05);
-  --shadow-sm:  0 1px 3px 0 rgb(46 26 14 / 0.08),
-                0 1px 2px -1px rgb(46 26 14 / 0.06);
-  --shadow-md:  0 4px 8px -2px rgb(46 26 14 / 0.08),
-                0 2px 4px -2px rgb(46 26 14 / 0.06);
-  --shadow-lg:  0 12px 20px -4px rgb(46 26 14 / 0.10),
-                0 4px 8px -4px rgb(46 26 14 / 0.06);
-  --shadow-xl:  0 24px 36px -8px rgb(46 26 14 / 0.14),
-                0 8px 12px -6px rgb(46 26 14 / 0.08);
+  /* Ink — warm charcoal (not pure black)
+     sidebars, headings, dark chrome    */
+  --color-ink-50:  #f4f2f0;
+  --color-ink-100: #e4e0dc;
+  --color-ink-200: #c9c2bb;
+  --color-ink-300: #9e948b;
+  --color-ink-400: #6f655d;
+  --color-ink-500: #4d453f;
+  --color-ink-600: #37322e;
+  --color-ink-700: #282421;
+  --color-ink-800: #1c1917;
+  --color-ink-900: #141211;
+  --color-ink-950: #0a0908;
+  --color-ink:      #141211; /* = ink-900 */
 
-  /* brand-tinted shadow — for primary buttons / focus states */
-  --shadow-primary-sm: 0 2px 6px -1px rgb(227 94 0 / 0.35);
-  --shadow-primary-md: 0 6px 16px -3px rgb(227 94 0 / 0.35);
+  /* ================================== */
+  /* Semantic                           */
+  /* ================================== */
+
+  /* Success — approved / active        */
+  --color-success-50:  #f1f8f3;
+  --color-success-100: #dcefe2;
+  --color-success-200: #bbdec6;
+  --color-success-300: #8bc49c;
+  --color-success-400: #5aa674;
+  --color-success-500: #3d8b58;
+  --color-success-600: #2f7046;
+  --color-success-700: #285a3a;
+  --color-success-800: #224830;
+  --color-success-900: #1c3b29;
+  --color-success-950: #0e2016;
+
+  /* Warning — pending / expiring       */
+  --color-warning-50:  #fdf8ee;
+  --color-warning-100: #f9edcc;
+  --color-warning-200: #f2d890;
+  --color-warning-300: #e9bc4e;
+  --color-warning-400: #dfa428;
+  --color-warning-500: #c98a12;
+  --color-warning-600: #ad6b0c;
+  --color-warning-700: #8a4f0f;
+  --color-warning-800: #734013;
+  --color-warning-900: #623616;
+  --color-warning-950: #381b08;
+
+  /* Danger — rejected / critical       */
+  --color-danger-50:  #fdf3f2;
+  --color-danger-100: #fce4e2;
+  --color-danger-200: #f9cdca;
+  --color-danger-300: #f3a8a3;
+  --color-danger-400: #e97870;
+  --color-danger-500: #d14d44;
+  --color-danger-600: #b5352c;
+  --color-danger-700: #972a23;
+  --color-danger-800: #7d2621;
+  --color-danger-900: #682521;
+  --color-danger-950: #380f0c;
+
+  /* Info — policies / notices          */
+  --color-info-50:  #f0f7f9;
+  --color-info-100: #d9eef3;
+  --color-info-200: #b7dde7;
+  --color-info-300: #85c4d4;
+  --color-info-400: #4fa3bb;
+  --color-info-500: #3587a0;
+  --color-info-600: #2e6e86;
+  --color-info-700: #2b5a6e;
+  --color-info-800: #2a4b5c;
+  --color-info-900: #27404e;
+  --color-info-950: #152933;
+
+  /* ================================== */
+  /* HR domain                          */
+  /* soft / solid / strong              */
+  /* ================================== */
+
+  /* Leave types                        */
+  --color-leave-annual-50:  #eef5fb;
+  --color-leave-annual-500: #4a7fad;
+  --color-leave-annual-700: #2f5a80;
+
+  --color-leave-sick-50:  #faf0f2;
+  --color-leave-sick-500: #b85f6f;
+  --color-leave-sick-700: #85404d;
+
+  --color-leave-unpaid-50:  #f4f2f0;
+  --color-leave-unpaid-500: #7a716a;
+  --color-leave-unpaid-700: #433e39;
+
+  --color-leave-maternity-50:  #f5f0f7;
+  --color-leave-maternity-500: #8f6a9c;
+  --color-leave-maternity-700: #63486e;
+
+  --color-leave-remote-50:  #eef7f3;
+  --color-leave-remote-500: #3f8f70;
+  --color-leave-remote-700: #2a634e;
+
+  --color-leave-compassionate-50:  #f1f0f7;
+  --color-leave-compassionate-500: #6d6a9e;
+  --color-leave-compassionate-700: #4a4772;
+
+  /* Attendance                         */
+  --color-attendance-present-50:  #f1f8f3;
+  --color-attendance-present-500: #3d8b58;
+  --color-attendance-present-700: #285a3a;
+
+  --color-attendance-late-50:  #fdf8ee;
+  --color-attendance-late-500: #c98a12;
+  --color-attendance-late-700: #8a4f0f;
+
+  --color-attendance-absent-50:  #fdf3f2;
+  --color-attendance-absent-500: #d14d44;
+  --color-attendance-absent-700: #972a23;
+
+  --color-attendance-halfday-50:  #fff7f0;
+  --color-attendance-halfday-500: #d96512;
+  --color-attendance-halfday-700: #933b0a;
+
+  --color-attendance-holiday-50:  #f0f7f9;
+  --color-attendance-holiday-500: #3587a0;
+  --color-attendance-holiday-700: #2b5a6e;
+
+  /* ================================== */
+  /* Semantic aliases                   */
+  /* ================================== */
+
+  --color-surface:         #ffffff;
+  --color-surface-raised:  #ffffff;
+  --color-surface-sunken:  #faf8f6; /* neutral-50 */
+  --color-surface-muted:   #f3f0ed; /* neutral-100 */
+  --color-surface-overlay: rgb(20 18 17 / 0.48); /* ink */
+
+  --color-text:            #141211; /* ink */
+  --color-text-secondary:  #5c544e; /* neutral-600 */
+  --color-text-muted:      #a39991; /* neutral-400 */
+  --color-text-inverse:     #faf8f6;
+  --color-text-disabled:   #d0c9c2; /* neutral-300 */
+
+  --color-border:          #e5e0db; /* neutral-200 */
+  --color-border-strong:   #d0c9c2; /* neutral-300 */
+  --color-border-focus:    #d96512; /* primary-500 */
+
+  /* Charts                             */
+  --color-chart-1: #d96512;
+  --color-chart-2: #3587a0;
+  --color-chart-3: #3d8b58;
+  --color-chart-4: #c98a12;
+  --color-chart-5: #8f6a9c;
+  --color-chart-6: #3f8f70;
+  --color-chart-7: #b85f6f;
+  --color-chart-8: #7a716a;
+
+  /* ================================== */
+  /* Radius                             */
+  /* ================================== */
+  --radius-xs:   0.25rem;
+  --radius-sm:   0.375rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1rem;
+  --radius-2xl:  1.25rem;
+  --radius-full: 9999px;
+
+  /* ================================== */
+  /* Shadows — warm ink, low contrast   */
+  /* ================================== */
+  --shadow-xs:  0 1px 2px 0 rgb(20 18 17 / 0.04);
+  --shadow-sm:  0 1px 3px 0 rgb(20 18 17 / 0.07),
+                0 1px 2px -1px rgb(20 18 17 / 0.05);
+  --shadow-md:  0 4px 8px -2px rgb(20 18 17 / 0.08),
+                0 2px 4px -2px rgb(20 18 17 / 0.05);
+  --shadow-lg:  0 12px 20px -4px rgb(20 18 17 / 0.10),
+                0 4px 8px -4px rgb(20 18 17 / 0.05);
+  --shadow-xl:  0 24px 36px -8px rgb(20 18 17 / 0.12),
+                0 8px 12px -6px rgb(20 18 17 / 0.06);
+
+  --shadow-primary-sm: 0 2px 6px -1px rgb(217 101 18 / 0.30);
+  --shadow-primary-md: 0 6px 16px -3px rgb(217 101 18 / 0.28);
 }
