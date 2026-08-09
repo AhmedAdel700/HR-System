@@ -18,12 +18,12 @@ export async function RequestTypePicker() {
         <p className="text-sm text-text-secondary">{t("pickTypeSubtitle")}</p>
       </section>
 
-      <ul className="grid gap-3">
+      <ul className="grid gap-3 sm:grid-cols-2">
         {REQUEST_TYPES.map((type) => (
           <li key={type}>
             <Link
               href={`/requests/new/${type}`}
-              className="flex items-start gap-3 rounded-2xl border border-border bg-surface p-4 shadow-xs transition-colors hover:border-border-strong"
+              className="flex h-full items-start gap-3 rounded-2xl border border-border bg-surface p-4 shadow-xs transition-colors hover:border-border-strong"
             >
               <span
                 className={cn(

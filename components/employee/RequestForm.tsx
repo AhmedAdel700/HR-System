@@ -1,11 +1,12 @@
 "use client";
 
 import { useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { MainButton } from "@/components/shared/MainButton";
+import { MainDatePicker } from "@/components/shared/MainDatePicker";
 import { MainInput } from "@/components/shared/MainInput";
 import type { RequestType } from "@/lib/employee/demo-data";
 import { leaveTypeSurface } from "@/lib/employee/demo-data";
@@ -34,8 +35,10 @@ export function RequestForm({ type }: { type: RequestType }) {
   );
 
   const {
+    control,
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<RequestFormValues>({
     resolver: zodResolver(schema),
@@ -50,6 +53,14 @@ export function RequestForm({ type }: { type: RequestType }) {
   });
 
   const isPermission = type === "permission";
+  const fromValue = watch("from");
+  const fromDate = fromValue
+    ? new Date(
+        Number(fromValue.slice(0, 4)),
+        Number(fromValue.slice(5, 7)) - 1,
+        Number(fromValue.slice(8, 10))
+      )
+    : undefined;
 
   return (
     <div className="space-y-5">
@@ -73,17 +84,37 @@ export function RequestForm({ type }: { type: RequestType }) {
         className="flex flex-col gap-4"
         noValidate
       >
-        <MainInput
-          label={t("from")}
-          type="date"
-          error={errors.from?.message}
-          {...register("from")}
+        <Controller
+          name="from"
+          control={control}
+          render={({ field }) => (
+            <MainDatePicker
+              label={t("from")}
+              required
+              placeholder={t("pickDate")}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              error={errors.from?.message}
+            />
+          )}
         />
-        <MainInput
-          label={t("to")}
-          type="date"
-          error={errors.to?.message}
-          {...register("to")}
+
+        <Controller
+          name="to"
+          control={control}
+          render={({ field }) => (
+            <MainDatePicker
+              label={t("to")}
+              required
+              placeholder={t("pickDate")}
+              value={field.value}
+              onChange={field.onChange}
+              onBlur={field.onBlur}
+              minDate={fromDate}
+              error={errors.to?.message}
+            />
+          )}
         />
 
         {isPermission ? (
@@ -91,12 +122,14 @@ export function RequestForm({ type }: { type: RequestType }) {
             <MainInput
               label={t("startTime")}
               type="time"
+              required
               error={errors.startTime?.message}
               {...register("startTime")}
             />
             <MainInput
               label={t("endTime")}
               type="time"
+              required
               error={errors.endTime?.message}
               {...register("endTime")}
             />
@@ -106,6 +139,7 @@ export function RequestForm({ type }: { type: RequestType }) {
         <MainInput
           as="textarea"
           label={t("reason")}
+          required
           placeholder={t("placeholders.reason")}
           error={errors.reason?.message}
           {...register("reason")}

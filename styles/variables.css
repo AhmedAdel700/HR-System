@@ -134,6 +134,34 @@
   --color-leave-compassionate-500: #6d6a9e;
   --color-leave-compassionate-700: #4a4772;
 
+  --color-leave-paternity-50:  #eef4f8;
+  --color-leave-paternity-500: #5a8aa8;
+  --color-leave-paternity-700: #3c5f75;
+
+  --color-leave-marriage-50:  #fdf4f7;
+  --color-leave-marriage-500: #c06b8a;
+  --color-leave-marriage-700: #8a445f;
+
+  --color-leave-hajj-50:  #f7f3eb;
+  --color-leave-hajj-500: #a8844a;
+  --color-leave-hajj-700: #735a2e;
+
+  --color-leave-study-50:  #eef3f8;
+  --color-leave-study-500: #5b7fa3;
+  --color-leave-study-700: #3d5770;
+
+  --color-leave-emergency-50:  #fdf4ef;
+  --color-leave-emergency-500: #d17a45;
+  --color-leave-emergency-700: #8f4f28;
+
+  --color-leave-compensatory-50:  #f2f5f0;
+  --color-leave-compensatory-500: #6b8f55;
+  --color-leave-compensatory-700: #456035;
+
+  --color-leave-permission-50:  #f3f1f7;
+  --color-leave-permission-500: #7a6fa3;
+  --color-leave-permission-700: #524a72;
+
   /* Attendance                         */
   --color-attendance-present-50:  #f1f8f3;
   --color-attendance-present-500: #3d8b58;

@@ -15,6 +15,8 @@ const namespaces = [
   "employee",
 ] as const;
 
+// Keep message namespaces listed above in sync with messages/<locale>/*.json
+
 export default getRequestConfig(async ({ locale }) => {
   if (!locale) {
     const paramValue = await rootParams.locale();

@@ -4,19 +4,29 @@ import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { MainButton } from "@/components/shared/MainButton";
 import {
+  getCurrentPosition,
+  LocationError,
+} from "@/lib/employee/getCurrentPosition";
+import { submitAttendancePunch } from "@/lib/employee/submitAttendancePunch";
+import { WORKPLACE } from "@/lib/employee/workplace";
+import {
   attendanceStatusSurface,
   demoAttendanceWeek,
   type AttendanceStatus,
 } from "@/lib/employee/demo-data";
+import type {
+  AttendanceAction,
+  AttendancePunchErrorCode,
+} from "@/types/AttendanceApiTypes";
 import { cn } from "@/lib/utils";
 
 type TodayState = "idle" | "in" | "out";
 
-function formatNow() {
+function formatNow(): string {
   return new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
+    hour: "numeric",
     minute: "2-digit",
-    hour12: false,
+    hour12: true,
   }).format(new Date());
 }
 
@@ -25,12 +35,75 @@ export function AttendancePanel() {
   const [state, setState] = useState<TodayState>("idle");
   const [checkIn, setCheckIn] = useState<string | null>(null);
   const [checkOut, setCheckOut] = useState<string | null>(null);
+  const [pendingAction, setPendingAction] = useState<AttendanceAction | null>(
+    null
+  );
+  const [error, setError] = useState<string | null>(null);
 
   const statusLabel = useMemo(() => {
     if (state === "out") return t("checkedOut");
     if (state === "in") return t("checkedIn");
     return t("notStarted");
   }, [state, t]);
+
+  const errorMessage = (code: AttendancePunchErrorCode): string => {
+    switch (code) {
+      case "LOCATION_DENIED":
+        return t("locationDenied");
+      case "LOCATION_UNAVAILABLE":
+        return t("locationUnavailable");
+      case "OUTSIDE_GEOFENCE":
+        return t("outsideGeofence");
+      default: {
+        const _exhaustive: never = code;
+        return _exhaustive;
+      }
+    }
+  };
+
+  const punch = async (action: AttendanceAction): Promise<void> => {
+    setError(null);
+    setPendingAction(action);
+
+    try {
+      const position = await getCurrentPosition();
+
+      const response = await submitAttendancePunch({
+        action,
+        workplaceId: WORKPLACE.id,
+        location: {
+          latitude: position.latitude,
+          longitude: position.longitude,
+          accuracy: position.accuracy,
+          timestamp: position.timestamp,
+        },
+      });
+
+      if (!response.ok) {
+        setError(errorMessage(response.code));
+        return;
+      }
+
+      const time = formatNow();
+      if (action === "check-in") {
+        setCheckIn(time);
+        setState("in");
+      } else {
+        setCheckOut(time);
+        setState("out");
+      }
+    } catch (err) {
+      if (err instanceof LocationError) {
+        setError(errorMessage(err.code));
+        return;
+      }
+      setError(t("locationUnavailable"));
+    } finally {
+      setPendingAction(null);
+    }
+  };
+
+  const isBusy = pendingAction !== null;
 
   return (
     <div className="space-y-6">
@@ -46,6 +119,7 @@ export function AttendancePanel() {
           {t("today")}
         </p>
         <p className="mt-2 text-lg font-semibold text-ink">{statusLabel}</p>
+        <p className="mt-1 text-xs text-text-muted">{t("locationHint")}</p>
 
         <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
           <div className="rounded-xl bg-surface-muted px-3 py-2.5">
@@ -62,10 +136,10 @@ export function AttendancePanel() {
           <MainButton
             variant="primary"
             block
-            disabled={state !== "idle"}
+            disabled={state !== "idle" || isBusy}
+            loading={pendingAction === "check-in"}
             onClick={() => {
-              setCheckIn(formatNow());
-              setState("in");
+              void punch("check-in");
             }}
           >
             {t("checkIn")}
@@ -73,15 +147,24 @@ export function AttendancePanel() {
           <MainButton
             variant="neutral"
             block
-            disabled={state !== "in"}
+            disabled={state !== "in" || isBusy}
+            loading={pendingAction === "check-out"}
             onClick={() => {
-              setCheckOut(formatNow());
-              setState("out");
+              void punch("check-out");
             }}
           >
             {t("checkOut")}
           </MainButton>
         </div>
+
+        {error ? (
+          <p
+            className="mt-3 rounded-xl border border-danger-200 bg-danger-50 px-3 py-2.5 text-sm text-danger-700"
+            role="alert"
+          >
+            {error}
+          </p>
+        ) : null}
       </section>
 
       <section className="space-y-3">

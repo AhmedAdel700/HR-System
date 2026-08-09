@@ -1,3 +1,71 @@
+export type LeaveBalanceKey =
+  | "annual"
+  | "sick"
+  | "unpaid"
+  | "remote"
+  | "compassionate"
+  | "maternity"
+  | "paternity"
+  | "marriage"
+  | "hajj"
+  | "study"
+  | "emergency"
+  | "compensatory"
+  | "permission";
+
+export type LeaveBalanceUnit = "days" | "hours";
+
+export interface LeaveBalanceItem {
+  key: LeaveBalanceKey;
+  remaining: number;
+  unit: LeaveBalanceUnit;
+}
+
+/** Remaining leave entitlements for the demo employee (replace when API lands). */
+export const LEAVE_BALANCE: LeaveBalanceItem[] = [
+  { key: "annual", remaining: 18, unit: "days" },
+  { key: "sick", remaining: 7, unit: "days" },
+  { key: "unpaid", remaining: 10, unit: "days" },
+  { key: "remote", remaining: 4, unit: "days" },
+  { key: "compassionate", remaining: 3, unit: "days" },
+  { key: "maternity", remaining: 70, unit: "days" },
+  { key: "paternity", remaining: 3, unit: "days" },
+  { key: "marriage", remaining: 5, unit: "days" },
+  { key: "hajj", remaining: 10, unit: "days" },
+  { key: "study", remaining: 5, unit: "days" },
+  { key: "emergency", remaining: 2, unit: "days" },
+  { key: "compensatory", remaining: 2, unit: "days" },
+  { key: "permission", remaining: 8, unit: "hours" },
+];
+
+export const LEAVE_BALANCE_GROUPS: {
+  id: "core" | "family" | "flexibility" | "special";
+  keys: LeaveBalanceKey[];
+}[] = [
+  {
+    id: "core",
+    keys: ["annual", "sick", "unpaid", "emergency", "compensatory"],
+  },
+  {
+    id: "family",
+    keys: ["maternity", "paternity", "marriage", "compassionate"],
+  },
+  {
+    id: "flexibility",
+    keys: ["remote", "permission"],
+  },
+  {
+    id: "special",
+    keys: ["hajj", "study"],
+  },
+];
+
+export const demoEmployee = {
+  avatarSrc: "/avatars/sara.png",
+  initials: "SA",
+  leaveBalance: LEAVE_BALANCE,
+} as const;
+
 export type AttendanceStatus =
   | "present"
   | "late"
@@ -8,17 +76,33 @@ export type AttendanceStatus =
 export type RequestStatus = "pending" | "approved" | "rejected";
 
 export type RequestType =
-  | "vacation"
+  | "annual"
   | "sick"
   | "unpaid"
   | "remote"
+  | "compassionate"
+  | "maternity"
+  | "paternity"
+  | "marriage"
+  | "hajj"
+  | "study"
+  | "emergency"
+  | "compensatory"
   | "permission";
 
 export const REQUEST_TYPES: RequestType[] = [
-  "vacation",
+  "annual",
   "sick",
   "unpaid",
   "remote",
+  "compassionate",
+  "maternity",
+  "paternity",
+  "marriage",
+  "hajj",
+  "study",
+  "emergency",
+  "compensatory",
   "permission",
 ];
 
@@ -48,29 +132,29 @@ export const demoAttendanceWeek: DemoAttendanceDay[] = [
     id: "a1",
     date: "2026-08-03",
     status: "present",
-    checkIn: "08:58",
-    checkOut: "17:05",
+    checkIn: "8:58 AM",
+    checkOut: "5:05 PM",
   },
   {
     id: "a2",
     date: "2026-08-04",
     status: "late",
-    checkIn: "09:22",
-    checkOut: "17:10",
+    checkIn: "9:22 AM",
+    checkOut: "5:10 PM",
   },
   {
     id: "a3",
     date: "2026-08-05",
     status: "present",
-    checkIn: "08:55",
-    checkOut: "17:01",
+    checkIn: "8:55 AM",
+    checkOut: "5:01 PM",
   },
   {
     id: "a4",
     date: "2026-08-06",
     status: "halfday",
-    checkIn: "09:00",
-    checkOut: "13:00",
+    checkIn: "9:00 AM",
+    checkOut: "1:00 PM",
   },
   {
     id: "a5",
@@ -82,7 +166,7 @@ export const demoAttendanceWeek: DemoAttendanceDay[] = [
 export const demoRequests: DemoRequest[] = [
   {
     id: "r1",
-    type: "vacation",
+    type: "annual",
     status: "pending",
     from: "2026-08-18",
     to: "2026-08-22",
@@ -133,7 +217,7 @@ export const leaveTypeSurface: Record<
   RequestType,
   { soft: string; solid: string; strong: string }
 > = {
-  vacation: {
+  annual: {
     soft: "bg-leave-annual-50 text-leave-annual-700",
     solid: "bg-leave-annual-500 text-text-inverse",
     strong: "text-leave-annual-700",
@@ -153,11 +237,67 @@ export const leaveTypeSurface: Record<
     solid: "bg-leave-remote-500 text-text-inverse",
     strong: "text-leave-remote-700",
   },
-  permission: {
+  compassionate: {
     soft: "bg-leave-compassionate-50 text-leave-compassionate-700",
     solid: "bg-leave-compassionate-500 text-text-inverse",
     strong: "text-leave-compassionate-700",
   },
+  maternity: {
+    soft: "bg-leave-maternity-50 text-leave-maternity-700",
+    solid: "bg-leave-maternity-500 text-text-inverse",
+    strong: "text-leave-maternity-700",
+  },
+  paternity: {
+    soft: "bg-leave-paternity-50 text-leave-paternity-700",
+    solid: "bg-leave-paternity-500 text-text-inverse",
+    strong: "text-leave-paternity-700",
+  },
+  marriage: {
+    soft: "bg-leave-marriage-50 text-leave-marriage-700",
+    solid: "bg-leave-marriage-500 text-text-inverse",
+    strong: "text-leave-marriage-700",
+  },
+  hajj: {
+    soft: "bg-leave-hajj-50 text-leave-hajj-700",
+    solid: "bg-leave-hajj-500 text-text-inverse",
+    strong: "text-leave-hajj-700",
+  },
+  study: {
+    soft: "bg-leave-study-50 text-leave-study-700",
+    solid: "bg-leave-study-500 text-text-inverse",
+    strong: "text-leave-study-700",
+  },
+  emergency: {
+    soft: "bg-leave-emergency-50 text-leave-emergency-700",
+    solid: "bg-leave-emergency-500 text-text-inverse",
+    strong: "text-leave-emergency-700",
+  },
+  compensatory: {
+    soft: "bg-leave-compensatory-50 text-leave-compensatory-700",
+    solid: "bg-leave-compensatory-500 text-text-inverse",
+    strong: "text-leave-compensatory-700",
+  },
+  permission: {
+    soft: "bg-leave-permission-50 text-leave-permission-700",
+    solid: "bg-leave-permission-500 text-text-inverse",
+    strong: "text-leave-permission-700",
+  },
+};
+
+export const leaveBalanceDot: Record<LeaveBalanceKey, string> = {
+  annual: "bg-leave-annual-500",
+  sick: "bg-leave-sick-500",
+  unpaid: "bg-leave-unpaid-500",
+  remote: "bg-leave-remote-500",
+  compassionate: "bg-leave-compassionate-500",
+  maternity: "bg-leave-maternity-500",
+  paternity: "bg-leave-paternity-500",
+  marriage: "bg-leave-marriage-500",
+  hajj: "bg-leave-hajj-500",
+  study: "bg-leave-study-500",
+  emergency: "bg-leave-emergency-500",
+  compensatory: "bg-leave-compensatory-500",
+  permission: "bg-leave-permission-500",
 };
 
 export const attendanceStatusSurface: Record<

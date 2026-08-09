@@ -1,0 +1,43 @@
+---
+description: Strict TypeScript rules — no any, no type errors, no missing types
+globs: **/*.ts,**/*.tsx
+alwaysApply: true
+---
+
+# TypeScript rules
+
+## Hard bans
+- Never use `any` (explicit or implicit). Prefer `unknown` and narrow before use.
+- Never use `@ts-ignore` / `@ts-expect-error`. Fix the type.
+- Never leave unresolved type errors. A task is done only when `tsc --noEmit` is clean.
+- Never use non-null assertions (`!`) to silence nullability — narrow or handle `null`/`undefined`.
+- Never cast through `any` (`x as any as T`). Fix the source type or write a type guard.
+- Never disable `strict` in `tsconfig.json`.
+
+## Required typing
+- Exported/public functions: explicit parameter types **and** explicit return types.
+- React components: typed props via `interface` / `type` (no untyped props objects).
+- Hooks: typed inputs and return values; `useState<T>` when the initial value cannot infer `T`.
+- API payloads / entities: use interfaces from `types/` (e.g. `types/OrdersApiTypes.ts`).
+
+## Style
+- Prefer `interface` for object shapes (props, entities, API payloads).
+- Prefer `type` for unions, intersections, mapped/utility types.
+- Untyped third-party packages: add a minimal local `.d.ts` — do not cast to `any`.
+
+```ts
+// ❌ BAD
+function parse(input) { return JSON.parse(input); }
+const data = res as any;
+
+// ✅ GOOD
+function parseUser(input: string): User {
+  const value: unknown = JSON.parse(input);
+  return assertUser(value);
+}
+
+function getMessage(error: unknown): string {
+  if (error instanceof Error) return error.message;
+  return "Unknown error";
+}
+```

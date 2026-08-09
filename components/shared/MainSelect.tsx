@@ -153,7 +153,13 @@ export function MainSelect({
               <SelectItem
                 key={option.value}
                 value={option.value}
-                className="rounded-md focus:bg-primary-50 focus:text-primary-800"
+                className={cn(
+                  "cursor-pointer! rounded-md",
+                  "hover:bg-primary-50 hover:text-primary-800",
+                  "focus:bg-primary-50 focus:text-primary-800",
+                  "data-highlighted:bg-primary-50 data-highlighted:text-primary-800",
+                  "data-selected:bg-primary-50 data-selected:text-primary-800"
+                )}
               >
                 {option.label}
               </SelectItem>

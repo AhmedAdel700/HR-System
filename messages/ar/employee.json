@@ -32,6 +32,10 @@
     "inAt": "حضور",
     "outAt": "انصراف",
     "thisWeek": "هذا الأسبوع",
+    "locationHint": "الموقع مطلوب. يجب أن تكون ضمن 200 متر من المكتب.",
+    "locationDenied": "يلزم السماح بالوصول إلى الموقع لتسجيل الحضور أو الانصراف.",
+    "locationUnavailable": "تعذّر تحديد موقعك. حاول مرة أخرى.",
+    "outsideGeofence": "أنت لست في موقع الشركة. اقترب من المكتب ثم حاول مرة أخرى.",
     "status": {
       "present": "حاضر",
       "late": "متأخر",
@@ -45,6 +49,7 @@
     "subtitle": "طلبات الإجازة والوقت",
     "new": "طلب جديد",
     "empty": "لا توجد طلبات بعد",
+    "monthCount": "{count} طلبات",
     "filter": {
       "all": "الكل",
       "pending": "قيد المراجعة",
@@ -57,18 +62,34 @@
       "rejected": "مرفوض"
     },
     "types": {
-      "vacation": "إجازة سنوية",
+      "annual": "إجازة سنوية",
       "sick": "إجازة مرضية",
       "unpaid": "إجازة بدون راتب",
-      "remote": "عمل عن بعد",
+      "remote": "عمل عن بُعد",
+      "compassionate": "إجازة عزاء",
+      "maternity": "إجازة أمومة",
+      "paternity": "إجازة أبوة",
+      "marriage": "إجازة زواج",
+      "hajj": "إجازة حج",
+      "study": "إجازة دراسية",
+      "emergency": "إجازة طارئة",
+      "compensatory": "إجازة تعويضية",
       "permission": "استئذان قصير"
     },
     "typeHints": {
-      "vacation": "أيام الإجازة السنوية",
+      "annual": "أيام الإجازة السنوية المدفوعة",
       "sick": "إجازة طبية",
       "unpaid": "إجازة دون أجر",
       "remote": "العمل من المنزل",
-      "permission": "ساعات قصيرة خارج العمل"
+      "compassionate": "إجازة عزاء أو ظرف عائلي",
+      "maternity": "إجازة الأمومة",
+      "paternity": "إجازة الأبوة",
+      "marriage": "إجازة الزواج",
+      "hajj": "إجازة الحج",
+      "study": "إجازة دراسية أو امتحانات",
+      "emergency": "إجازة طارئة قصيرة",
+      "compensatory": "إجازة بدل ساعات إضافية",
+      "permission": "ساعات قصيرة أثناء يوم العمل"
     },
     "pickType": "ماذا تحتاج؟",
     "pickTypeSubtitle": "اختر نوع الطلب للمتابعة.",
@@ -79,6 +100,9 @@
     "hours": "الساعات",
     "from": "من",
     "to": "إلى",
+    "pickDate": "اختر تاريخاً",
+    "today": "اليوم",
+    "clearDate": "مسح",
     "startTime": "وقت البدء",
     "endTime": "وقت الانتهاء",
     "submit": "إرسال الطلب",
@@ -102,10 +126,63 @@
   "profile": {
     "title": "حسابي",
     "name": "سارة أحمد",
-    "role": "موظف",
+    "role": "أخصائية موارد بشرية",
     "department": "عمليات الموارد البشرية",
+    "branch": "الرياض",
+    "lineManager": "نورة الحربي",
+    "lineManagerRole": "رئيسة عمليات الموارد البشرية",
+    "employmentType": "دوام كامل",
+    "workSchedule": "الأحد–الخميس · 9:00–17:00",
+    "workLocation": "حضوري",
+    "employeeIdValue": "EMP-1042",
+    "email": "sara.ahmed@begroup.sa",
+    "phone": "+٩٦٦ ٥٠ ١٢٣ ٤٥٦٧",
+    "joinDate": "١٤ مارس ٢٠٢٣",
+    "labels": {
+      "work": "بيانات العمل",
+      "contact": "التواصل",
+      "employment": "التوظيف",
+      "department": "القسم",
+      "branch": "الفرع",
+      "lineManager": "المدير المباشر",
+      "employmentType": "نوع التوظيف",
+      "workSchedule": "جدول العمل",
+      "workLocation": "مكان العمل",
+      "employeeId": "الرقم الوظيفي",
+      "email": "البريد الوظيفي",
+      "phone": "هاتف العمل",
+      "joinDate": "تاريخ الالتحاق"
+    },
     "language": "اللغة",
-    "signOut": "تسجيل الخروج",
-    "demoNote": "حساب تجريبي — لا يتم حفظ أي بيانات."
+    "signOut": "تسجيل الخروج"
+  },
+  "leave": {
+    "title": "رصيد الإجازات",
+    "subtitle": "الرصيد المتبقي خلال هذه الفترة",
+    "groups": {
+      "core": "الإجازات الأساسية",
+      "family": "إجازات عائلية",
+      "flexibility": "مرونة العمل",
+      "special": "إجازات خاصة"
+    },
+    "types": {
+      "annual": "إجازة سنوية",
+      "sick": "إجازة مرضية",
+      "unpaid": "إجازة بدون راتب",
+      "remote": "عمل عن بُعد",
+      "compassionate": "إجازة عزاء",
+      "maternity": "إجازة أمومة",
+      "paternity": "إجازة أبوة",
+      "marriage": "إجازة زواج",
+      "hajj": "إجازة حج",
+      "study": "إجازة دراسية",
+      "emergency": "إجازة طارئة",
+      "compensatory": "إجازة تعويضية",
+      "permission": "استئذان قصير"
+    },
+    "units": {
+      "days": "يوم",
+      "hours": "ساعة"
+    }
   }
 }

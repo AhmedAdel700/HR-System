@@ -32,6 +32,10 @@
     "inAt": "In",
     "outAt": "Out",
     "thisWeek": "This week",
+    "locationHint": "Location is required. You must be within 200m of the office.",
+    "locationDenied": "Location permission is required to check in or out.",
+    "locationUnavailable": "Unable to determine your location. Try again.",
+    "outsideGeofence": "You are not at the company location. Move closer to the office and try again.",
     "status": {
       "present": "Present",
       "late": "Late",
@@ -45,6 +49,7 @@
     "subtitle": "Leave and time-off requests",
     "new": "New request",
     "empty": "No requests yet",
+    "monthCount": "{count} requests",
     "filter": {
       "all": "All",
       "pending": "Pending",
@@ -57,18 +62,34 @@
       "rejected": "Rejected"
     },
     "types": {
-      "vacation": "Vacation",
+      "annual": "Annual leave",
       "sick": "Sick leave",
       "unpaid": "Unpaid leave",
       "remote": "Remote work",
+      "compassionate": "Compassionate leave",
+      "maternity": "Maternity leave",
+      "paternity": "Paternity leave",
+      "marriage": "Marriage leave",
+      "hajj": "Hajj leave",
+      "study": "Study leave",
+      "emergency": "Emergency leave",
+      "compensatory": "Compensatory leave",
       "permission": "Short permission"
     },
     "typeHints": {
-      "vacation": "Annual leave days",
+      "annual": "Paid annual leave days",
       "sick": "Medical leave",
       "unpaid": "Leave without pay",
       "remote": "Work from home",
-      "permission": "Short hours away"
+      "compassionate": "Bereavement / family emergency",
+      "maternity": "Maternity leave entitlement",
+      "paternity": "Paternity leave entitlement",
+      "marriage": "Marriage leave days",
+      "hajj": "Hajj pilgrimage leave",
+      "study": "Study or exam leave",
+      "emergency": "Short emergency leave",
+      "compensatory": "Time off in lieu",
+      "permission": "Short hours away during the day"
     },
     "pickType": "What do you need?",
     "pickTypeSubtitle": "Choose a request type to continue.",
@@ -79,6 +100,9 @@
     "hours": "Hours",
     "from": "From",
     "to": "To",
+    "pickDate": "Pick a date",
+    "today": "Today",
+    "clearDate": "Clear",
     "startTime": "Start time",
     "endTime": "End time",
     "submit": "Submit request",
@@ -102,10 +126,63 @@
   "profile": {
     "title": "Profile",
     "name": "Sara Ahmed",
-    "role": "Employee",
+    "role": "HR Specialist",
     "department": "People Operations",
+    "branch": "Riyadh",
+    "lineManager": "Noura Al-Harbi",
+    "lineManagerRole": "People Operations Lead",
+    "employmentType": "Full-time",
+    "workSchedule": "Sun–Thu · 9:00–17:00",
+    "workLocation": "On-site",
+    "employeeIdValue": "EMP-1042",
+    "email": "sara.ahmed@begroup.sa",
+    "phone": "+966 50 123 4567",
+    "joinDate": "14 Mar 2023",
+    "labels": {
+      "work": "Work details",
+      "contact": "Contact",
+      "employment": "Employment",
+      "department": "Department",
+      "branch": "Branch",
+      "lineManager": "Line manager",
+      "employmentType": "Employment type",
+      "workSchedule": "Work schedule",
+      "workLocation": "Work location",
+      "employeeId": "Employee ID",
+      "email": "Work email",
+      "phone": "Work phone",
+      "joinDate": "Join date"
+    },
     "language": "Language",
-    "signOut": "Sign out",
-    "demoNote": "Demo profile — no account is stored."
+    "signOut": "Sign out"
+  },
+  "leave": {
+    "title": "Leave balance",
+    "subtitle": "Remaining entitlements for this period",
+    "groups": {
+      "core": "Time off",
+      "family": "Family",
+      "flexibility": "Work flexibility",
+      "special": "Special leave"
+    },
+    "types": {
+      "annual": "Annual leave",
+      "sick": "Sick leave",
+      "unpaid": "Unpaid leave",
+      "remote": "Remote work",
+      "compassionate": "Compassionate leave",
+      "maternity": "Maternity leave",
+      "paternity": "Paternity leave",
+      "marriage": "Marriage leave",
+      "hajj": "Hajj leave",
+      "study": "Study leave",
+      "emergency": "Emergency leave",
+      "compensatory": "Compensatory leave",
+      "permission": "Short permission"
+    },
+    "units": {
+      "days": "days",
+      "hours": "hrs"
+    }
   }
 }

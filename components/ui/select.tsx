@@ -4,7 +4,7 @@ import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 
 import { cn } from "@/lib/utils"
-import { ChevronDownIcon, CheckIcon, ChevronUpIcon } from "lucide-react"
+import { ChevronDownIcon, ChevronUpIcon } from "lucide-react"
 
 const Select = SelectPrimitive.Root
 
@@ -41,7 +41,7 @@ function SelectTrigger({
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        "relative flex h-10 w-full items-center justify-between gap-1.5 rounded-md border border-border bg-surface px-3 text-sm text-text whitespace-nowrap transition-colors outline-none select-none focus-visible:border-primary-400 focus-visible:ring-2 focus-visible:ring-primary-500/25 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-danger-500 aria-invalid:ring-2 aria-invalid:ring-danger-500/20 data-placeholder:text-text-muted data-[size=default]:h-10 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex h-10 w-full cursor-pointer items-center justify-between gap-1.5 rounded-md border border-border bg-surface px-3 text-sm text-text whitespace-nowrap transition-colors outline-none select-none focus-visible:border-primary-400 focus-visible:ring-2 focus-visible:ring-primary-500/25 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-danger-500 aria-invalid:ring-2 aria-invalid:ring-danger-500/20 data-placeholder:text-text-muted data-[size=default]:h-10 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-1.5 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
@@ -111,27 +111,36 @@ function SelectLabel({
 function SelectItem({
   className,
   children,
+  style,
+  disabled,
   ...props
 }: SelectPrimitive.Item.Props) {
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
-      className={cn(
-        "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1 pr-8 pl-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
-        className
-      )}
+      disabled={disabled}
       {...props}
+      style={{
+        ...style,
+        cursor: disabled ? "not-allowed" : "pointer",
+      }}
+      className={cn(
+        "relative flex w-full items-center gap-1.5 rounded-md px-2.5 py-1.5 text-sm outline-hidden select-none",
+        "hover:bg-accent hover:text-accent-foreground",
+        "focus:bg-accent focus:text-accent-foreground",
+        "data-highlighted:bg-accent data-highlighted:text-accent-foreground",
+        "data-selected:bg-accent data-selected:text-accent-foreground",
+        "not-data-[variant=destructive]:focus:**:text-accent-foreground",
+        "data-disabled:pointer-events-none data-disabled:opacity-50",
+        "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "*:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        className,
+        disabled ? "cursor-not-allowed!" : "cursor-pointer!"
+      )}
     >
       <SelectPrimitive.ItemText className="flex flex-1 shrink-0 gap-2 whitespace-nowrap">
         {children}
       </SelectPrimitive.ItemText>
-      <SelectPrimitive.ItemIndicator
-        render={
-          <span className="pointer-events-none absolute end-2 flex size-4 items-center justify-center" />
-        }
-      >
-        <CheckIcon className="pointer-events-none" />
-      </SelectPrimitive.ItemIndicator>
     </SelectPrimitive.Item>
   )
 }

@@ -1,0 +1,60 @@
+---
+description: Only use shared color vars and reusable UI components — no ad hoc styling or one-off elements
+globs: **/*.tsx
+alwaysApply: true
+---
+
+# UI consistency rules
+
+## Tailwind CSS v4
+This project uses **Tailwind CSS v4**. Always write v4 syntax — do not use deprecated v3 class names.
+
+- Gradients: `bg-linear-to-r`, `bg-linear-to-br`, `bg-linear-to-t` (not `bg-gradient-to-*`).
+- Shadows: prefer `shadow-xs` / theme shadows already used in the codebase over inventing custom rgba shadows in class strings.
+- Theme tokens: define/extend colors in `@theme` (`styles/variables.css`) or `@theme inline` (`styles/globals.css`) — not in a `tailwind.config.js` theme.extend block.
+- CSS entry: styles are pulled via `@import "tailwindcss"` in `styles/globals.css`.
+- Arbitrary values: use v4 form when needed (`min-h-[70vh]`, `bg-size-[14px_24px]`, `w-[calc(50%-4px)]`).
+- Prefer logical properties for RTL: `start` / `end` / `ps` / `pe` / `ms` / `me` over `left` / `right` / `pl` / `pr` when adding new UI.
+- Do not introduce v3-only patterns (`bg-gradient-to-*`, legacy `@tailwind` directives, JS theme config for new tokens).
+
+```tsx
+// ❌ BAD (Tailwind v3)
+<div className="bg-gradient-to-r from-brand-600 to-brand-900" />
+
+// ✅ GOOD (Tailwind v4)
+<div className="bg-linear-to-r from-brand-600 to-brand-900" />
+```
+
+## Colors
+- Never hardcode hex/rgb/hsl in TSX for UI chrome (text, bg, border, fill, ring, shadow tints).
+- Use Tailwind theme tokens from `styles/variables.css` / `styles/globals.css`:
+  `brand`, `secondary`, `accent`, `jade`, `rose`, `neutral`, plus semantic tokens (`destructive`, etc.).
+- Prefer classes: `text-brand-600`, `bg-neutral-50`, `border-jade-200`.
+- If a color is missing, add it to `styles/variables.css` first, then use the token.
+- Allowed exceptions: true media/content colors from APIs (e.g. provider-supplied hex), and SVG
+  `currentColor` inheritance — still wrap UI chrome in token classes when possible.
+
+## Reusable components
+- Do not use bare `<button>`, `<input>`, `<select>`, `<textarea>`, or hand-rolled table/dialog UI
+  when a Shared wrapper exists.
+- Prefer `components/Shared/` first; use `components/ui/` only when no Shared wrapper fits.
+- Need a new variant? Extend the shared component — don’t fork a one-off.
+- Before adding a primitive, search `components/Shared/` and `components/ui/`.
+
+## Quick map
+| Need | Use |
+| --- | --- |
+| Button / CTA | `MainButton` (+ `styles/buttons.css` variants) |
+| Text / textarea | `MainInput` |
+| Phone | `MainPhoneInput` |
+| Select | `CustomSelect` / `CustomMultiSelect` |
+| Dialog | `CustomDialog` |
+| Table | `CustomTable` |
+| Upload | `CustomUpload` |
+| Delete confirm | `DeleteConfirmModal` |
+| Empty state | `EmptyState` / domain empty states |
+
+## Allowed without Shared wrappers
+- Layout tags: `div`, `section`, `main`, `header`, `nav`, `ul`/`li`, `span`, `p`, `h1`–`h6`.
+- Next.js `Link` / `Image`, lucide icons, `sonner` toasts.
+- Native elements only when no shared equivalent exists (document why briefly in code if unclear).

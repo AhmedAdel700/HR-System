@@ -1,0 +1,41 @@
+---
+description: Placeholder/mock/dummy data must live in a dedicated data file and be looped, never inlined
+globs: **/*.ts,**/*.tsx
+alwaysApply: true
+---
+
+# Dummy data rules
+
+- Never inline placeholder/mock arrays or repeated fake objects inside components or pages.
+- Put mocks in a dedicated module, typed with the real interface from `types/` (or the domain type
+  colocated with the feature).
+- Prefer existing project locations:
+  - `data/<resource>.ts` for general fixtures
+  - `lib/<domain>/…` when the domain already lives there (e.g. `lib/user-dashboard/documentRequests.ts`,
+    `lib/provider-overview/mockData.ts`)
+- Export a named constant (`MOCK_*`, `dummy*`, or domain-specific) — easy to delete when the API lands.
+- In UI, always render with `.map()` (or derived lists). Never copy-paste JSX per fake item.
+- Keys must be stable (`id`), not the array index, when items have ids.
+
+```ts
+// lib/user-dashboard/documentRequests.ts
+import type { DocumentRequest } from "./documentRequests"; // or types/
+
+export const MOCK_DOCUMENT_REQUESTS: DocumentRequest[] = [
+  { id: "req-1", /* … */ },
+  { id: "req-2", /* … */ },
+];
+```
+
+```tsx
+import { MOCK_DOCUMENT_REQUESTS } from "@/lib/user-dashboard/documentRequests";
+
+{MOCK_DOCUMENT_REQUESTS.map((request) => (
+  <RequestCard key={request.id} request={request} />
+))}
+```
+
+## Do not
+- Embed multi-item mock JSON in `page.tsx` / component bodies.
+- Invent untyped `{ title: "…" }[]` literals when a domain type already exists.
+- Leave mocks unnamed (`const data = […]` next to JSX) — export from a data module.

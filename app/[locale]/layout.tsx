@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
-import {
-  IBM_Plex_Mono,
-  IBM_Plex_Sans,
-  IBM_Plex_Sans_Arabic,
-} from "next/font/google";
+import { Cairo, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
@@ -17,9 +13,9 @@ const plexSans = IBM_Plex_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-const plexArabic = IBM_Plex_Sans_Arabic({
+const cairo = Cairo({
   variable: "--font-ar",
-  subsets: ["arabic"],
+  subsets: ["arabic", "latin"],
   weight: ["400", "500", "600", "700"],
 });
 
@@ -67,9 +63,9 @@ export default async function LocaleLayout({
       suppressHydrationWarning
       className={cn(
         plexSans.variable,
-        plexArabic.variable,
+        cairo.variable,
         plexMono.variable,
-        isArabic ? plexArabic.className : plexSans.className,
+        isArabic ? cairo.className : plexSans.className,
         "h-full antialiased"
       )}
     >

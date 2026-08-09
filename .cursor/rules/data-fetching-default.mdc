@@ -1,0 +1,54 @@
+---
+description: Default data-fetching pattern when no fetching approach is specified in the prompt
+globs: **/*.ts,**/*.tsx
+alwaysApply: true
+---
+
+# Default data-fetching pattern
+
+Fallback only: if the prompt specifies a different approach for that task, follow the prompt.
+
+Match this project’s layout — do **not** invent a top-level `services/` tree.
+
+## Step 1 — Types
+- File: `types/<Resource>ApiTypes.ts` (existing convention).
+- Export interfaces for entities and API responses (often wrapping `ApiResponse<T>` from auth/shared types).
+- No `any` fields.
+
+## Step 2 — Server/service fetch
+- File under `app/store/api/<domain>/`:
+  - `*Service.ts`, `fetch*.ts`, or `submit*.ts` (match neighbors).
+- Use native `fetch` against `process.env.NEXT_PUBLIC_BACKEND_BASE_URL`.
+- Pass `lang` / auth headers like existing services (`getServerAccessToken` when needed).
+- Return a typed `Promise<...>` — never `Promise<any>`.
+- On failure: throw or return the project’s typed empty/fallback response (match the domain’s existing pattern).
+
+## Step 3 — RTK Query
+- Inject into the existing API: `baseApi` (`app/store/api/baseApi.ts`) or `publicApi` for public routes.
+- Do **not** call `createApi` per feature.
+- Prefer `query: () => ...` when the base query is enough; use `queryFn` only when calling a shared service helper.
+- Set `providesTags` / `invalidatesTags` using tags already declared on `baseApi` (add a new tag there if needed).
+- Export hooks (`useGetXQuery`, `useXMutation`) from the slice file.
+
+## Step 4 — SSR seed → client RTK ownership
+1. Server page/layout fetches via the Step 2 function.
+2. Pass `initialData` into a client view.
+3. Hydrate once with `useMemo` + `store.dispatch(api.util.upsertQueryData(...))` (project pattern), then read via the RTK hook.
+4. Do **not** double-fetch the same resource on the client without using the seeded cache.
+
+```tsx
+// client view
+useMemo(() => {
+  store.dispatch(
+    aboutApi.util.upsertQueryData("getAbout", undefined, initialData),
+  );
+}, [initialData]);
+
+const { data } = useGetAboutQuery(undefined, { skip: !initialData });
+```
+
+## Checklist
+- [ ] Types in `types/`
+- [ ] Fetch helper beside the domain API folder
+- [ ] `injectEndpoints` on `baseApi` / `publicApi`
+- [ ] SSR seed + `upsertQueryData`, RTK owns subsequent reads
