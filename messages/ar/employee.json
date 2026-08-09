@@ -5,7 +5,7 @@
     "requests": "الطلبات",
     "profile": "حسابي"
   },
-  "brand": "مركز الموظفين",
+  "brand": "بي إتش آر",
   "home": {
     "greeting": "مرحباً",
     "subtitle": "نظرة سريعة على يومك.",
@@ -18,7 +18,15 @@
     "newRequest": "طلب جديد",
     "myRequests": "طلباتي",
     "openRequests": "{count} مفتوحة",
-    "attendanceNote": "الحضور تسجيل يومي — وليس طلباً."
+    "attendanceNote": "الحضور تسجيل يومي — وليس طلباً.",
+    "attendanceHistory": {
+      "title": "سجل الحضور",
+      "subtitle": "الأشهر السابقة. الجمعة والسبت عطلة أسبوعية.",
+      "legendWorked": "حضور",
+      "legendAbsent": "غياب",
+      "legendOff": "عطلة / إجازة / نهاية الأسبوع",
+      "monthSummary": "{worked} حضور · {absent} غياب"
+    }
   },
   "attendance": {
     "title": "الحضور",

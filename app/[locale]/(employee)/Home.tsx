@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { CalendarClock, FilePlus2, Files } from "lucide-react";
 import { Link } from "@/i18n/navigation";
+import { AttendanceHistorySection } from "@/components/employee/AttendanceHistorySection";
 import { MainButton } from "@/components/shared/MainButton";
 import { demoRequests } from "@/lib/employee/demo-data";
 
@@ -63,6 +64,8 @@ export async function EmployeeHome() {
           </Link>
         </div>
       </section>
+
+      <AttendanceHistorySection />
     </div>
   );
 }

@@ -5,7 +5,7 @@
     "requests": "Requests",
     "profile": "Profile"
   },
-  "brand": "People Hub",
+  "brand": "BeHR",
   "home": {
     "greeting": "Hello",
     "subtitle": "Here’s your day at a glance.",
@@ -18,7 +18,15 @@
     "newRequest": "New request",
     "myRequests": "My requests",
     "openRequests": "{count} open",
-    "attendanceNote": "Attendance is daily check-in — not a request."
+    "attendanceNote": "Attendance is daily check-in — not a request.",
+    "attendanceHistory": {
+      "title": "Attendance history",
+      "subtitle": "Previous months. Friday and Saturday are weekends.",
+      "legendWorked": "Worked",
+      "legendAbsent": "Did not work",
+      "legendOff": "Holiday / leave / weekend",
+      "monthSummary": "{worked} worked · {absent} absent"
+    }
   },
   "attendance": {
     "title": "Attendance",
