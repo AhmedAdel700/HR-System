@@ -1,4 +1,6 @@
 {
   "required": "This field is required",
-  "invalidEmail": "Enter a valid email address"
+  "invalidEmail": "Enter a valid email address",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password"
 }

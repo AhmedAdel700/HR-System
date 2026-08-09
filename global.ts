@@ -1,5 +1,6 @@
 import { routing } from "./i18n/routing";
 import enAbout from "./messages/en/about.json";
+import enAuth from "./messages/en/auth.json";
 import enButtons from "./messages/en/buttons.json";
 import enForms from "./messages/en/forms.json";
 import enHeader from "./messages/en/header.json";
@@ -16,6 +17,7 @@ declare module "next-intl" {
       forms: typeof enForms;
       buttons: typeof enButtons;
       tabs: typeof enTabs;
+      auth: typeof enAuth;
     };
   }
 }

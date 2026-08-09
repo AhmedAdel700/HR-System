@@ -1,19 +1,32 @@
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  IBM_Plex_Mono,
+  IBM_Plex_Sans,
+  IBM_Plex_Sans_Arabic,
+} from "next/font/google";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { cn } from "@/lib/utils";
 import "@/styles/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plexSans = IBM_Plex_Sans({
+  variable: "--font-en",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const plexArabic = IBM_Plex_Sans_Arabic({
+  variable: "--font-ar",
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const plexMono = IBM_Plex_Mono({
+  variable: "--font-plex-mono",
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export function generateStaticParams() {
@@ -21,18 +34,21 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const t = await getTranslations("home");
+  const t = await getTranslations("auth");
 
   return {
-    title: t("title"),
-    description: t("description"),
+    title: t("brand"),
+    description: t("login.subtitle"),
   };
 }
 
 export default async function LocaleLayout({
   children,
   params,
-}: LayoutProps<"/[locale]">) {
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
   const { locale: localeParam } = await params;
 
   if (!hasLocale(routing.locales, localeParam)) {
@@ -40,15 +56,23 @@ export default async function LocaleLayout({
   }
 
   const locale = await getLocale();
-  const dir = locale === "ar" ? "rtl" : "ltr";
+  const isArabic = locale === "ar";
+  const dir = isArabic ? "rtl" : "ltr";
 
   return (
     <html
       lang={locale}
       dir={dir}
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={cn(
+        plexSans.variable,
+        plexArabic.variable,
+        plexMono.variable,
+        isArabic ? plexArabic.className : plexSans.className,
+        "h-full antialiased"
+      )}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>

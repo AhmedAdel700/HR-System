@@ -6,7 +6,6 @@ import type { VariantProps } from "class-variance-authority";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
-import { cn } from "@/lib/utils";
 
 export type ButtonVariant = NonNullable<
   VariantProps<typeof buttonVariants>["variant"]
@@ -45,24 +44,17 @@ export const MainButton = React.forwardRef<HTMLButtonElement, MainButtonProps>(
     },
     ref
   ) => {
-    const resolvedSize =
-      iconOnly &&
-      (size === "sm" ||
-        size === "md" ||
-        size === "lg" ||
-        size === "xl" ||
-        size === "default" ||
-        size === "xs")
-        ? size === "sm"
-          ? "icon-sm"
-          : size === "lg"
-            ? "icon-lg"
-            : size === "xl"
-              ? "icon-xl"
-              : size === "xs"
-                ? "icon-xs"
-                : "icon"
-        : size;
+    const resolvedSize = iconOnly
+      ? size === "sm"
+        ? "icon-sm"
+        : size === "lg"
+          ? "icon-lg"
+          : size === "xl"
+            ? "icon-xl"
+            : size === "xs"
+              ? "icon-xs"
+              : "icon"
+      : size;
 
     const content = (
       <>
@@ -76,22 +68,25 @@ export const MainButton = React.forwardRef<HTMLButtonElement, MainButtonProps>(
       </>
     );
 
-    const sharedClassName = cn(className);
-    const isDisabled = disabled || loading;
+    const isDisabled = Boolean(disabled || loading);
+
+    const sharedProps = {
+      ref,
+      variant,
+      size: resolvedSize,
+      block: block || undefined,
+      disabled: isDisabled,
+      "aria-busy": loading || undefined,
+      className: className || undefined,
+      ...props,
+    } as const;
 
     if (link) {
       return (
         <Button
-          ref={ref}
-          variant={variant}
-          size={resolvedSize}
-          block={block}
+          {...sharedProps}
           nativeButton={false}
-          disabled={isDisabled}
-          aria-busy={loading || undefined}
-          aria-disabled={isDisabled ? "true" : undefined}
-          data-icon-only={iconOnly ? "" : undefined}
-          className={sharedClassName}
+          aria-disabled={isDisabled || undefined}
           render={
             <Link
               href={link}
@@ -106,28 +101,13 @@ export const MainButton = React.forwardRef<HTMLButtonElement, MainButtonProps>(
             }
             props.onClick?.(event);
           }}
-          {...props}
         >
           {content}
         </Button>
       );
     }
 
-    return (
-      <Button
-        ref={ref}
-        variant={variant}
-        size={resolvedSize}
-        block={block}
-        disabled={isDisabled}
-        aria-busy={loading || undefined}
-        data-icon-only={iconOnly ? "" : undefined}
-        className={sharedClassName}
-        {...props}
-      >
-        {content}
-      </Button>
-    );
+    return <Button {...sharedProps}>{content}</Button>;
   }
 );
 

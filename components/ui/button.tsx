@@ -1,21 +1,12 @@
+"use client";
+
 import { Button as ButtonPrimitive } from "@base-ui/react/button";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  [
-    "group/button inline-flex shrink-0 items-center justify-center gap-2",
-    "border border-transparent bg-clip-padding",
-    "rounded-[0.375rem] text-sm font-[550] tracking-[0.01em] whitespace-nowrap",
-    "transition-[background-color,border-color,color,box-shadow,transform,opacity] duration-150",
-    "outline-none select-none cursor-pointer",
-    "focus-visible:shadow-[0_0_0_2px_var(--color-surface),0_0_0_4px_var(--color-border-focus)]",
-    "active:not-disabled:translate-y-px",
-    "disabled:pointer-events-none disabled:opacity-45",
-    "aria-disabled:pointer-events-none aria-disabled:opacity-45",
-    "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-  ].join(" "),
+  "group/button inline-flex shrink-0 items-center justify-center gap-2 border border-transparent bg-clip-padding rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none select-none cursor-pointer focus-visible:ring-2 focus-visible:ring-primary-500/35 focus-visible:ring-offset-2 focus-visible:ring-offset-surface active:enabled:translate-y-px disabled:pointer-events-none disabled:opacity-45 aria-disabled:pointer-events-none aria-disabled:opacity-45 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -42,45 +33,33 @@ const buttonVariants = cva(
           "bg-transparent text-danger-600 hover:bg-danger-50 hover:text-danger-700",
         neutral:
           "border-border bg-surface text-text shadow-xs hover:border-border-strong hover:bg-surface-muted active:bg-neutral-200",
-        link: "h-auto rounded-sm border-0 bg-transparent p-0 text-primary-600 font-medium shadow-none hover:text-primary-700 hover:underline hover:underline-offset-[3px] active:translate-y-0 active:text-primary-800 focus-visible:shadow-none focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-border-focus",
-        // shadcn aliases kept for ui primitives
+        link: "h-auto rounded-sm border-0 bg-transparent p-0 font-medium text-primary-600 shadow-none hover:text-primary-700 hover:underline hover:underline-offset-4 active:translate-y-0 active:text-primary-800 focus-visible:ring-0 focus-visible:underline",
         default:
           "bg-primary-500 text-text-inverse shadow-primary-sm hover:bg-primary-600 active:bg-primary-700",
         outline:
           "border-border bg-surface text-text shadow-xs hover:border-border-strong hover:bg-surface-muted",
-        secondary:
-          "bg-surface-muted text-text hover:bg-neutral-200",
+        secondary: "bg-surface-muted text-text hover:bg-neutral-200",
         destructive:
           "bg-danger-500 text-text-inverse hover:bg-danger-600 active:bg-danger-700",
       },
       size: {
-        sm: "h-8 gap-1.5 rounded-[0.3125rem] px-3 text-[0.8125rem]",
+        sm: "h-8 gap-1.5 px-3 text-xs",
         md: "h-10 px-4",
-        lg: "h-11 rounded-md px-5 text-[0.9375rem]",
-        xl: "h-[3.25rem] gap-2.5 rounded-md px-6 text-base",
+        lg: "h-11 px-5 text-[0.9375rem]",
+        xl: "h-12 gap-2.5 px-6 text-base",
         default: "h-10 px-4",
-        xs: "h-6 gap-1 rounded-[0.3125rem] px-2 text-xs [&_svg:not([class*='size-'])]:size-3",
+        xs: "h-6 gap-1 px-2 text-xs [&_svg:not([class*='size-'])]:size-3",
         icon: "size-10 p-0",
         "icon-sm": "size-8 p-0",
         "icon-lg": "size-11 p-0",
-        "icon-xl": "size-[3.25rem] p-0",
+        "icon-xl": "size-12 p-0",
         "icon-xs": "size-6 p-0 [&_svg:not([class*='size-'])]:size-3",
       },
       block: {
         true: "flex w-full",
-        false: "",
+        false: null,
       },
     },
-    compoundVariants: [
-      { size: "sm", class: "data-[icon-only]:size-8 data-[icon-only]:px-0" },
-      { size: "md", class: "data-[icon-only]:size-10 data-[icon-only]:px-0" },
-      { size: "default", class: "data-[icon-only]:size-10 data-[icon-only]:px-0" },
-      { size: "lg", class: "data-[icon-only]:size-11 data-[icon-only]:px-0" },
-      {
-        size: "xl",
-        class: "data-[icon-only]:size-[3.25rem] data-[icon-only]:px-0",
-      },
-    ],
     defaultVariants: {
       variant: "primary",
       size: "md",
@@ -99,7 +78,7 @@ function Button({
   return (
     <ButtonPrimitive
       data-slot="button"
-      className={cn(buttonVariants({ variant, size, block, className }))}
+      className={cn(buttonVariants({ variant, size, block }), className)}
       {...props}
     />
   );
