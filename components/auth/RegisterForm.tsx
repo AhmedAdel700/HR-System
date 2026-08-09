@@ -57,48 +57,48 @@ export function RegisterForm() {
       <MainInput
         label={t("register.name")}
         autoComplete="name"
-        placeholder={t("register.namePlaceholder")}
         startIcon={<User />}
         error={errors.name?.message}
         {...register("name")}
+        placeholder={t("register.namePlaceholder")}
       />
 
       <MainInput
         label={t("register.email")}
         type="email"
         autoComplete="email"
-        placeholder={t("register.emailPlaceholder")}
         startIcon={<Mail />}
         error={errors.email?.message}
         {...register("email")}
+        placeholder={t("register.emailPlaceholder")}
       />
 
       <MainInput
         label={t("register.phone")}
         type="tel"
         autoComplete="tel"
-        placeholder={t("register.phonePlaceholder")}
         startIcon={<Phone />}
         error={errors.phone?.message}
         {...register("phone")}
+        placeholder={t("register.phonePlaceholder")}
       />
 
       <MainInput
         label={t("register.password")}
         type="password"
         autoComplete="new-password"
-        placeholder={t("register.passwordPlaceholder")}
         error={errors.password?.message}
         {...register("password")}
+        placeholder={t("register.passwordPlaceholder")}
       />
 
       <MainInput
         label={t("register.confirmPassword")}
         type="password"
         autoComplete="new-password"
-        placeholder={t("register.confirmPasswordPlaceholder")}
         error={errors.confirmPassword?.message}
         {...register("confirmPassword")}
+        placeholder={t("register.confirmPasswordPlaceholder")}
       />
 
       <MainButton type="submit" variant="primary" block className="mt-1">

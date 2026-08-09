@@ -13,7 +13,7 @@ export function InputShowcase() {
       <div className="grid gap-4 sm:grid-cols-2">
         <MainInput
           label="Full name"
-          placeholder="Sara Ahmed"
+          placeholder="Enter your name"
           startIcon={<User />}
           hint="Visible on your profile"
         />

@@ -39,25 +39,39 @@ const INPUT_HEIGHT = "h-10";
 
 const sizeClasses: Record<
   MainInputSize,
-  { text: string; iconBox: string; padStart: string; padEnd: string }
+  {
+    text: string;
+    iconBox: string;
+    padStart: string;
+    padEnd: string;
+    /** Physical padding when input dir is forced LTR (e.g. tel) */
+    padIconStart: { ltr: string; rtl: string };
+    padIconEnd: { ltr: string; rtl: string };
+  }
 > = {
   sm: {
     text: "text-xs",
     iconBox: "w-9 [&_svg]:size-3.5",
     padStart: "ps-9",
     padEnd: "pe-9",
+    padIconStart: { ltr: "pl-9", rtl: "pr-9" },
+    padIconEnd: { ltr: "pr-9", rtl: "pl-9" },
   },
   md: {
     text: "text-sm",
     iconBox: "w-10 [&_svg]:size-4",
     padStart: "ps-10",
     padEnd: "pe-10",
+    padIconStart: { ltr: "pl-10", rtl: "pr-10" },
+    padIconEnd: { ltr: "pr-10", rtl: "pl-10" },
   },
   lg: {
     text: "text-sm sm:text-base",
     iconBox: "w-11 [&_svg]:size-4",
     padStart: "ps-11",
     padEnd: "pe-11",
+    padIconStart: { ltr: "pl-11", rtl: "pr-11" },
+    padIconEnd: { ltr: "pr-11", rtl: "pl-11" },
   },
 };
 
@@ -92,6 +106,7 @@ export const MainInput = React.forwardRef<
   const errorId = `${fieldId}-error`;
 
   const isPassword = as === "input" && "type" in rest && rest.type === "password";
+  const isTel = as === "input" && "type" in rest && rest.type === "tel";
   const hasStart = Boolean(startIcon);
   const hasEnd = Boolean(endIcon) || isPassword;
   const sizing = sizeClasses[size];
@@ -102,14 +117,51 @@ export const MainInput = React.forwardRef<
       .filter(Boolean)
       .join(" ") || undefined;
 
+  const {
+    onChange: restOnChange,
+    onPaste: restOnPaste,
+    ...inputRest
+  } = rest as Omit<React.ComponentProps<"input">, "size"> & {
+    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    onPaste?: React.ClipboardEventHandler<HTMLInputElement>;
+  };
+
+  const iconDir = isRtl ? "rtl" : "ltr";
+
   const fieldClassName = cn(
     as === "input" && INPUT_HEIGHT,
     sizing.text,
-    hasStart && sizing.padStart,
-    hasEnd && sizing.padEnd,
+    // Tel forces dir=ltr for digits; use physical padding so icon spacing matches mail/name
+    hasStart &&
+      (isTel ? sizing.padIconStart[iconDir] : sizing.padStart),
+    hasEnd && (isTel ? sizing.padIconEnd[iconDir] : sizing.padEnd),
     as === "textarea" && "min-h-24 h-auto py-2.5",
     className
   );
+
+  const handleTelChange: React.ChangeEventHandler<HTMLInputElement> = (event) => {
+    const digitsOnly = event.target.value.replace(/\D/g, "");
+    if (event.target.value !== digitsOnly) {
+      event.target.value = digitsOnly;
+    }
+    restOnChange?.(event);
+  };
+
+  const handleTelPaste: React.ClipboardEventHandler<HTMLInputElement> = (event) => {
+    event.preventDefault();
+    const pasted = event.clipboardData.getData("text").replace(/\D/g, "");
+    const target = event.currentTarget;
+    const start = target.selectionStart ?? target.value.length;
+    const end = target.selectionEnd ?? target.value.length;
+    const next = `${target.value.slice(0, start)}${pasted}${target.value.slice(end)}`;
+    target.value = next.replace(/\D/g, "");
+    restOnChange?.({
+      ...event,
+      target,
+      currentTarget: target,
+    } as React.ChangeEvent<HTMLInputElement>);
+    restOnPaste?.(event);
+  };
 
   return (
     <div
@@ -163,8 +215,17 @@ export const MainInput = React.forwardRef<
             required={required}
             aria-invalid={invalid || undefined}
             aria-describedby={describedBy}
-            className={fieldClassName}
-            {...(rest as Omit<React.ComponentProps<"input">, "size">)}
+            className={cn(
+              fieldClassName,
+              // Numbers type LTR, but sit on the inline-start side of the field
+              isTel && (isRtl ? "text-right" : "text-left")
+            )}
+            {...inputRest}
+            dir={isTel ? "ltr" : undefined}
+            inputMode={isTel ? "numeric" : inputRest.inputMode}
+            pattern={isTel ? "[0-9]*" : inputRest.pattern}
+            onChange={isTel ? handleTelChange : restOnChange}
+            onPaste={isTel ? handleTelPaste : restOnPaste}
             type={
               isPassword ? (showPassword ? "text" : "password") : rest.type
             }

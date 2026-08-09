@@ -27,7 +27,7 @@ export function createRegisterSchema(errors: RegisterErrorMessages) {
       phone: z
         .string()
         .min(1, { error: errors.phoneRequired })
-        .regex(/^[0-9+\-\s()]{8,20}$/, { error: errors.phoneInvalid }),
+        .regex(/^[0-9]{8,15}$/, { error: errors.phoneInvalid }),
       password: z
         .string()
         .min(1, { error: errors.passwordRequired })

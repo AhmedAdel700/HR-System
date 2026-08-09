@@ -12,6 +12,7 @@ const namespaces = [
   "buttons",
   "tabs",
   "auth",
+  "employee",
 ] as const;
 
 export default getRequestConfig(async ({ locale }) => {

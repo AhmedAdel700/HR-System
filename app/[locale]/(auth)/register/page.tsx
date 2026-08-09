@@ -1,20 +1,5 @@
-import { getTranslations } from "next-intl/server";
-import { AuthShell } from "@/components/auth/AuthShell";
-import { AuthSplitCard } from "@/components/auth/AuthSplitCard";
-import { RegisterForm } from "@/components/auth/RegisterForm";
+import { Register } from "./Register";
 
 export default async function RegisterPage() {
-  const t = await getTranslations("auth");
-
-  return (
-    <AuthShell>
-      <AuthSplitCard
-        brand={t("brand")}
-        title={t("register.title")}
-        subtitle={t("register.subtitle")}
-      >
-        <RegisterForm />
-      </AuthSplitCard>
-    </AuthShell>
-  );
+  return <Register />;
 }

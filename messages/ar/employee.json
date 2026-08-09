@@ -1,0 +1,111 @@
+{
+  "tabs": {
+    "home": "الرئيسية",
+    "attendance": "الحضور",
+    "requests": "الطلبات",
+    "profile": "حسابي"
+  },
+  "brand": "مركز الموظفين",
+  "home": {
+    "greeting": "مرحباً",
+    "subtitle": "نظرة سريعة على يومك.",
+    "todayAttendance": "حضور اليوم",
+    "notCheckedIn": "لم تسجّل الحضور بعد",
+    "checkedInAt": "تم الحضور الساعة {time}",
+    "checkedOutAt": "تم الانصراف الساعة {time}",
+    "goAttendance": "فتح الحضور",
+    "quickActions": "إجراءات سريعة",
+    "newRequest": "طلب جديد",
+    "myRequests": "طلباتي",
+    "openRequests": "{count} مفتوحة",
+    "attendanceNote": "الحضور تسجيل يومي — وليس طلباً."
+  },
+  "attendance": {
+    "title": "الحضور",
+    "subtitle": "سجّل حضور وانصراف اليوم. هذا ليس طلب إجازة.",
+    "today": "اليوم",
+    "checkIn": "تسجيل حضور",
+    "checkOut": "تسجيل انصراف",
+    "checkedIn": "تم الحضور",
+    "checkedOut": "تم الانصراف",
+    "notStarted": "بانتظار تسجيل الحضور",
+    "inAt": "حضور",
+    "outAt": "انصراف",
+    "thisWeek": "هذا الأسبوع",
+    "status": {
+      "present": "حاضر",
+      "late": "متأخر",
+      "absent": "غائب",
+      "halfday": "نصف يوم",
+      "holiday": "عطلة"
+    }
+  },
+  "requests": {
+    "title": "الطلبات",
+    "subtitle": "طلبات الإجازة والوقت",
+    "new": "طلب جديد",
+    "empty": "لا توجد طلبات بعد",
+    "filter": {
+      "all": "الكل",
+      "pending": "قيد المراجعة",
+      "approved": "مقبول",
+      "rejected": "مرفوض"
+    },
+    "status": {
+      "pending": "قيد المراجعة",
+      "approved": "مقبول",
+      "rejected": "مرفوض"
+    },
+    "types": {
+      "vacation": "إجازة سنوية",
+      "sick": "إجازة مرضية",
+      "unpaid": "إجازة بدون راتب",
+      "remote": "عمل عن بعد",
+      "permission": "استئذان قصير"
+    },
+    "typeHints": {
+      "vacation": "أيام الإجازة السنوية",
+      "sick": "إجازة طبية",
+      "unpaid": "إجازة دون أجر",
+      "remote": "العمل من المنزل",
+      "permission": "ساعات قصيرة خارج العمل"
+    },
+    "pickType": "ماذا تحتاج؟",
+    "pickTypeSubtitle": "اختر نوع الطلب للمتابعة.",
+    "detail": "تفاصيل الطلب",
+    "reason": "السبب",
+    "note": "ملاحظة",
+    "dates": "التواريخ",
+    "hours": "الساعات",
+    "from": "من",
+    "to": "إلى",
+    "startTime": "وقت البدء",
+    "endTime": "وقت الانتهاء",
+    "submit": "إرسال الطلب",
+    "back": "رجوع",
+    "createdAt": "تاريخ الإرسال",
+    "placeholders": {
+      "reason": "اشرح طلبك باختصار",
+      "note": "ملاحظة اختيارية للمدير"
+    },
+    "errors": {
+      "fromRequired": "تاريخ البداية مطلوب",
+      "toRequired": "تاريخ النهاية مطلوب",
+      "rangeInvalid": "يجب أن يكون تاريخ النهاية بعد أو يساوي البداية",
+      "startTimeRequired": "وقت البدء مطلوب",
+      "endTimeRequired": "وقت الانتهاء مطلوب",
+      "timeInvalid": "يجب أن يكون وقت الانتهاء بعد وقت البدء",
+      "reasonRequired": "السبب مطلوب",
+      "reasonMin": "يجب أن يكون السبب 5 أحرف على الأقل"
+    }
+  },
+  "profile": {
+    "title": "حسابي",
+    "name": "سارة أحمد",
+    "role": "موظف",
+    "department": "عمليات الموارد البشرية",
+    "language": "اللغة",
+    "signOut": "تسجيل الخروج",
+    "demoNote": "حساب تجريبي — لا يتم حفظ أي بيانات."
+  }
+}

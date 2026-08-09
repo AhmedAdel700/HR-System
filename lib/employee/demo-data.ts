@@ -1,0 +1,172 @@
+export type AttendanceStatus =
+  | "present"
+  | "late"
+  | "absent"
+  | "halfday"
+  | "holiday";
+
+export type RequestStatus = "pending" | "approved" | "rejected";
+
+export type RequestType =
+  | "vacation"
+  | "sick"
+  | "unpaid"
+  | "remote"
+  | "permission";
+
+export const REQUEST_TYPES: RequestType[] = [
+  "vacation",
+  "sick",
+  "unpaid",
+  "remote",
+  "permission",
+];
+
+export type DemoAttendanceDay = {
+  id: string;
+  date: string;
+  status: AttendanceStatus;
+  checkIn?: string;
+  checkOut?: string;
+};
+
+export type DemoRequest = {
+  id: string;
+  type: RequestType;
+  status: RequestStatus;
+  from: string;
+  to: string;
+  startTime?: string;
+  endTime?: string;
+  reason: string;
+  note?: string;
+  createdAt: string;
+};
+
+export const demoAttendanceWeek: DemoAttendanceDay[] = [
+  {
+    id: "a1",
+    date: "2026-08-03",
+    status: "present",
+    checkIn: "08:58",
+    checkOut: "17:05",
+  },
+  {
+    id: "a2",
+    date: "2026-08-04",
+    status: "late",
+    checkIn: "09:22",
+    checkOut: "17:10",
+  },
+  {
+    id: "a3",
+    date: "2026-08-05",
+    status: "present",
+    checkIn: "08:55",
+    checkOut: "17:01",
+  },
+  {
+    id: "a4",
+    date: "2026-08-06",
+    status: "halfday",
+    checkIn: "09:00",
+    checkOut: "13:00",
+  },
+  {
+    id: "a5",
+    date: "2026-08-07",
+    status: "holiday",
+  },
+];
+
+export const demoRequests: DemoRequest[] = [
+  {
+    id: "r1",
+    type: "vacation",
+    status: "pending",
+    from: "2026-08-18",
+    to: "2026-08-22",
+    reason: "Family trip planned earlier this year.",
+    note: "Will hand over tasks to the team lead.",
+    createdAt: "2026-08-08",
+  },
+  {
+    id: "r2",
+    type: "sick",
+    status: "approved",
+    from: "2026-07-14",
+    to: "2026-07-15",
+    reason: "Flu and doctor appointment.",
+    createdAt: "2026-07-13",
+  },
+  {
+    id: "r3",
+    type: "remote",
+    status: "rejected",
+    from: "2026-07-28",
+    to: "2026-07-28",
+    reason: "Home internet maintenance window.",
+    createdAt: "2026-07-26",
+  },
+  {
+    id: "r4",
+    type: "permission",
+    status: "pending",
+    from: "2026-08-12",
+    to: "2026-08-12",
+    startTime: "11:00",
+    endTime: "13:00",
+    reason: "Government paperwork appointment.",
+    createdAt: "2026-08-09",
+  },
+];
+
+export function getDemoRequest(id: string) {
+  return demoRequests.find((item) => item.id === id);
+}
+
+export function isRequestType(value: string): value is RequestType {
+  return REQUEST_TYPES.includes(value as RequestType);
+}
+
+export const leaveTypeSurface: Record<
+  RequestType,
+  { soft: string; solid: string; strong: string }
+> = {
+  vacation: {
+    soft: "bg-leave-annual-50 text-leave-annual-700",
+    solid: "bg-leave-annual-500 text-text-inverse",
+    strong: "text-leave-annual-700",
+  },
+  sick: {
+    soft: "bg-leave-sick-50 text-leave-sick-700",
+    solid: "bg-leave-sick-500 text-text-inverse",
+    strong: "text-leave-sick-700",
+  },
+  unpaid: {
+    soft: "bg-leave-unpaid-50 text-leave-unpaid-700",
+    solid: "bg-leave-unpaid-500 text-text-inverse",
+    strong: "text-leave-unpaid-700",
+  },
+  remote: {
+    soft: "bg-leave-remote-50 text-leave-remote-700",
+    solid: "bg-leave-remote-500 text-text-inverse",
+    strong: "text-leave-remote-700",
+  },
+  permission: {
+    soft: "bg-leave-compassionate-50 text-leave-compassionate-700",
+    solid: "bg-leave-compassionate-500 text-text-inverse",
+    strong: "text-leave-compassionate-700",
+  },
+};
+
+export const attendanceStatusSurface: Record<
+  AttendanceStatus,
+  string
+> = {
+  present: "bg-attendance-present-50 text-attendance-present-700",
+  late: "bg-attendance-late-50 text-attendance-late-700",
+  absent: "bg-attendance-absent-50 text-attendance-absent-700",
+  halfday: "bg-attendance-halfday-50 text-attendance-halfday-700",
+  holiday: "bg-attendance-holiday-50 text-attendance-holiday-700",
+};

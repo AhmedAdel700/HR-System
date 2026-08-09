@@ -59,12 +59,20 @@ export const MainButton = React.forwardRef<HTMLButtonElement, MainButtonProps>(
     const content = (
       <>
         {loading ? (
-          <Loader2 className="size-4 animate-spin" aria-hidden="true" />
-        ) : (
-          startIcon
-        )}
-        {children}
-        {!loading && endIcon}
+          <Loader2 className="size-4 shrink-0 animate-spin" aria-hidden="true" />
+        ) : startIcon ? (
+          <span className="inline-flex shrink-0 items-center" aria-hidden="true">
+            {startIcon}
+          </span>
+        ) : null}
+        {children != null && children !== false ? (
+          <span className="inline-flex items-center leading-none">{children}</span>
+        ) : null}
+        {!loading && endIcon ? (
+          <span className="inline-flex shrink-0 items-center" aria-hidden="true">
+            {endIcon}
+          </span>
+        ) : null}
       </>
     );
 

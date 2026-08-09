@@ -35,7 +35,7 @@ export function LocaleSwitcher({
     ? t(nextLocale)
     : localeMeta[nextLocale].name;
 
-  const switchTo = (next: string) => {
+  const switchTo = (next: "en" | "ar") => {
     if (next === locale) return;
     router.replace(pathname, { locale: next });
   };
@@ -81,8 +81,8 @@ export function LocaleSwitcher({
             aria-pressed={active}
             aria-label={name}
             className={cn(
-              "relative z-10 flex h-7 min-w-[2.75rem] items-center justify-center rounded-md px-3",
-              "text-[11px] font-semibold tracking-[0.08em] transition-colors duration-200",
+              "relative z-10 inline-flex h-7 min-w-[2.75rem] items-center justify-center rounded-md px-3",
+              "text-[11px] font-semibold leading-none tracking-[0.08em] transition-colors duration-200",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50",
               tone === "dark"
                 ? active
@@ -93,7 +93,7 @@ export function LocaleSwitcher({
                   : "text-text-muted hover:text-text-secondary"
             )}
           >
-            {meta.short}
+            <span className="inline-flex items-center leading-none">{meta.short}</span>
           </button>
         );
       })}

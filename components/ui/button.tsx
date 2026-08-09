@@ -6,7 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center gap-2 border border-transparent bg-clip-padding rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none select-none cursor-pointer focus-visible:ring-2 focus-visible:ring-primary-500/35 focus-visible:ring-offset-2 focus-visible:ring-offset-surface active:enabled:translate-y-px disabled:pointer-events-none disabled:opacity-45 aria-disabled:pointer-events-none aria-disabled:opacity-45 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center gap-2 border border-transparent bg-clip-padding rounded-md text-sm font-medium leading-none whitespace-nowrap transition-all outline-none select-none cursor-pointer focus-visible:ring-2 focus-visible:ring-primary-500/35 focus-visible:ring-offset-2 focus-visible:ring-offset-surface active:enabled:translate-y-px disabled:pointer-events-none disabled:opacity-45 aria-disabled:pointer-events-none aria-disabled:opacity-45 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
@@ -33,7 +33,7 @@ const buttonVariants = cva(
           "bg-transparent text-danger-600 hover:bg-danger-50 hover:text-danger-700",
         neutral:
           "border-border bg-surface text-text shadow-xs hover:border-border-strong hover:bg-surface-muted active:bg-neutral-200",
-        link: "h-auto rounded-sm border-0 bg-transparent p-0 font-medium text-primary-600 shadow-none hover:text-primary-700 hover:underline hover:underline-offset-4 active:translate-y-0 active:text-primary-800 focus-visible:ring-0 focus-visible:underline",
+        link: "h-auto rounded-sm border-0 bg-transparent p-0 font-medium leading-normal text-primary-600 shadow-none hover:text-primary-700 hover:underline hover:underline-offset-4 active:translate-y-0 active:text-primary-800 focus-visible:ring-0 focus-visible:underline",
         default:
           "bg-primary-500 text-text-inverse shadow-primary-sm hover:bg-primary-600 active:bg-primary-700",
         outline:
@@ -56,7 +56,7 @@ const buttonVariants = cva(
         "icon-xs": "size-6 p-0 [&_svg:not([class*='size-'])]:size-3",
       },
       block: {
-        true: "flex w-full",
+        true: "flex w-full items-center justify-center",
         false: null,
       },
     },

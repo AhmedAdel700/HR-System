@@ -1,0 +1,111 @@
+{
+  "tabs": {
+    "home": "Home",
+    "attendance": "Attendance",
+    "requests": "Requests",
+    "profile": "Profile"
+  },
+  "brand": "People Hub",
+  "home": {
+    "greeting": "Hello",
+    "subtitle": "Here’s your day at a glance.",
+    "todayAttendance": "Today’s attendance",
+    "notCheckedIn": "Not checked in yet",
+    "checkedInAt": "Checked in at {time}",
+    "checkedOutAt": "Checked out at {time}",
+    "goAttendance": "Open attendance",
+    "quickActions": "Quick actions",
+    "newRequest": "New request",
+    "myRequests": "My requests",
+    "openRequests": "{count} open",
+    "attendanceNote": "Attendance is daily check-in — not a request."
+  },
+  "attendance": {
+    "title": "Attendance",
+    "subtitle": "Check in and out for today. This is not a leave request.",
+    "today": "Today",
+    "checkIn": "Check in",
+    "checkOut": "Check out",
+    "checkedIn": "Checked in",
+    "checkedOut": "Checked out",
+    "notStarted": "Waiting for check-in",
+    "inAt": "In",
+    "outAt": "Out",
+    "thisWeek": "This week",
+    "status": {
+      "present": "Present",
+      "late": "Late",
+      "absent": "Absent",
+      "halfday": "Half day",
+      "holiday": "Holiday"
+    }
+  },
+  "requests": {
+    "title": "Requests",
+    "subtitle": "Leave and time-off requests",
+    "new": "New request",
+    "empty": "No requests yet",
+    "filter": {
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "types": {
+      "vacation": "Vacation",
+      "sick": "Sick leave",
+      "unpaid": "Unpaid leave",
+      "remote": "Remote work",
+      "permission": "Short permission"
+    },
+    "typeHints": {
+      "vacation": "Annual leave days",
+      "sick": "Medical leave",
+      "unpaid": "Leave without pay",
+      "remote": "Work from home",
+      "permission": "Short hours away"
+    },
+    "pickType": "What do you need?",
+    "pickTypeSubtitle": "Choose a request type to continue.",
+    "detail": "Request details",
+    "reason": "Reason",
+    "note": "Note",
+    "dates": "Dates",
+    "hours": "Hours",
+    "from": "From",
+    "to": "To",
+    "startTime": "Start time",
+    "endTime": "End time",
+    "submit": "Submit request",
+    "back": "Back",
+    "createdAt": "Submitted",
+    "placeholders": {
+      "reason": "Briefly explain your request",
+      "note": "Optional note for your manager"
+    },
+    "errors": {
+      "fromRequired": "Start date is required",
+      "toRequired": "End date is required",
+      "rangeInvalid": "End date must be on or after start date",
+      "startTimeRequired": "Start time is required",
+      "endTimeRequired": "End time is required",
+      "timeInvalid": "End time must be after start time",
+      "reasonRequired": "Reason is required",
+      "reasonMin": "Reason must be at least 5 characters"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "name": "Sara Ahmed",
+    "role": "Employee",
+    "department": "People Operations",
+    "language": "Language",
+    "signOut": "Sign out",
+    "demoNote": "Demo profile — no account is stored."
+  }
+}
