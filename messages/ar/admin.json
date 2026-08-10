@@ -17,9 +17,10 @@
     "label": "تنقل الإدارة",
     "overview": "نظرة عامة",
     "employees": "الموظفون",
-    "branches": "الفروع والأقسام",
+    "branches": "الفروع",
     "registrations": "طلبات التسجيل",
-    "leaveRequests": "طلبات الإجازة"
+    "leaveRequests": "طلبات الإجازة",
+    "departments": "الأقسام"
   },
   "sidebar": {
     "expand": "توسيع الشريط الجانبي",
@@ -180,15 +181,26 @@
     }
   },
   "branchesPage": {
-    "title": "الفروع والأقسام",
-    "subtitle": "اختر فرعاً لعرض أقسامه ومديريها وأعضاء الفريق.",
+    "title": "الفروع",
+    "subtitle": "إدارة مواقع الفروع.",
+    "branchesTitle": "الفروع ({count})",
+    "createBranch": "إنشاء فرع",
+    "view": "عرض الفرع",
+    "viewTitle": "تفاصيل الفرع",
+    "close": "إغلاق",
+    "searchPlaceholder": "البحث في الفروع…",
+    "emptySearch": "لا توجد فروع تطابق بحثك.",
+    "emptyBranches": "لا توجد فروع بعد. أنشئ فرعك الأول للبدء.",
     "columns": {
       "branch": "الفرع",
+      "city": "المدينة",
+      "contact": "التواصل",
       "departments": "الأقسام",
       "employees": "الموظفون",
       "department": "القسم",
       "manager": "المدير",
-      "members": "الأعضاء"
+      "members": "الأعضاء",
+      "actions": "إجراءات"
     },
     "openBranch": "فتح {branch}",
     "viewDepartments": "عرض الأقسام",
@@ -198,7 +210,7 @@
     "memberCount": "{count, plural, =0 {0 أعضاء} =1 {عضو واحد} other {# أعضاء}}",
     "branchSubtitle": "{departments, plural, =0 {لا توجد أقسام} =1 {قسم واحد} other {# أقسام}} · {employees, plural, =0 {لا يوجد موظفون} =1 {موظف واحد} other {# موظفين}}",
     "detailSubtitle": "{branch} · بإدارة {manager} · {count, plural, =0 {لا يوجد أعضاء} =1 {عضو واحد} other {# أعضاء}}",
-    "emptyDepartments": "لا توجد أقسام بموظفين في هذا الفرع بعد.",
+    "emptyDepartments": "لا توجد أقسام معيّنة لهذا الفرع بعد.",
     "emptyMembers": "لا يوجد موظفون معيّنون لهذا القسم في هذا الفرع بعد.",
     "accessDenied": "مدير النظام فقط يمكنه عرض الفروع والأقسام.",
     "backToOverview": "العودة إلى النظرة العامة",
@@ -207,6 +219,149 @@
     "branchNotFoundTitle": "الفرع غير موجود",
     "branchNotFoundDescription": "هذا الفرع غير موجود أو غير متاح.",
     "departmentNotFoundTitle": "القسم غير موجود",
-    "departmentNotFoundDescription": "هذا القسم غير متاح ضمن الفرع المحدد."
+    "departmentNotFoundDescription": "هذا القسم غير متاح ضمن الفرع المحدد.",
+    "edit": "تعديل الفرع",
+    "editTitle": "تعديل الفرع",
+    "delete": "حذف الفرع",
+    "deleteTitle": "حذف هذا الفرع؟",
+    "deleteDescription": "سيتم إزالة {name} من الدليل.",
+    "deleteConfirm": "حذف",
+    "deleteBlockedEmployees": "لا يزال هذا الفرع يضم موظفين. أعد تعيينهم أو احذفهم قبل حذف الفرع.",
+    "deleteBlockedDepartments": "لا يزال هذا الفرع يضم أقساماً. أزل الأقسام قبل حذف الفرع.",
+    "cancel": "إلغاء",
+    "save": "حفظ التغييرات",
+    "fields": {
+      "name": "اسم الفرع",
+      "city": "المدينة",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني"
+    }
+  },
+  "createBranch": {
+    "title": "إنشاء فرع",
+    "subtitle": "أضف فرعاً جديداً وبيانات التواصل الخاصة به.",
+    "submit": "إنشاء الفرع",
+    "cancel": "إلغاء",
+    "success": "تم إنشاء الفرع بنجاح.",
+    "fields": {
+      "name": "اسم الفرع",
+      "city": "المدينة",
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني"
+    },
+    "placeholders": {
+      "name": "مثال: مكتب الرياض",
+      "city": "مثال: الرياض",
+      "address": "الشارع، الحي…",
+      "phone": "0112345678",
+      "email": "branch@behr.com"
+    },
+    "errors": {
+      "nameRequired": "اسم الفرع مطلوب.",
+      "nameMin": "يجب أن يكون اسم الفرع حرفين على الأقل.",
+      "cityRequired": "المدينة مطلوبة.",
+      "addressRequired": "العنوان مطلوب.",
+      "phoneRequired": "الهاتف مطلوب.",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "أدخل بريداً إلكترونياً صالحاً."
+    }
+  },
+  "createDepartment": {
+    "title": "إنشاء قسم",
+    "subtitle": "اختر فرعاً، أدخل اسم القسم، واختر موظفاً كمدير.",
+    "submit": "إنشاء القسم",
+    "cancel": "إلغاء",
+    "success": "تم إنشاء القسم بنجاح.",
+    "noBranches": "أنشئ فرعاً أولاً قبل إضافة الأقسام.",
+    "managerSection": "مدير القسم",
+    "managerHint": "ابحث بالاسم أو البريد أو المنصب، ثم انقر على الموظف لتعيينه كمدير.",
+    "removeManager": "إزالة المدير المحدد",
+    "selectBranchFirst": "اختر فرعاً أولاً للبحث عن الموظفين.",
+    "typeToSearch": "اكتب في مربع البحث للعثور على موظف.",
+    "noEmployeesFound": "لا يوجد موظفون يطابقون بحثك.",
+    "fields": {
+      "branch": "الفرع",
+      "name": "اسم القسم"
+    },
+    "placeholders": {
+      "branch": "اختر فرعاً",
+      "name": "مثال: الموارد البشرية",
+      "managerSearch": "ابحث عن الموظفين بالاسم أو البريد أو المنصب…"
+    },
+    "errors": {
+      "branchRequired": "اختر فرعاً.",
+      "nameRequired": "اسم القسم مطلوب.",
+      "nameMin": "يجب أن يكون اسم القسم حرفين على الأقل.",
+      "managerRequired": "اختر موظفاً كمدير للقسم.",
+      "duplicate": "يوجد قسم بهذا الاسم بالفعل في الفرع المحدد."
+    }
+  },
+  "departmentsPage": {
+    "title": "الأقسام",
+    "subtitle": "إدارة الأقسام عبر الفروع.",
+    "departmentsTitle": "الأقسام ({count})",
+    "createDepartment": "إنشاء قسم",
+    "searchPlaceholder": "البحث في الأقسام…",
+    "emptySearch": "لا توجد أقسام تطابق عوامل التصفية.",
+    "filters": {
+      "branch": "الفرع",
+      "allBranches": "جميع الفروع"
+    },
+    "emptyDepartments": "لا توجد أقسام بعد. أنشئ قسمك الأول للبدء.",
+    "columns": {
+      "department": "القسم",
+      "branch": "الفرع",
+      "manager": "المدير",
+      "members": "الأعضاء",
+      "actions": "إجراءات"
+    },
+    "view": "عرض القسم",
+    "viewTitle": "تفاصيل القسم",
+    "viewSubtitle": "{branch} · بإدارة {manager}",
+    "emptyMembers": "لا يوجد موظفون آخرون معيّنون لهذا القسم بعد.",
+    "close": "إغلاق",
+    "edit": "تعديل القسم",
+    "delete": "حذف القسم",
+    "editTitle": "تعديل القسم",
+    "deleteTitle": "حذف هذا القسم؟",
+    "deleteDescription": "سيتم إزالة {name} من الدليل.",
+    "deleteConfirm": "حذف",
+    "deleteBlockedMembers": "لا يزال لهذا القسم موظفون معيّنون. أعد تعيينهم قبل الحذف.",
+    "departmentNotFoundDescription": "تعذر العثور على هذا القسم.",
+    "cancel": "إلغاء",
+    "save": "حفظ التغييرات",
+    "fields": {
+      "branch": "الفرع",
+      "name": "اسم القسم"
+    }
+  },
+  "departmentDetailPage": {
+    "backToDepartments": "العودة إلى الأقسام",
+    "subtitle": "{branch} · بإدارة {manager} · {count, plural, =0 {لا يوجد موظفون آخرون} =1 {موظف واحد} other {# موظفين}}",
+    "managerLabel": "مدير القسم",
+    "searchPlaceholder": "البحث في الموظفين…",
+    "emptyMembers": "لا يوجد موظفون آخرون معيّنون لهذا القسم بعد.",
+    "emptySearch": "لا يوجد موظفون يطابقون بحثك.",
+    "notFoundTitle": "القسم غير موجود",
+    "notFoundDescription": "هذا القسم غير موجود أو غير متاح."
+  },
+  "branchDetailPage": {
+    "backToBranches": "العودة إلى الفروع",
+    "subtitle": "{city} · {departments, plural, =0 {لا توجد أقسام} =1 {قسم واحد} other {# أقسام}} · {employees, plural, =0 {لا يوجد موظفون} =1 {موظف واحد} other {# موظفين}}",
+    "departmentsTitle": "الأقسام ({count})",
+    "searchPlaceholder": "البحث في الأقسام…",
+    "emptyDepartments": "لا توجد أقسام معيّنة لهذا الفرع بعد.",
+    "emptySearch": "لا توجد أقسام تطابق بحثك.",
+    "viewDepartment": "عرض القسم",
+    "notFoundTitle": "الفرع غير موجود",
+    "notFoundDescription": "هذا الفرع غير موجود أو غير متاح.",
+    "columns": {
+      "department": "القسم",
+      "manager": "المدير",
+      "members": "الأعضاء",
+      "actions": "إجراءات"
+    }
   }
 }

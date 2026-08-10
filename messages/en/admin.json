@@ -17,9 +17,10 @@
     "label": "Admin navigation",
     "overview": "Overview",
     "employees": "Employees",
-    "branches": "Branches & Departments",
+    "branches": "Branches",
     "registrations": "Registrations",
-    "leaveRequests": "Leave requests"
+    "leaveRequests": "Leave requests",
+    "departments": "Departments"
   },
   "sidebar": {
     "expand": "Expand sidebar",
@@ -180,15 +181,26 @@
     }
   },
   "branchesPage": {
-    "title": "Branches & Departments",
-    "subtitle": "Select a branch to view its departments, managers, and team members.",
+    "title": "Branches",
+    "subtitle": "Manage branch locations.",
+    "branchesTitle": "Branches ({count})",
+    "createBranch": "Create branch",
+    "view": "View branch",
+    "viewTitle": "Branch details",
+    "close": "Close",
+    "searchPlaceholder": "Search branches…",
+    "emptySearch": "No branches match your search.",
+    "emptyBranches": "No branches yet. Create your first branch to get started.",
     "columns": {
       "branch": "Branch",
+      "city": "City",
+      "contact": "Contact",
       "departments": "Departments",
       "employees": "Employees",
       "department": "Department",
       "manager": "Manager",
-      "members": "Members"
+      "members": "Members",
+      "actions": "Actions"
     },
     "openBranch": "Open {branch}",
     "viewDepartments": "View departments",
@@ -198,7 +210,7 @@
     "memberCount": "{count, plural, =0 {0 members} =1 {1 member} other {# members}}",
     "branchSubtitle": "{departments, plural, =0 {No departments} =1 {1 department} other {# departments}} · {employees, plural, =0 {no employees} =1 {1 employee} other {# employees}}",
     "detailSubtitle": "{branch} · Managed by {manager} · {count, plural, =0 {no members} =1 {1 member} other {# members}}",
-    "emptyDepartments": "No departments have employees at this branch yet.",
+    "emptyDepartments": "No departments are assigned to this branch yet.",
     "emptyMembers": "No employees are assigned to this department at this branch yet.",
     "accessDenied": "Only Super Admin can view branches and departments.",
     "backToOverview": "Back to overview",
@@ -207,6 +219,149 @@
     "branchNotFoundTitle": "Branch not found",
     "branchNotFoundDescription": "This branch does not exist or is not available.",
     "departmentNotFoundTitle": "Department not found",
-    "departmentNotFoundDescription": "This department is not available under the selected branch."
+    "departmentNotFoundDescription": "This department is not available under the selected branch.",
+    "edit": "Edit branch",
+    "editTitle": "Edit branch",
+    "delete": "Delete branch",
+    "deleteTitle": "Delete this branch?",
+    "deleteDescription": "{name} will be removed from the directory.",
+    "deleteConfirm": "Delete",
+    "deleteBlockedEmployees": "This branch still has employees assigned. Reassign or remove them before deleting.",
+    "deleteBlockedDepartments": "This branch still has departments assigned. Remove its departments before deleting.",
+    "cancel": "Cancel",
+    "save": "Save changes",
+    "fields": {
+      "name": "Branch name",
+      "city": "City",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email"
+    }
+  },
+  "createBranch": {
+    "title": "Create branch",
+    "subtitle": "Add a new branch location and its contact details.",
+    "submit": "Create branch",
+    "cancel": "Cancel",
+    "success": "Branch created successfully.",
+    "fields": {
+      "name": "Branch name",
+      "city": "City",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email"
+    },
+    "placeholders": {
+      "name": "e.g. Riyadh Office",
+      "city": "e.g. Riyadh",
+      "address": "Street, district…",
+      "phone": "0112345678",
+      "email": "branch@behr.com"
+    },
+    "errors": {
+      "nameRequired": "Branch name is required.",
+      "nameMin": "Branch name must be at least 2 characters.",
+      "cityRequired": "City is required.",
+      "addressRequired": "Address is required.",
+      "phoneRequired": "Phone is required.",
+      "emailRequired": "Email is required.",
+      "emailInvalid": "Enter a valid email address."
+    }
+  },
+  "createDepartment": {
+    "title": "Create department",
+    "subtitle": "Choose a branch, enter a department name, and pick an employee as manager.",
+    "submit": "Create department",
+    "cancel": "Cancel",
+    "success": "Department created successfully.",
+    "noBranches": "Create a branch first before adding departments.",
+    "managerSection": "Department manager",
+    "managerHint": "Search by name, email, or position, then click an employee to assign as manager.",
+    "removeManager": "Remove selected manager",
+    "selectBranchFirst": "Select a branch first to search employees.",
+    "typeToSearch": "Type in the search box to find an employee.",
+    "noEmployeesFound": "No employees match your search.",
+    "fields": {
+      "branch": "Branch",
+      "name": "Department name"
+    },
+    "placeholders": {
+      "branch": "Select a branch",
+      "name": "e.g. Human Resources",
+      "managerSearch": "Search employees by name, email, or position…"
+    },
+    "errors": {
+      "branchRequired": "Select a branch.",
+      "nameRequired": "Department name is required.",
+      "nameMin": "Department name must be at least 2 characters.",
+      "managerRequired": "Select an employee as department manager.",
+      "duplicate": "A department with this name already exists in the selected branch."
+    }
+  },
+  "departmentsPage": {
+    "title": "Departments",
+    "subtitle": "Manage departments across branches.",
+    "departmentsTitle": "Departments ({count})",
+    "createDepartment": "Create department",
+    "searchPlaceholder": "Search departments…",
+    "emptySearch": "No departments match your filters.",
+    "filters": {
+      "branch": "Branch",
+      "allBranches": "All branches"
+    },
+    "emptyDepartments": "No departments yet. Create your first department to get started.",
+    "columns": {
+      "department": "Department",
+      "branch": "Branch",
+      "manager": "Manager",
+      "members": "Members",
+      "actions": "Actions"
+    },
+    "view": "View department",
+    "viewTitle": "Department details",
+    "viewSubtitle": "{branch} · Managed by {manager}",
+    "emptyMembers": "No other employees are assigned to this department yet.",
+    "close": "Close",
+    "edit": "Edit department",
+    "delete": "Delete department",
+    "editTitle": "Edit department",
+    "deleteTitle": "Delete this department?",
+    "deleteDescription": "{name} will be removed from the directory.",
+    "deleteConfirm": "Delete",
+    "deleteBlockedMembers": "This department still has employees assigned. Reassign them before deleting.",
+    "departmentNotFoundDescription": "This department could not be found.",
+    "cancel": "Cancel",
+    "save": "Save changes",
+    "fields": {
+      "branch": "Branch",
+      "name": "Department name"
+    }
+  },
+  "departmentDetailPage": {
+    "backToDepartments": "Back to departments",
+    "subtitle": "{branch} · Managed by {manager} · {count, plural, =0 {no other employees} =1 {1 employee} other {# employees}}",
+    "managerLabel": "Department manager",
+    "searchPlaceholder": "Search employees…",
+    "emptyMembers": "No other employees are assigned to this department yet.",
+    "emptySearch": "No employees match your search.",
+    "notFoundTitle": "Department not found",
+    "notFoundDescription": "This department does not exist or is not available."
+  },
+  "branchDetailPage": {
+    "backToBranches": "Back to branches",
+    "subtitle": "{city} · {departments, plural, =0 {No departments} =1 {1 department} other {# departments}} · {employees, plural, =0 {no employees} =1 {1 employee} other {# employees}}",
+    "departmentsTitle": "Departments ({count})",
+    "searchPlaceholder": "Search departments…",
+    "emptyDepartments": "No departments are assigned to this branch yet.",
+    "emptySearch": "No departments match your search.",
+    "viewDepartment": "View department",
+    "notFoundTitle": "Branch not found",
+    "notFoundDescription": "This branch does not exist or is not available.",
+    "columns": {
+      "department": "Department",
+      "manager": "Manager",
+      "members": "Members",
+      "actions": "Actions"
+    }
   }
 }

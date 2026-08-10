@@ -42,6 +42,26 @@ export interface AdminDepartmentManager {
   position: string;
 }
 
+export interface AdminBranchRecord {
+  id: string;
+  slug: string;
+  name: string;
+  city: string;
+  address: string;
+  phone: string;
+  email: string;
+  createdAt: string;
+}
+
+export interface AdminBranchDepartmentRecord {
+  id: string;
+  branchId: string;
+  name: string;
+  slug: string;
+  managerEmployeeId: string;
+  createdAt: string;
+}
+
 export interface AdminDepartmentOverview {
   department: DepartmentOption;
   manager: AdminDepartmentManager;
@@ -49,20 +69,23 @@ export interface AdminDepartmentOverview {
 }
 
 export interface AdminBranchDepartmentSummary {
-  department: DepartmentOption;
+  id: string;
+  slug: string;
+  name: string;
   manager: AdminDepartmentManager;
   memberCount: number;
 }
 
 export interface AdminBranchOverview {
-  branch: BranchOption;
+  branch: string;
   employeeCount: number;
   departments: AdminBranchDepartmentSummary[];
 }
 
 export interface AdminBranchDepartmentOverview {
-  branch: BranchOption;
-  department: DepartmentOption;
+  branch: string;
+  slug: string;
+  name: string;
   manager: AdminDepartmentManager;
   members: AdminEmployee[];
 }

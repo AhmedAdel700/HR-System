@@ -1,4 +1,5 @@
 import {
+  Building2,
   CalendarDays,
   LayoutDashboard,
   MapPinned,
@@ -11,7 +12,13 @@ import type { AdminRole } from "@/types/AdminApiTypes";
 
 export interface AdminNavItem {
   href: string;
-  key: "overview" | "employees" | "registrations" | "leaveRequests" | "branches";
+  key:
+    | "overview"
+    | "employees"
+    | "registrations"
+    | "leaveRequests"
+    | "branches"
+    | "departments";
   icon: LucideIcon;
   match: (pathname: string) => boolean;
   superAdminOnly?: boolean;
@@ -36,6 +43,13 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
     key: "branches",
     icon: MapPinned,
     match: (pathname) => pathname.startsWith("/admin-dashboard/branches"),
+    superAdminOnly: true,
+  },
+  {
+    href: "/admin-dashboard/departments",
+    key: "departments",
+    icon: Building2,
+    match: (pathname) => pathname.startsWith("/admin-dashboard/departments"),
     superAdminOnly: true,
   },
   {
