@@ -3,7 +3,11 @@ import { AuthShell } from "@/components/auth/AuthShell";
 import { AuthSplitCard } from "@/components/auth/AuthSplitCard";
 import { LoginForm } from "@/components/auth/LoginForm";
 
-export async function Login() {
+export async function Login({
+  showRegisterLink = true,
+}: {
+  showRegisterLink?: boolean;
+}) {
   const t = await getTranslations("auth");
 
   return (
@@ -13,7 +17,7 @@ export async function Login() {
         title={t("login.title")}
         subtitle={t("login.subtitle")}
       >
-        <LoginForm />
+        <LoginForm showRegisterLink={showRegisterLink} />
       </AuthSplitCard>
     </AuthShell>
   );

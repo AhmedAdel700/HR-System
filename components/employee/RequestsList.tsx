@@ -15,7 +15,7 @@ import {
   groupRequestsByMonth,
 } from "@/lib/employee/groupRequestsByMonth";
 import {
-  getRequestsSnapshot,
+  getEmployeeRequestsSnapshot,
   subscribeRequests,
 } from "@/lib/employee/requestsStore";
 import { cn } from "@/lib/utils";
@@ -25,8 +25,8 @@ export function RequestsList() {
   const locale = useLocale();
   const requests = useSyncExternalStore(
     subscribeRequests,
-    getRequestsSnapshot,
-    getRequestsSnapshot
+    getEmployeeRequestsSnapshot,
+    getEmployeeRequestsSnapshot
   );
   const monthGroups = useMemo(
     () => groupRequestsByMonth(requests),
@@ -34,7 +34,7 @@ export function RequestsList() {
   );
 
   const [openMonths, setOpenMonths] = useState<ReadonlySet<string>>(() => {
-    const newest = groupRequestsByMonth(getRequestsSnapshot())[0]?.key;
+    const newest = groupRequestsByMonth(getEmployeeRequestsSnapshot())[0]?.key;
     return newest ? new Set([newest]) : new Set();
   });
 

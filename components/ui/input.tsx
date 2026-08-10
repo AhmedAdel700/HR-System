@@ -22,7 +22,12 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         ref={ref}
         type={type}
         data-slot="input"
-        className={cn(inputBaseClassName, className)}
+        className={cn(
+          inputBaseClassName,
+          type === "search" &&
+            "[&::-webkit-search-cancel-button]:cursor-pointer",
+          className
+        )}
         {...props}
       />
     );

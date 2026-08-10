@@ -3,11 +3,14 @@ import { CalendarClock, FilePlus2, Files } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { AttendanceHistorySection } from "@/components/employee/AttendanceHistorySection";
 import { MainButton } from "@/components/shared/MainButton";
-import { demoRequests } from "@/lib/employee/demo-data";
+import { DEMO_EMPLOYEE_ID, demoRequests } from "@/lib/employee/demo-data";
 
 export async function EmployeeHome() {
   const t = await getTranslations("employee");
-  const openCount = demoRequests.filter((r) => r.status === "pending").length;
+  const openCount = demoRequests.filter(
+    (request) =>
+      request.employeeId === DEMO_EMPLOYEE_ID && request.status === "pending"
+  ).length;
 
   return (
     <div className="space-y-6">

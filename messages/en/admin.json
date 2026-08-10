@@ -1,0 +1,212 @@
+{
+  "brand": "Admin Dashboard",
+  "signOut": "Sign out",
+  "demoRoleSwitch": "Demo role (switch to test access)",
+  "roles": {
+    "superAdmin": "Super Admin",
+    "departmentManager": "Department Manager"
+  },
+  "departments": {
+    "hr": "Human Resources",
+    "operations": "Operations",
+    "finance": "Finance",
+    "it": "Information Technology",
+    "sales": "Sales"
+  },
+  "nav": {
+    "label": "Admin navigation",
+    "overview": "Overview",
+    "employees": "Employees",
+    "branches": "Branches & Departments",
+    "registrations": "Registrations",
+    "leaveRequests": "Leave requests"
+  },
+  "sidebar": {
+    "expand": "Expand sidebar",
+    "collapse": "Collapse sidebar",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
+  },
+  "overview": {
+    "title": "Overview",
+    "subtitle": "Summary of employees, registrations, and leave requests awaiting review.",
+    "employees": "Employees",
+    "employeesHint": "In your current access scope",
+    "pendingRegistrations": "Pending registrations",
+    "pendingRegistrationsHint": "Awaiting approval",
+    "departments": "Departments",
+    "departmentsHint": "Represented in your scope",
+    "branches": "Branches",
+    "branchesHint": "Locations with employees in scope",
+    "activeEmployees": "Active employees",
+    "activeEmployeesHint": "Currently active in the directory",
+    "inactiveEmployees": "Inactive employees",
+    "inactiveEmployeesHint": "Marked inactive in the directory",
+    "attentionTitle": "Needs attention",
+    "attentionSubtitle": "Latest pending registration requests",
+    "attentionEmpty": "No pending registrations right now.",
+    "viewRegistrations": "Review all registrations",
+    "leaveAttentionTitle": "Leave requests",
+    "leaveAttentionSubtitle": "Latest pending leave requests",
+    "leaveAttentionEmpty": "No pending leave requests right now.",
+    "viewLeaveRequests": "Review all leave requests"
+  },
+  "employees": {
+    "title": "Employees",
+    "subtitleSuperAdmin": "Full employee directory across all departments.",
+    "subtitleManager": "View-only list for your department.",
+    "resultsTitle": "Employees ({count})",
+    "searchPlaceholder": "Search by name, email, position…",
+    "emptyEmployees": "No employees in your current access scope.",
+    "noResults": "No employees match your search or filters.",
+    "filters": {
+      "department": "Department",
+      "branch": "Branch",
+      "allDepartments": "All departments",
+      "allBranches": "All branches",
+      "clear": "Clear filters",
+      "noneActive": "No active filters"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "summary": "Showing {start}–{end} of {total}"
+    },
+    "columns": {
+      "name": "Employee",
+      "contact": "Contact",
+      "position": "Position",
+      "department": "Department",
+      "departmentManager": "Department manager",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "edit": "Edit employee",
+    "delete": "Delete employee",
+    "editTitle": "Edit employee",
+    "fields": {
+      "name": "Full name",
+      "email": "Email",
+      "phone": "Phone",
+      "position": "Position"
+    },
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "deleteTitle": "Delete this employee?",
+    "deleteDescription": "This cannot be undone. The employee record will be removed from the directory.",
+    "deleteConfirm": "Delete"
+  },
+  "registrations": {
+    "title": "Registration requests",
+    "subtitle": "Review employee signup requests from the public registration flow.",
+    "pendingTitle": "Pending ({count})",
+    "emptyPending": "No pending registration requests.",
+    "searchPlaceholder": "Search by name, email, department…",
+    "noSearchResults": "No registration requests match your search.",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "summary": "Showing {start}–{end} of {total}"
+    },
+    "historyTitle": "Recent decisions",
+    "approve": "Approve",
+    "reject": "Reject",
+    "approveTitle": "Approve this registration?",
+    "approveDescription": "{name} will be added as an employee once you confirm.",
+    "approveConfirm": "Approve",
+    "rejectTitle": "Reject this registration?",
+    "rejectDescription": "{name}'s registration request will be declined.",
+    "rejectConfirm": "Reject",
+    "cancel": "Cancel",
+    "submittedAt": "Submitted {date}",
+    "columns": {
+      "name": "Applicant",
+      "contact": "Contact",
+      "position": "Position",
+      "department": "Department",
+      "branch": "Branch",
+      "submitted": "Submitted",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "fields": {
+      "email": "Email",
+      "phone": "Phone",
+      "position": "Position",
+      "department": "Department",
+      "branch": "Branch"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    }
+  },
+  "leaveRequests": {
+    "title": "Leave requests",
+    "subtitle": "Review and approve employee leave and time-off requests.",
+    "pendingTitle": "Pending ({count})",
+    "emptyPending": "No pending leave requests.",
+    "searchPlaceholder": "Search by employee, type, department…",
+    "noSearchResults": "No leave requests match your search.",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "summary": "Showing {start}–{end} of {total}"
+    },
+    "approve": "Approve",
+    "reject": "Reject",
+    "approveTitle": "Approve this request?",
+    "approveDescription": "{name}'s leave request will be approved.",
+    "approveConfirm": "Approve",
+    "rejectTitle": "Reject this request?",
+    "rejectDescription": "{name}'s leave request will be declined.",
+    "rejectConfirm": "Reject",
+    "cancel": "Cancel",
+    "view": "View details",
+    "detailTitle": "Request details",
+    "close": "Close",
+    "columns": {
+      "employee": "Employee",
+      "type": "Type",
+      "dates": "Dates",
+      "department": "Department",
+      "branch": "Branch",
+      "submitted": "Submitted",
+      "actions": "Actions"
+    }
+  },
+  "branchesPage": {
+    "title": "Branches & Departments",
+    "subtitle": "Select a branch to view its departments, managers, and team members.",
+    "columns": {
+      "branch": "Branch",
+      "departments": "Departments",
+      "employees": "Employees",
+      "department": "Department",
+      "manager": "Manager",
+      "members": "Members"
+    },
+    "openBranch": "Open {branch}",
+    "viewDepartments": "View departments",
+    "openDepartment": "Open {department}",
+    "departmentCount": "{count, plural, =0 {0 departments} =1 {1 department} other {# departments}}",
+    "employeeCount": "{count, plural, =0 {0 employees} =1 {1 employee} other {# employees}}",
+    "memberCount": "{count, plural, =0 {0 members} =1 {1 member} other {# members}}",
+    "branchSubtitle": "{departments, plural, =0 {No departments} =1 {1 department} other {# departments}} · {employees, plural, =0 {no employees} =1 {1 employee} other {# employees}}",
+    "detailSubtitle": "{branch} · Managed by {manager} · {count, plural, =0 {no members} =1 {1 member} other {# members}}",
+    "emptyDepartments": "No departments have employees at this branch yet.",
+    "emptyMembers": "No employees are assigned to this department at this branch yet.",
+    "accessDenied": "Only Super Admin can view branches and departments.",
+    "backToOverview": "Back to overview",
+    "backToBranches": "Back to branches",
+    "backToBranch": "Back to branch",
+    "branchNotFoundTitle": "Branch not found",
+    "branchNotFoundDescription": "This branch does not exist or is not available.",
+    "departmentNotFoundTitle": "Department not found",
+    "departmentNotFoundDescription": "This department is not available under the selected branch."
+  }
+}

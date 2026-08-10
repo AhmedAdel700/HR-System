@@ -1,4 +1,5 @@
 import {
+  DEMO_EMPLOYEE_ID,
   demoRequests,
   type DemoRequest,
   type RequestStatus,
@@ -25,8 +26,23 @@ export function getRequestsSnapshot(): DemoRequest[] {
   return requests;
 }
 
+export function getEmployeeRequestsSnapshot(
+  employeeId: string = DEMO_EMPLOYEE_ID
+): DemoRequest[] {
+  return requests.filter((item) => item.employeeId === employeeId);
+}
+
 export function getRequestById(id: string): DemoRequest | undefined {
   return requests.find((item) => item.id === id);
+}
+
+export function getEmployeeRequestById(
+  id: string,
+  employeeId: string = DEMO_EMPLOYEE_ID
+): DemoRequest | undefined {
+  const item = getRequestById(id);
+  if (!item || item.employeeId !== employeeId) return undefined;
+  return item;
 }
 
 export function canModifyRequest(status: RequestStatus): boolean {
@@ -73,4 +89,28 @@ export function deleteRequest(id: string): boolean {
   requests = next;
   emit();
   return true;
+}
+
+export function setRequestStatus(
+  id: string,
+  status: Exclude<RequestStatus, "pending">
+): DemoRequest | undefined {
+  const index = requests.findIndex((item) => item.id === id);
+  if (index < 0) return undefined;
+
+  const current = requests[index];
+  if (!current || !canModifyRequest(current.status)) return undefined;
+
+  const next: DemoRequest = {
+    ...current,
+    status,
+  };
+
+  requests = [
+    ...requests.slice(0, index),
+    next,
+    ...requests.slice(index + 1),
+  ];
+  emit();
+  return next;
 }

@@ -147,6 +147,41 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  html.admin-dashboard,
+  html.admin-dashboard * {
+    scrollbar-width: none;
+  }
+
+  html.admin-dashboard::-webkit-scrollbar,
+  html.admin-dashboard *::-webkit-scrollbar {
+    display: none;
+  }
+
+  html.admin-dashboard .admin-scroll-visible {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-primary-500) var(--color-neutral-100);
+  }
+
+  html.admin-dashboard .admin-scroll-visible::-webkit-scrollbar {
+    display: block;
+    width: 6px;
+    height: 6px;
+  }
+
+  html.admin-dashboard .admin-scroll-visible::-webkit-scrollbar-track {
+    background: var(--color-neutral-100);
+  }
+
+  html.admin-dashboard .admin-scroll-visible::-webkit-scrollbar-thumb {
+    background: var(--color-primary-500);
+    border-radius: 9999px;
+  }
+
+  html.admin-dashboard .admin-scroll-visible::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary-600);
+  }
+
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [data-slot="select-trigger"]:not(:disabled):not([data-disabled]),

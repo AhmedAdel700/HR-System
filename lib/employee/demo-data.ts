@@ -1,3 +1,8 @@
+import type { BranchOption, DepartmentOption } from "@/lib/auth/register-options";
+
+/** Demo employee whose session the employee app represents (Sara Ahmed). */
+export const DEMO_EMPLOYEE_ID = "emp-1";
+
 export type LeaveBalanceKey =
   | "annual"
   | "sick"
@@ -116,6 +121,10 @@ export type DemoAttendanceDay = {
 
 export type DemoRequest = {
   id: string;
+  employeeId: string;
+  employeeName: string;
+  department: DepartmentOption;
+  branch: BranchOption;
   type: RequestType;
   status: RequestStatus;
   from: string;
@@ -166,6 +175,10 @@ export const demoAttendanceWeek: DemoAttendanceDay[] = [
 export const demoRequests: DemoRequest[] = [
   {
     id: "r1",
+    employeeId: "emp-1",
+    employeeName: "Sara Ahmed",
+    department: "hr",
+    branch: "riyadh",
     type: "annual",
     status: "pending",
     from: "2026-08-18",
@@ -176,6 +189,10 @@ export const demoRequests: DemoRequest[] = [
   },
   {
     id: "r2",
+    employeeId: "emp-1",
+    employeeName: "Sara Ahmed",
+    department: "hr",
+    branch: "riyadh",
     type: "sick",
     status: "approved",
     from: "2026-07-14",
@@ -185,6 +202,10 @@ export const demoRequests: DemoRequest[] = [
   },
   {
     id: "r3",
+    employeeId: "emp-1",
+    employeeName: "Sara Ahmed",
+    department: "hr",
+    branch: "riyadh",
     type: "remote",
     status: "rejected",
     from: "2026-07-28",
@@ -194,6 +215,10 @@ export const demoRequests: DemoRequest[] = [
   },
   {
     id: "r4",
+    employeeId: "emp-1",
+    employeeName: "Sara Ahmed",
+    department: "hr",
+    branch: "riyadh",
     type: "permission",
     status: "pending",
     from: "2026-08-12",
@@ -201,6 +226,45 @@ export const demoRequests: DemoRequest[] = [
     startTime: "11:00",
     endTime: "13:00",
     reason: "Government paperwork appointment.",
+    createdAt: "2026-08-09",
+  },
+  {
+    id: "r5",
+    employeeId: "emp-2",
+    employeeName: "Mohamed Ali",
+    department: "operations",
+    branch: "jeddah",
+    type: "annual",
+    status: "pending",
+    from: "2026-08-25",
+    to: "2026-08-27",
+    reason: "Personal travel.",
+    createdAt: "2026-08-10",
+  },
+  {
+    id: "r6",
+    employeeId: "emp-3",
+    employeeName: "Nour Ibrahim",
+    department: "finance",
+    branch: "riyadh",
+    type: "sick",
+    status: "pending",
+    from: "2026-08-11",
+    to: "2026-08-12",
+    reason: "Medical follow-up.",
+    createdAt: "2026-08-10",
+  },
+  {
+    id: "r7",
+    employeeId: "emp-6",
+    employeeName: "Khaled Farouk",
+    department: "hr",
+    branch: "riyadh",
+    type: "remote",
+    status: "pending",
+    from: "2026-08-14",
+    to: "2026-08-14",
+    reason: "Home maintenance scheduled.",
     createdAt: "2026-08-09",
   },
 ];

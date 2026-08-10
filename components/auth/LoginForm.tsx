@@ -13,7 +13,11 @@ import {
   type LoginFormValues,
 } from "@/schemas/auth/login.schema";
 
-export function LoginForm() {
+export function LoginForm({
+  showRegisterLink = true,
+}: {
+  showRegisterLink?: boolean;
+}) {
   const t = useTranslations("auth");
 
   const schema = useMemo(
@@ -68,15 +72,17 @@ export function LoginForm() {
         {t("login.submit")}
       </MainButton>
 
-      <p className="text-center text-sm text-text-secondary">
-        {t("login.noAccount")}{" "}
-        <Link
-          href="/register"
-          className="font-medium text-primary-600 hover:text-primary-700"
-        >
-          {t("login.registerLink")}
-        </Link>
-      </p>
+      {showRegisterLink ? (
+        <p className="text-center text-sm text-text-secondary">
+          {t("login.noAccount")}{" "}
+          <Link
+            href="/register"
+            className="font-medium text-primary-600 hover:text-primary-700"
+          >
+            {t("login.registerLink")}
+          </Link>
+        </p>
+      ) : null}
     </form>
   );
 }

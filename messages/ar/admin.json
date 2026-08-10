@@ -1,0 +1,212 @@
+{
+  "brand": "لوحة الإدارة",
+  "signOut": "تسجيل الخروج",
+  "demoRoleSwitch": "دور تجريبي (بدّل لاختبار الصلاحيات)",
+  "roles": {
+    "superAdmin": "مدير النظام",
+    "departmentManager": "مدير القسم"
+  },
+  "departments": {
+    "hr": "الموارد البشرية",
+    "operations": "العمليات",
+    "finance": "المالية",
+    "it": "تقنية المعلومات",
+    "sales": "المبيعات"
+  },
+  "nav": {
+    "label": "تنقل الإدارة",
+    "overview": "نظرة عامة",
+    "employees": "الموظفون",
+    "branches": "الفروع والأقسام",
+    "registrations": "طلبات التسجيل",
+    "leaveRequests": "طلبات الإجازة"
+  },
+  "sidebar": {
+    "expand": "توسيع الشريط الجانبي",
+    "collapse": "طي الشريط الجانبي",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة"
+  },
+  "overview": {
+    "title": "نظرة عامة",
+    "subtitle": "ملخص الموظفين وطلبات التسجيل والإجازة بانتظار المراجعة.",
+    "employees": "الموظفون",
+    "employeesHint": "ضمن نطاق صلاحياتك الحالي",
+    "pendingRegistrations": "طلبات التسجيل المعلقة",
+    "pendingRegistrationsHint": "بانتظار الموافقة",
+    "departments": "الأقسام",
+    "departmentsHint": "ضمن نطاقك",
+    "branches": "الفروع",
+    "branchesHint": "المواقع التي يعمل بها موظفون ضمن نطاقك",
+    "activeEmployees": "الموظفون النشطون",
+    "activeEmployeesHint": "نشطون حالياً في الدليل",
+    "inactiveEmployees": "الموظفون غير النشطين",
+    "inactiveEmployeesHint": "مُعلَّمون كغير نشطين في الدليل",
+    "attentionTitle": "يتطلب انتباهك",
+    "attentionSubtitle": "أحدث طلبات التسجيل المعلقة",
+    "attentionEmpty": "لا توجد طلبات تسجيل معلقة حالياً.",
+    "viewRegistrations": "مراجعة جميع طلبات التسجيل",
+    "leaveAttentionTitle": "طلبات الإجازة",
+    "leaveAttentionSubtitle": "أحدث طلبات الإجازة المعلقة",
+    "leaveAttentionEmpty": "لا توجد طلبات إجازة معلقة حالياً.",
+    "viewLeaveRequests": "مراجعة جميع طلبات الإجازة"
+  },
+  "employees": {
+    "title": "الموظفون",
+    "subtitleSuperAdmin": "دليل الموظفين الكامل لجميع الأقسام.",
+    "subtitleManager": "قائمة عرض فقط لقسمك.",
+    "resultsTitle": "الموظفون ({count})",
+    "searchPlaceholder": "ابحث بالاسم أو البريد أو المسمى الوظيفي…",
+    "emptyEmployees": "لا يوجد موظفون ضمن نطاق صلاحياتك الحالي.",
+    "noResults": "لا يوجد موظفون يطابقون بحثك أو عوامل التصفية.",
+    "filters": {
+      "department": "القسم",
+      "branch": "الفرع",
+      "allDepartments": "جميع الأقسام",
+      "allBranches": "جميع الفروع",
+      "clear": "مسح التصفية",
+      "noneActive": "لا توجد عوامل تصفية نشطة"
+    },
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "summary": "عرض {start}–{end} من {total}"
+    },
+    "columns": {
+      "name": "الموظف",
+      "contact": "التواصل",
+      "position": "المسمى الوظيفي",
+      "department": "القسم",
+      "departmentManager": "مدير القسم",
+      "actions": "إجراءات"
+    },
+    "status": {
+      "active": "نشط",
+      "inactive": "غير نشط"
+    },
+    "edit": "تعديل الموظف",
+    "delete": "حذف الموظف",
+    "editTitle": "تعديل الموظف",
+    "fields": {
+      "name": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "position": "المسمى الوظيفي"
+    },
+    "save": "حفظ التعديلات",
+    "cancel": "إلغاء",
+    "deleteTitle": "حذف هذا الموظف؟",
+    "deleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف سجل الموظف من الدليل.",
+    "deleteConfirm": "حذف"
+  },
+  "registrations": {
+    "title": "طلبات التسجيل",
+    "subtitle": "مراجعة طلبات تسجيل الموظفين من نموذج التسجيل العام.",
+    "pendingTitle": "معلقة ({count})",
+    "emptyPending": "لا توجد طلبات تسجيل معلقة.",
+    "searchPlaceholder": "ابحث بالاسم أو البريد أو القسم…",
+    "noSearchResults": "لا توجد طلبات تطابق بحثك.",
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "summary": "عرض {start}–{end} من {total}"
+    },
+    "historyTitle": "قرارات حديثة",
+    "approve": "موافقة",
+    "reject": "رفض",
+    "approveTitle": "الموافقة على هذا التسجيل؟",
+    "approveDescription": "سيتم إضافة {name} كموظف بعد التأكيد.",
+    "approveConfirm": "موافقة",
+    "rejectTitle": "رفض هذا التسجيل؟",
+    "rejectDescription": "سيتم رفض طلب تسجيل {name}.",
+    "rejectConfirm": "رفض",
+    "cancel": "إلغاء",
+    "submittedAt": "تاريخ الإرسال {date}",
+    "columns": {
+      "name": "المتقدم",
+      "contact": "التواصل",
+      "position": "المسمى الوظيفي",
+      "department": "القسم",
+      "branch": "الفرع",
+      "submitted": "تاريخ الإرسال",
+      "status": "الحالة",
+      "actions": "إجراءات"
+    },
+    "fields": {
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "position": "المسمى الوظيفي",
+      "department": "القسم",
+      "branch": "الفرع"
+    },
+    "status": {
+      "pending": "معلقة",
+      "approved": "مقبولة",
+      "rejected": "مرفوضة"
+    }
+  },
+  "leaveRequests": {
+    "title": "طلبات الإجازة",
+    "subtitle": "مراجعة والموافقة على طلبات الإجازة والاستئذان من الموظفين.",
+    "pendingTitle": "معلقة ({count})",
+    "emptyPending": "لا توجد طلبات إجازة معلقة.",
+    "searchPlaceholder": "ابحث بالموظف أو النوع أو القسم…",
+    "noSearchResults": "لا توجد طلبات تطابق بحثك.",
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "summary": "عرض {start}–{end} من {total}"
+    },
+    "approve": "موافقة",
+    "reject": "رفض",
+    "approveTitle": "الموافقة على هذا الطلب؟",
+    "approveDescription": "سيتم الموافقة على طلب إجازة {name}.",
+    "approveConfirm": "موافقة",
+    "rejectTitle": "رفض هذا الطلب؟",
+    "rejectDescription": "سيتم رفض طلب إجازة {name}.",
+    "rejectConfirm": "رفض",
+    "cancel": "إلغاء",
+    "view": "عرض التفاصيل",
+    "detailTitle": "تفاصيل الطلب",
+    "close": "إغلاق",
+    "columns": {
+      "employee": "الموظف",
+      "type": "النوع",
+      "dates": "التواريخ",
+      "department": "القسم",
+      "branch": "الفرع",
+      "submitted": "تاريخ الإرسال",
+      "actions": "إجراءات"
+    }
+  },
+  "branchesPage": {
+    "title": "الفروع والأقسام",
+    "subtitle": "اختر فرعاً لعرض أقسامه ومديريها وأعضاء الفريق.",
+    "columns": {
+      "branch": "الفرع",
+      "departments": "الأقسام",
+      "employees": "الموظفون",
+      "department": "القسم",
+      "manager": "المدير",
+      "members": "الأعضاء"
+    },
+    "openBranch": "فتح {branch}",
+    "viewDepartments": "عرض الأقسام",
+    "openDepartment": "فتح {department}",
+    "departmentCount": "{count, plural, =0 {0 أقسام} =1 {قسم واحد} other {# أقسام}}",
+    "employeeCount": "{count, plural, =0 {0 موظفين} =1 {موظف واحد} other {# موظفين}}",
+    "memberCount": "{count, plural, =0 {0 أعضاء} =1 {عضو واحد} other {# أعضاء}}",
+    "branchSubtitle": "{departments, plural, =0 {لا توجد أقسام} =1 {قسم واحد} other {# أقسام}} · {employees, plural, =0 {لا يوجد موظفون} =1 {موظف واحد} other {# موظفين}}",
+    "detailSubtitle": "{branch} · بإدارة {manager} · {count, plural, =0 {لا يوجد أعضاء} =1 {عضو واحد} other {# أعضاء}}",
+    "emptyDepartments": "لا توجد أقسام بموظفين في هذا الفرع بعد.",
+    "emptyMembers": "لا يوجد موظفون معيّنون لهذا القسم في هذا الفرع بعد.",
+    "accessDenied": "مدير النظام فقط يمكنه عرض الفروع والأقسام.",
+    "backToOverview": "العودة إلى النظرة العامة",
+    "backToBranches": "العودة إلى الفروع",
+    "backToBranch": "العودة إلى الفرع",
+    "branchNotFoundTitle": "الفرع غير موجود",
+    "branchNotFoundDescription": "هذا الفرع غير موجود أو غير متاح.",
+    "departmentNotFoundTitle": "القسم غير موجود",
+    "departmentNotFoundDescription": "هذا القسم غير متاح ضمن الفرع المحدد."
+  }
+}

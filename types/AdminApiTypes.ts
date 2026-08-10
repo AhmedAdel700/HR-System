@@ -1,0 +1,68 @@
+import type { BranchOption, DepartmentOption } from "@/lib/auth/register-options";
+
+export type AdminRole = "super_admin" | "department_manager";
+
+export type RegistrationRequestStatus = "pending" | "approved" | "rejected";
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  role: AdminRole;
+  department?: DepartmentOption;
+}
+
+export interface AdminEmployee {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  branch: BranchOption;
+  department: DepartmentOption;
+  position: string;
+  joinedAt: string;
+  status: "active" | "inactive";
+}
+
+export interface RegistrationRequest {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  branch: BranchOption;
+  department: DepartmentOption;
+  position: string;
+  status: RegistrationRequestStatus;
+  submittedAt: string;
+}
+
+export interface AdminDepartmentManager {
+  name: string;
+  email: string;
+  position: string;
+}
+
+export interface AdminDepartmentOverview {
+  department: DepartmentOption;
+  manager: AdminDepartmentManager;
+  members: AdminEmployee[];
+}
+
+export interface AdminBranchDepartmentSummary {
+  department: DepartmentOption;
+  manager: AdminDepartmentManager;
+  memberCount: number;
+}
+
+export interface AdminBranchOverview {
+  branch: BranchOption;
+  employeeCount: number;
+  departments: AdminBranchDepartmentSummary[];
+}
+
+export interface AdminBranchDepartmentOverview {
+  branch: BranchOption;
+  department: DepartmentOption;
+  manager: AdminDepartmentManager;
+  members: AdminEmployee[];
+}

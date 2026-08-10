@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { MainButton } from "@/components/shared/MainButton";
+import { MainButton, type ButtonVariant } from "@/components/shared/MainButton";
 
 export interface DeleteConfirmModalProps {
   open: boolean;
@@ -12,6 +12,7 @@ export interface DeleteConfirmModalProps {
   onConfirm: () => void;
   onCancel: () => void;
   loading?: boolean;
+  confirmVariant?: ButtonVariant;
 }
 
 export function DeleteConfirmModal({
@@ -23,12 +24,13 @@ export function DeleteConfirmModal({
   onConfirm,
   onCancel,
   loading = false,
+  confirmVariant = "delete",
 }: DeleteConfirmModalProps): ReactElement | null {
   if (!open) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="presentation"
     >
       <button
@@ -67,7 +69,7 @@ export function DeleteConfirmModal({
             {cancelLabel}
           </MainButton>
           <MainButton
-            variant="delete"
+            variant={confirmVariant}
             block
             loading={loading}
             onClick={onConfirm}

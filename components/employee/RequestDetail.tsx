@@ -11,8 +11,8 @@ import { leaveTypeSurface } from "@/lib/employee/demo-data";
 import {
   canModifyRequest,
   deleteRequest,
-  getRequestById,
-  getRequestsSnapshot,
+  getEmployeeRequestById,
+  getEmployeeRequestsSnapshot,
   subscribeRequests,
 } from "@/lib/employee/requestsStore";
 import { cn } from "@/lib/utils";
@@ -25,10 +25,10 @@ export function RequestDetail({ id }: { id: string }): ReactElement {
 
   useSyncExternalStore(
     subscribeRequests,
-    getRequestsSnapshot,
-    getRequestsSnapshot
+    getEmployeeRequestsSnapshot,
+    getEmployeeRequestsSnapshot
   );
-  const item = getRequestById(id);
+  const item = getEmployeeRequestById(id);
 
   if (!item) {
     notFound();

@@ -13,6 +13,7 @@ const namespaces = [
   "tabs",
   "auth",
   "employee",
+  "admin",
 ] as const;
 
 // Keep message namespaces listed above in sync with messages/<locale>/*.json

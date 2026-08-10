@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { Building2, Mail, MapPinned, Phone, User } from "lucide-react";
+import { Building2, Briefcase, Mail, MapPinned, Phone, User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { MainButton } from "@/components/shared/MainButton";
 import { MainInput } from "@/components/shared/MainInput";
@@ -34,6 +34,8 @@ export function RegisterForm() {
         phoneInvalid: t("errors.phoneInvalid"),
         branchRequired: t("errors.branchRequired"),
         departmentRequired: t("errors.departmentRequired"),
+        positionRequired: t("errors.positionRequired"),
+        positionMin: t("errors.positionMin"),
         passwordRequired: t("errors.passwordRequired"),
         passwordMin: t("errors.passwordMin"),
         confirmPasswordRequired: t("errors.confirmPasswordRequired"),
@@ -73,6 +75,7 @@ export function RegisterForm() {
       phone: "",
       branch: "",
       department: "",
+      position: "",
       password: "",
       confirmPassword: "",
     },
@@ -111,6 +114,15 @@ export function RegisterForm() {
         error={errors.phone?.message}
         {...register("phone")}
         placeholder={t("register.phonePlaceholder")}
+      />
+
+      <MainInput
+        label={t("register.position")}
+        autoComplete="organization-title"
+        startIcon={<Briefcase />}
+        error={errors.position?.message}
+        {...register("position")}
+        placeholder={t("register.positionPlaceholder")}
       />
 
       <div className="grid grid-cols-2 gap-3">
