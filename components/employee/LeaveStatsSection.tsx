@@ -1,10 +1,19 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { type ReactElement } from "react";
+import { useTranslations } from "next-intl";
 import { CalendarDays } from "lucide-react";
-import { DEMO_EMPLOYEE_ID } from "@/lib/employee/demo-data";
 import { LeaveBalanceGroupsList } from "@/components/employee/LeaveBalanceGroupsList";
 
-export async function LeaveBalanceSection() {
-  const t = await getTranslations("employee.leave");
+interface LeaveStatsSectionProps {
+  employeeId: string;
+}
+
+export function LeaveStatsSection({
+  employeeId,
+}: LeaveStatsSectionProps): ReactElement {
+  const tLeave = useTranslations("employee.leave");
+  const t = useTranslations("admin.employeeDetailPage.leaveStats");
 
   return (
     <section className="overflow-hidden rounded-2xl border border-border bg-surface shadow-xs">
@@ -14,12 +23,12 @@ export async function LeaveBalanceSection() {
         </span>
         <div className="min-w-0">
           <h2 className="text-sm font-semibold text-ink">{t("title")}</h2>
-          <p className="text-xs text-text-secondary">{t("subtitle")}</p>
+          <p className="text-xs text-text-secondary">{tLeave("subtitle")}</p>
         </div>
       </header>
 
       <div className="p-4">
-        <LeaveBalanceGroupsList employeeId={DEMO_EMPLOYEE_ID} />
+        <LeaveBalanceGroupsList employeeId={employeeId} />
       </div>
     </section>
   );

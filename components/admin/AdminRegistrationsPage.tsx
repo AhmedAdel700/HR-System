@@ -122,25 +122,25 @@ export function AdminRegistrationsPage(): ReactElement {
           <table className="w-full min-w-[960px] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border bg-surface-muted/60">
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.name")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.contact")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.position")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.department")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.branch")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.submitted")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.actions")}
                   </th>
                 </tr>

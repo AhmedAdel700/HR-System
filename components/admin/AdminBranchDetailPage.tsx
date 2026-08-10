@@ -102,16 +102,16 @@ export function AdminBranchDetailPage(): ReactElement {
             <table className="w-full min-w-[720px] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border bg-surface-muted/60">
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.department")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.manager")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.members")}
                   </th>
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                     {t("columns.actions")}
                   </th>
                 </tr>

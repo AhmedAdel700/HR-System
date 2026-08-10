@@ -19,6 +19,7 @@
     "employees": "الموظفون",
     "branches": "الفروع",
     "registrations": "طلبات التسجيل",
+    "leaveTypes": "أنواع الإجازات",
     "leaveRequests": "طلبات الإجازة",
     "departments": "الأقسام"
   },
@@ -86,19 +87,67 @@
       "inactive": "غير نشط"
     },
     "edit": "تعديل الموظف",
+    "view": "عرض الموظف",
     "delete": "حذف الموظف",
-    "editTitle": "تعديل الموظف",
+    "editTitle": "تعديل التعيين",
+    "editSubtitle": "يمكنك تحديث الفرع والقسم والمسمى الوظيفي فقط. لا يمكن تعديل بيانات التواصل من هنا.",
     "fields": {
       "name": "الاسم الكامل",
       "email": "البريد الإلكتروني",
       "phone": "الهاتف",
-      "position": "المسمى الوظيفي"
+      "position": "المسمى الوظيفي",
+      "branch": "الفرع",
+      "department": "القسم"
+    },
+    "placeholders": {
+      "branch": "اختر الفرع",
+      "department": "اختر القسم",
+      "position": "مثال: أخصائي موارد بشرية"
+    },
+    "errors": {
+      "branchRequired": "الفرع مطلوب.",
+      "departmentRequired": "القسم مطلوب.",
+      "positionRequired": "المسمى الوظيفي مطلوب.",
+      "positionMin": "يجب أن يكون المسمى الوظيفي حرفين على الأقل."
     },
     "save": "حفظ التعديلات",
     "cancel": "إلغاء",
     "deleteTitle": "حذف هذا الموظف؟",
     "deleteDescription": "لا يمكن التراجع عن هذا الإجراء. سيتم حذف سجل الموظف من الدليل.",
     "deleteConfirm": "حذف"
+  },
+  "employeeDetailPage": {
+    "backToEmployees": "العودة إلى الموظفين",
+    "subtitle": "{position}",
+    "deleteEmployee": "حذف الموظف",
+    "notFoundTitle": "الموظف غير موجود",
+    "notFoundDescription": "هذا الموظف غير موجود أو خارج نطاق صلاحياتك.",
+    "sections": {
+      "work": "العمل",
+      "contact": "التواصل",
+      "employment": "التوظيف"
+    },
+    "fields": {
+      "department": "القسم",
+      "branch": "الفرع",
+      "position": "المنصب",
+      "departmentManager": "مدير القسم",
+      "email": "البريد الإلكتروني",
+      "phone": "الهاتف",
+      "employeeId": "رقم الموظف",
+      "joinDate": "تاريخ الانضمام"
+    },
+    "leaveStats": {
+      "title": "رصيد الإجازات",
+      "subtitle": "الإجازات التي استخدمها هذا الموظف خلال هذه الفترة",
+      "remaining": "متبقي",
+      "usedOfTotal": "{used} مستخدم من {total} {unit}",
+      "summary": {
+        "daysRemaining": "الأيام المتبقية",
+        "hoursRemaining": "الساعات المتبقية",
+        "typesTracked": "أنواع الإجازات"
+      }
+    }
   },
   "registrations": {
     "title": "طلبات التسجيل",
@@ -296,6 +345,49 @@
       "nameMin": "يجب أن يكون اسم القسم حرفين على الأقل.",
       "managerRequired": "اختر موظفاً كمدير للقسم.",
       "duplicate": "يوجد قسم بهذا الاسم بالفعل في الفرع المحدد."
+    }
+  },
+  "createLeaveType": {
+    "title": "إنشاء نوع إجازة",
+    "subtitle": "أضف نوع إجازة جديد مع الوحدة والفئة والرصيد الافتراضي.",
+    "submit": "إنشاء نوع الإجازة",
+    "cancel": "إلغاء",
+    "fields": {
+      "name": "اسم نوع الإجازة",
+      "unit": "الوحدة",
+      "category": "الفئة",
+      "defaultEntitlement": "الرصيد الافتراضي"
+    },
+    "placeholders": {
+      "name": "مثال: إجازة سنوية",
+      "unit": "اختر الوحدة",
+      "category": "مثال: الإجازات الأساسية",
+      "defaultEntitlement": "مثال: 30"
+    },
+    "errors": {
+      "nameRequired": "اسم نوع الإجازة مطلوب.",
+      "nameMin": "يجب أن يكون اسم نوع الإجازة حرفين على الأقل.",
+      "unitRequired": "اختر وحدة.",
+      "categoryRequired": "الفئة مطلوبة.",
+      "categoryMin": "يجب أن تكون الفئة حرفين على الأقل.",
+      "entitlementRequired": "الرصيد الافتراضي مطلوب.",
+      "entitlementMin": "يجب أن يكون الرصيد الافتراضي 1 على الأقل."
+    }
+  },
+  "leaveTypesPage": {
+    "title": "أنواع الإجازات",
+    "subtitle": "إعداد أنواع الإجازات المتاحة في المنظمة.",
+    "create": "إنشاء نوع إجازة",
+    "searchPlaceholder": "البحث في أنواع الإجازات…",
+    "resultsTitle": "أنواع الإجازات ({count})",
+    "empty": "لم يتم إعداد أنواع إجازات بعد.",
+    "noResults": "لا توجد أنواع إجازات تطابق بحثك.",
+    "columns": {
+      "name": "نوع الإجازة",
+      "category": "الفئة",
+      "unit": "الوحدة",
+      "defaultEntitlement": "الرصيد الافتراضي",
+      "slug": "المعرّف"
     }
   },
   "departmentsPage": {

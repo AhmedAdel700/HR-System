@@ -5,9 +5,7 @@ import { useTranslations } from "next-intl";
 import {
   Building2,
   MapPinned,
-  UserCheck,
   UserPlus,
-  UserX,
   Users,
 } from "lucide-react";
 import { MainButton } from "@/components/shared/MainButton";
@@ -31,7 +29,25 @@ import {
   getRequestsSnapshot,
   subscribeRequests,
 } from "@/lib/employee/requestsStore";
+import type { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+interface OverviewStatItem {
+  key: string;
+  label: string;
+  value: number;
+  hint: string;
+  icon: LucideIcon;
+}
+
+function getOverviewStatGridClass(count: number): string {
+  const columns = Math.min(Math.max(count, 1), 4);
+
+  if (columns === 1) return "grid-cols-1";
+  if (columns === 2) return "grid-cols-1 sm:grid-cols-2";
+  if (columns === 3) return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3";
+  return "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4";
+}
 
 function StatCard({
   label,
@@ -42,7 +58,7 @@ function StatCard({
   label: string;
   value: string | number;
   hint: string;
-  icon: typeof Users;
+  icon: LucideIcon;
 }): ReactElement {
   return (
     <article className="relative overflow-hidden rounded-2xl border border-border bg-primary-50/15 p-4 shadow-xs">
@@ -151,8 +167,6 @@ export function AdminOverview(): ReactElement {
     .filter((item) => item.status === "pending")
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   const pendingLeave = pendingLeaveRequests.length;
-  const activeEmployees = employees.filter((item) => item.status === "active").length;
-  const inactiveEmployees = employees.filter((item) => item.status === "inactive").length;
   const departments = superAdmin
     ? new Set(employees.map((item) => item.department)).size
     : 0;
@@ -161,6 +175,42 @@ export function AdminOverview(): ReactElement {
     : 0;
   const registrationAttentionItems = pendingRegistrationRequests.slice(0, 3);
   const leaveAttentionItems = pendingLeaveRequests.slice(0, 3);
+
+  const statCards: OverviewStatItem[] = [
+    {
+      key: "employees",
+      label: t("employees"),
+      value: employees.length,
+      hint: t("employeesHint"),
+      icon: Users,
+    },
+    {
+      key: "pendingRegistrations",
+      label: t("pendingRegistrations"),
+      value: pendingRegistrations,
+      hint: t("pendingRegistrationsHint"),
+      icon: UserPlus,
+    },
+  ];
+
+  if (superAdmin) {
+    statCards.push(
+      {
+        key: "departments",
+        label: t("departments"),
+        value: departments,
+        hint: t("departmentsHint"),
+        icon: Building2,
+      },
+      {
+        key: "branches",
+        label: t("branches"),
+        value: branches,
+        hint: t("branchesHint"),
+        icon: MapPinned,
+      }
+    );
+  }
 
   return (
     <div className="space-y-[18px]">
@@ -173,50 +223,19 @@ export function AdminOverview(): ReactElement {
 
       <div
         className={cn(
-          "grid gap-[18px] sm:grid-cols-2",
-          superAdmin ? "xl:grid-cols-3" : "lg:grid-cols-4"
+          "grid gap-[18px]",
+          getOverviewStatGridClass(statCards.length)
         )}
       >
-        <StatCard
-          label={t("employees")}
-          value={employees.length}
-          hint={t("employeesHint")}
-          icon={Users}
-        />
-        <StatCard
-          label={t("activeEmployees")}
-          value={activeEmployees}
-          hint={t("activeEmployeesHint")}
-          icon={UserCheck}
-        />
-        <StatCard
-          label={t("pendingRegistrations")}
-          value={pendingRegistrations}
-          hint={t("pendingRegistrationsHint")}
-          icon={UserPlus}
-        />
-        {superAdmin ? (
-          <>
-            <StatCard
-              label={t("departments")}
-              value={departments}
-              hint={t("departmentsHint")}
-              icon={Building2}
-            />
-            <StatCard
-              label={t("branches")}
-              value={branches}
-              hint={t("branchesHint")}
-              icon={MapPinned}
-            />
-          </>
-        ) : null}
-        <StatCard
-          label={t("inactiveEmployees")}
-          value={inactiveEmployees}
-          hint={t("inactiveEmployeesHint")}
-          icon={UserX}
-        />
+        {statCards.map((stat) => (
+          <StatCard
+            key={stat.key}
+            label={stat.label}
+            value={stat.value}
+            hint={stat.hint}
+            icon={stat.icon}
+          />
+        ))}
       </div>
 
       <div className="grid gap-[18px] lg:grid-cols-2">

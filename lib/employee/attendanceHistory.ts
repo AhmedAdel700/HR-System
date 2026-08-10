@@ -51,6 +51,62 @@ function hashString(value: string): number {
   return hash;
 }
 
+function buildMonthForEmployee(
+  employeeId: string,
+  year: number,
+  monthIndex: number
+): AttendanceHistoryMonth {
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  const days: AttendanceHistoryDay[] = [];
+
+  for (let day = 1; day <= daysInMonth; day += 1) {
+    const date = new Date(year, monthIndex, day);
+    const iso = toISODateLocal(date);
+
+    if (isEgyptWeekend(date)) {
+      days.push({ date: iso, mark: "off" });
+      continue;
+    }
+
+    const roll = hashString(`${employeeId}:${iso}`) % 100;
+    if (roll < 7) {
+      days.push({ date: iso, mark: "off" });
+    } else if (roll < 15) {
+      days.push({ date: iso, mark: "absent" });
+    } else {
+      days.push({ date: iso, mark: "worked" });
+    }
+  }
+
+  return {
+    key: `${year}-${pad2(monthIndex + 1)}`,
+    year,
+    month: monthIndex + 1,
+    days,
+  };
+}
+
+export function getEmployeeAttendanceHistoryMonths(
+  employeeId: string,
+  count: number,
+  from: Date
+): AttendanceHistoryMonth[] {
+  const months: AttendanceHistoryMonth[] = [];
+  let year = from.getFullYear();
+  let monthIndex = from.getMonth() - 1;
+
+  for (let i = 0; i < count; i += 1) {
+    if (monthIndex < 0) {
+      monthIndex = 11;
+      year -= 1;
+    }
+    months.push(buildMonthForEmployee(employeeId, year, monthIndex));
+    monthIndex -= 1;
+  }
+
+  return months;
+}
+
 function buildMonth(year: number, monthIndex: number): AttendanceHistoryMonth {
   const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
   const days: AttendanceHistoryDay[] = [];

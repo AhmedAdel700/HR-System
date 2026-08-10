@@ -9,7 +9,20 @@ import type { RequestFormValues } from "@/schemas/employee/request.schema";
 let requests: DemoRequest[] = demoRequests.map((item) => ({ ...item }));
 const listeners = new Set<() => void>();
 
+let employeeRequestsSnapshot: DemoRequest[] = [];
+
+function refreshEmployeeRequestsSnapshot(
+  employeeId: string = DEMO_EMPLOYEE_ID
+): void {
+  employeeRequestsSnapshot = requests.filter(
+    (item) => item.employeeId === employeeId
+  );
+}
+
+refreshEmployeeRequestsSnapshot();
+
 function emit(): void {
+  refreshEmployeeRequestsSnapshot();
   for (const listener of listeners) {
     listener();
   }
@@ -29,7 +42,10 @@ export function getRequestsSnapshot(): DemoRequest[] {
 export function getEmployeeRequestsSnapshot(
   employeeId: string = DEMO_EMPLOYEE_ID
 ): DemoRequest[] {
-  return requests.filter((item) => item.employeeId === employeeId);
+  if (employeeId !== DEMO_EMPLOYEE_ID) {
+    return requests.filter((item) => item.employeeId === employeeId);
+  }
+  return employeeRequestsSnapshot;
 }
 
 export function getRequestById(id: string): DemoRequest | undefined {

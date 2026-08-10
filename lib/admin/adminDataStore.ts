@@ -46,6 +46,10 @@ export function getEmployeesSnapshot(): AdminEmployee[] {
   return employees;
 }
 
+export function getEmployeeById(id: string): AdminEmployee | undefined {
+  return employees.find((item) => item.id === id);
+}
+
 export function getRegistrationsSnapshot(): RegistrationRequest[] {
   return registrations;
 }
@@ -60,7 +64,9 @@ export function deleteEmployee(id: string): boolean {
 
 export function updateEmployee(
   id: string,
-  patch: Partial<Pick<AdminEmployee, "name" | "email" | "phone" | "position" | "status">>
+  patch: Partial<
+    Pick<AdminEmployee, "branch" | "department" | "position">
+  >
 ): AdminEmployee | undefined {
   const index = employees.findIndex((item) => item.id === id);
   if (index < 0) return undefined;

@@ -181,7 +181,9 @@
   },
   "leave": {
     "title": "Leave balance",
-    "subtitle": "Remaining entitlements for this period",
+    "subtitle": "Used and remaining leave for this period",
+    "usedLabel": "used",
+    "remainingLabel": "left",
     "groups": {
       "core": "Time off",
       "family": "Family",

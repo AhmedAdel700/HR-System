@@ -1,6 +1,7 @@
 import {
   Building2,
   CalendarDays,
+  ClipboardList,
   LayoutDashboard,
   MapPinned,
   UserPlus,
@@ -16,6 +17,7 @@ export interface AdminNavItem {
     | "overview"
     | "employees"
     | "registrations"
+    | "leaveTypes"
     | "leaveRequests"
     | "branches"
     | "departments";
@@ -50,6 +52,13 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
     key: "departments",
     icon: Building2,
     match: (pathname) => pathname.startsWith("/admin-dashboard/departments"),
+    superAdminOnly: true,
+  },
+  {
+    href: "/admin-dashboard/leave-types",
+    key: "leaveTypes",
+    icon: ClipboardList,
+    match: (pathname) => pathname.startsWith("/admin-dashboard/leave-types"),
     superAdminOnly: true,
   },
   {

@@ -98,10 +98,15 @@ function MonthAttendanceCalendar({
   );
 }
 
-export function AttendanceHistorySection(): ReactElement {
+interface AttendanceHistorySectionProps {
+  months?: readonly AttendanceHistoryMonth[];
+}
+
+export function AttendanceHistorySection({
+  months = MOCK_ATTENDANCE_HISTORY_MONTHS,
+}: AttendanceHistorySectionProps): ReactElement {
   const t = useTranslations("employee.home.attendanceHistory");
   const locale = useLocale();
-  const months = MOCK_ATTENDANCE_HISTORY_MONTHS;
 
   const [openMonths, setOpenMonths] = useState<ReadonlySet<string>>(
     () => new Set(months[0] ? [months[0].key] : [])

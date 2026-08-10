@@ -19,6 +19,7 @@
     "employees": "Employees",
     "branches": "Branches",
     "registrations": "Registrations",
+    "leaveTypes": "Leave types",
     "leaveRequests": "Leave requests",
     "departments": "Departments"
   },
@@ -86,19 +87,67 @@
       "inactive": "Inactive"
     },
     "edit": "Edit employee",
+    "view": "View employee",
     "delete": "Delete employee",
-    "editTitle": "Edit employee",
+    "editTitle": "Edit assignment",
+    "editSubtitle": "Update branch, department, and position only. Contact details cannot be changed here.",
     "fields": {
       "name": "Full name",
       "email": "Email",
       "phone": "Phone",
-      "position": "Position"
+      "position": "Position",
+      "branch": "Branch",
+      "department": "Department"
+    },
+    "placeholders": {
+      "branch": "Select branch",
+      "department": "Select department",
+      "position": "e.g. HR Specialist"
+    },
+    "errors": {
+      "branchRequired": "Branch is required.",
+      "departmentRequired": "Department is required.",
+      "positionRequired": "Position is required.",
+      "positionMin": "Position must be at least 2 characters."
     },
     "save": "Save changes",
     "cancel": "Cancel",
     "deleteTitle": "Delete this employee?",
     "deleteDescription": "This cannot be undone. The employee record will be removed from the directory.",
     "deleteConfirm": "Delete"
+  },
+  "employeeDetailPage": {
+    "backToEmployees": "Back to employees",
+    "subtitle": "{position}",
+    "deleteEmployee": "Delete employee",
+    "notFoundTitle": "Employee not found",
+    "notFoundDescription": "This employee does not exist or is not in your access scope.",
+    "sections": {
+      "work": "Work",
+      "contact": "Contact",
+      "employment": "Employment"
+    },
+    "fields": {
+      "department": "Department",
+      "branch": "Branch",
+      "position": "Position",
+      "departmentManager": "Department manager",
+      "email": "Email",
+      "phone": "Phone",
+      "employeeId": "Employee ID",
+      "joinDate": "Join date"
+    },
+    "leaveStats": {
+      "title": "Leave balance",
+      "subtitle": "Leave used by this employee during this period",
+      "remaining": "left",
+      "usedOfTotal": "{used} used of {total} {unit}",
+      "summary": {
+        "daysRemaining": "Days remaining",
+        "hoursRemaining": "Hours remaining",
+        "typesTracked": "Leave types"
+      }
+    }
   },
   "registrations": {
     "title": "Registration requests",
@@ -296,6 +345,49 @@
       "nameMin": "Department name must be at least 2 characters.",
       "managerRequired": "Select an employee as department manager.",
       "duplicate": "A department with this name already exists in the selected branch."
+    }
+  },
+  "createLeaveType": {
+    "title": "Create leave type",
+    "subtitle": "Add a new leave type with its unit, category, and default entitlement.",
+    "submit": "Create leave type",
+    "cancel": "Cancel",
+    "fields": {
+      "name": "Leave type name",
+      "unit": "Unit",
+      "category": "Category",
+      "defaultEntitlement": "Default entitlement"
+    },
+    "placeholders": {
+      "name": "e.g. Annual leave",
+      "unit": "Select unit",
+      "category": "e.g. Time off",
+      "defaultEntitlement": "e.g. 30"
+    },
+    "errors": {
+      "nameRequired": "Leave type name is required.",
+      "nameMin": "Leave type name must be at least 2 characters.",
+      "unitRequired": "Select a unit.",
+      "categoryRequired": "Category is required.",
+      "categoryMin": "Category must be at least 2 characters.",
+      "entitlementRequired": "Default entitlement is required.",
+      "entitlementMin": "Default entitlement must be at least 1."
+    }
+  },
+  "leaveTypesPage": {
+    "title": "Leave types",
+    "subtitle": "Configure leave types available across the organization.",
+    "create": "Create leave type",
+    "searchPlaceholder": "Search leave types…",
+    "resultsTitle": "Leave types ({count})",
+    "empty": "No leave types configured yet.",
+    "noResults": "No leave types match your search.",
+    "columns": {
+      "name": "Leave type",
+      "category": "Category",
+      "unit": "Unit",
+      "defaultEntitlement": "Default entitlement",
+      "slug": "Slug"
     }
   },
   "departmentsPage": {

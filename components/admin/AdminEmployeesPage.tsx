@@ -2,16 +2,16 @@
 
 import { useMemo, useState, useSyncExternalStore, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
-import { Pencil, Search, Trash2 } from "lucide-react";
-import { DeleteConfirmModal } from "@/components/shared/DeleteConfirmModal";
+import { Eye, Pencil, Search } from "lucide-react";
+import { useRouter } from "@/i18n/navigation";
 import { MainButton } from "@/components/shared/MainButton";
+import { EditEmployeeAssignmentModal } from "@/components/admin/EditEmployeeAssignmentModal";
 import { MainInput } from "@/components/shared/MainInput";
 import { TablePagination } from "@/components/shared/TablePagination";
 import {
-  deleteEmployee,
+  getEmployeeById,
   getEmployeesSnapshot,
   subscribeEmployees,
-  updateEmployee,
 } from "@/lib/admin/adminDataStore";
 import {
   getAdminSessionSnapshot,
@@ -25,9 +25,8 @@ import {
   BRANCH_OPTIONS,
   DEPARTMENT_OPTIONS,
 } from "@/lib/auth/register-options";
-import type { AdminEmployee } from "@/types/AdminApiTypes";
-import { filterEmployeesByBranchAndDepartment } from "@/lib/admin/filterEmployees";
 import { getDepartmentManagerName } from "@/lib/admin/departmentManagers";
+import { filterEmployeesByBranchAndDepartment } from "@/lib/admin/filterEmployees";
 import { searchEmployees } from "@/lib/admin/searchEmployees";
 import { MainSelect } from "@/components/shared/MainSelect";
 
@@ -37,6 +36,7 @@ export function AdminEmployeesPage(): ReactElement {
   const t = useTranslations("admin.employees");
   const tDept = useTranslations("admin.departments");
   const tBranch = useTranslations("auth.branchOptions");
+  const router = useRouter();
 
   useSyncExternalStore(subscribeAdminSession, getAdminSessionSnapshot, getAdminSessionSnapshot);
   useSyncExternalStore(subscribeEmployees, getEmployeesSnapshot, getEmployeesSnapshot);
@@ -123,38 +123,12 @@ export function AdminEmployeesPage(): ReactElement {
     setPage(1);
   };
 
-  const [editing, setEditing] = useState<AdminEmployee | null>(null);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [draft, setDraft] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    position: "",
-  });
+  const [editingEmployeeId, setEditingEmployeeId] = useState<string | null>(null);
+  const editingEmployee = editingEmployeeId
+    ? getEmployeeById(editingEmployeeId)
+    : undefined;
 
-  const openEdit = (employee: AdminEmployee): void => {
-    setEditing(employee);
-    setDraft({
-      name: employee.name,
-      email: employee.email,
-      phone: employee.phone,
-      position: employee.position,
-    });
-  };
-
-  const saveEdit = (): void => {
-    if (!editing) return;
-    updateEmployee(editing.id, draft);
-    setEditing(null);
-  };
-
-  const confirmDelete = (): void => {
-    if (!deleteId) return;
-    deleteEmployee(deleteId);
-    setDeleteId(null);
-  };
-
-  const columnCount = canManage ? 6 : 5;
+  const columnCount = 6;
   const emptyMessage =
     employees.length === 0 ? t("emptyEmployees") : t("noResults");
 
@@ -239,26 +213,24 @@ export function AdminEmployeesPage(): ReactElement {
           <table className="w-full min-w-[840px] border-collapse text-sm">
             <thead>
               <tr className="border-b border-border bg-surface-muted/60">
-                <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                   {t("columns.name")}
                 </th>
-                <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                   {t("columns.contact")}
                 </th>
-                <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                   {t("columns.position")}
                 </th>
-                <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                   {t("columns.department")}
                 </th>
-                <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
+                <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                   {t("columns.departmentManager")}
                 </th>
-                {canManage ? (
-                  <th className="px-4 py-3 text-start text-xs font-semibold text-text-muted">
-                    {t("columns.actions")}
-                  </th>
-                ) : null}
+                <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  {t("columns.actions")}
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -293,28 +265,32 @@ export function AdminEmployeesPage(): ReactElement {
                   <td className="px-4 py-3 text-start text-text-secondary">
                     {getDepartmentManagerName(employee.department)}
                   </td>
-                  {canManage ? (
-                    <td className="px-4 py-3">
-                      <div className="flex justify-start gap-2">
+                  <td className="px-4 py-3">
+                    <div className="flex justify-start gap-2">
+                      <MainButton
+                        variant="edit-soft"
+                        size="sm"
+                        iconOnly
+                        aria-label={t("view")}
+                        startIcon={<Eye className="size-4" />}
+                        onClick={() =>
+                          router.push(
+                            `/admin-dashboard/employees/${employee.id}`
+                          )
+                        }
+                      />
+                      {canManage ? (
                         <MainButton
                           variant="edit-soft"
                           size="sm"
                           iconOnly
                           aria-label={t("edit")}
                           startIcon={<Pencil className="size-4" />}
-                          onClick={() => openEdit(employee)}
+                          onClick={() => setEditingEmployeeId(employee.id)}
                         />
-                        <MainButton
-                          variant="delete-soft"
-                          size="sm"
-                          iconOnly
-                          aria-label={t("delete")}
-                          startIcon={<Trash2 className="size-4" />}
-                          onClick={() => setDeleteId(employee.id)}
-                        />
-                      </div>
-                    </td>
-                  ) : null}
+                      ) : null}
+                    </div>
+                  </td>
                 </tr>
                 ))
               )}
@@ -336,68 +312,13 @@ export function AdminEmployeesPage(): ReactElement {
       </div>
       </section>
 
-      {editing ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <button
-            type="button"
-            aria-label={t("cancel")}
-            className="absolute inset-0 cursor-pointer bg-ink/50"
-            onClick={() => setEditing(null)}
-          />
-          <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-surface p-4 shadow-md">
-            <h2 className="text-base font-semibold text-ink">{t("editTitle")}</h2>
-            <div className="mt-4 flex flex-col gap-3">
-              <MainInput
-                label={t("fields.name")}
-                value={draft.name}
-                onChange={(e) =>
-                  setDraft((prev) => ({ ...prev, name: e.target.value }))
-                }
-              />
-              <MainInput
-                label={t("fields.email")}
-                type="email"
-                value={draft.email}
-                onChange={(e) =>
-                  setDraft((prev) => ({ ...prev, email: e.target.value }))
-                }
-              />
-              <MainInput
-                label={t("fields.phone")}
-                value={draft.phone}
-                onChange={(e) =>
-                  setDraft((prev) => ({ ...prev, phone: e.target.value }))
-                }
-              />
-              <MainInput
-                label={t("fields.position")}
-                value={draft.position}
-                onChange={(e) =>
-                  setDraft((prev) => ({ ...prev, position: e.target.value }))
-                }
-              />
-            </div>
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <MainButton variant="neutral" block onClick={() => setEditing(null)}>
-                {t("cancel")}
-              </MainButton>
-              <MainButton variant="primary" block onClick={saveEdit}>
-                {t("save")}
-              </MainButton>
-            </div>
-          </div>
-        </div>
+      {editingEmployee ? (
+        <EditEmployeeAssignmentModal
+          employee={editingEmployee}
+          open={Boolean(editingEmployeeId)}
+          onClose={() => setEditingEmployeeId(null)}
+        />
       ) : null}
-
-      <DeleteConfirmModal
-        open={deleteId !== null}
-        title={t("deleteTitle")}
-        description={t("deleteDescription")}
-        confirmLabel={t("deleteConfirm")}
-        cancelLabel={t("cancel")}
-        onCancel={() => setDeleteId(null)}
-        onConfirm={confirmDelete}
-      />
     </div>
   );
 }
