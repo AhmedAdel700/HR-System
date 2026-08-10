@@ -213,6 +213,7 @@ export function AdminLeaveRequestsPage(): ReactElement {
                     variant="ghost-brand"
                     size="sm"
                     type="button"
+                    className="hidden lg:inline-flex"
                     onClick={clearFilters}
                   >
                     {tFilters("clear")}
@@ -220,7 +221,18 @@ export function AdminLeaveRequestsPage(): ReactElement {
                 ) : null}
               </div>
             ) : null}
-            <div className="flex w-full items-center lg:w-auto lg:ms-auto">
+            <div className="flex w-full items-center gap-3 lg:w-auto lg:ms-auto">
+              {hasActiveFilters ? (
+                <MainButton
+                  variant="ghost-brand"
+                  size="sm"
+                  type="button"
+                  className="lg:hidden"
+                  onClick={clearFilters}
+                >
+                  {tFilters("clear")}
+                </MainButton>
+              ) : null}
               <h2 className="ms-auto shrink-0 text-sm font-semibold text-ink lg:ms-0">
                 {t("pendingTitle", { count: filteredPending.length })}
               </h2>

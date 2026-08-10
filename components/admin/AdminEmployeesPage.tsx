@@ -207,6 +207,7 @@ export function AdminEmployeesPage(): ReactElement {
                     variant="ghost-brand"
                     size="sm"
                     type="button"
+                    className="hidden lg:inline-flex"
                     onClick={clearFilters}
                   >
                     {t("filters.clear")}
@@ -214,7 +215,18 @@ export function AdminEmployeesPage(): ReactElement {
                 ) : null}
               </div>
             ) : null}
-            <div className="flex w-full items-center lg:w-auto lg:ms-auto">
+            <div className="flex w-full items-center gap-3 lg:w-auto lg:ms-auto">
+              {hasActiveFilters ? (
+                <MainButton
+                  variant="ghost-brand"
+                  size="sm"
+                  type="button"
+                  className="lg:hidden"
+                  onClick={clearFilters}
+                >
+                  {t("filters.clear")}
+                </MainButton>
+              ) : null}
               <p className="ms-auto shrink-0 text-sm font-semibold text-ink lg:ms-0">
                 {t("resultsTitle", { count: filteredEmployees.length })}
               </p>

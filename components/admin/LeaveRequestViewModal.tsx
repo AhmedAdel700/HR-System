@@ -49,85 +49,89 @@ export function LeaveRequestViewModal({
   if (!open || !request) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain">
       <button
         type="button"
         aria-label={t("close")}
-        className="absolute inset-0 cursor-pointer bg-ink/50"
+        className="fixed inset-0 cursor-pointer bg-ink/50"
         onClick={onClose}
       />
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="leave-request-view-title"
-        className="relative z-10 w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-surface p-4 shadow-md"
-      >
-        <div className="space-y-3">
-          <div className="space-y-2">
-            <span
-              className={cn(
-                "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium",
-                leaveTypeSurface[request.type].soft
-              )}
-            >
-              {tType(request.type)}
-            </span>
-            <h2
-              id="leave-request-view-title"
-              className="text-base font-semibold text-ink"
-            >
-              {t("detailTitle")}
-            </h2>
+      <div className="flex min-h-full items-center justify-center p-4">
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="leave-request-view-title"
+          className="relative z-10 flex w-full max-w-lg max-h-[calc(100dvh-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-md"
+        >
+          <div className="min-h-0 flex-1 overflow-y-auto p-4">
+            <div className="space-y-3">
+              <div className="space-y-2">
+                <span
+                  className={cn(
+                    "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+                    leaveTypeSurface[request.type].soft
+                  )}
+                >
+                  {tType(request.type)}
+                </span>
+                <h2
+                  id="leave-request-view-title"
+                  className="text-base font-semibold text-ink"
+                >
+                  {t("detailTitle")}
+                </h2>
+              </div>
+
+              <dl className="grid grid-cols-1 gap-x-4 gap-y-3 rounded-xl border border-border bg-surface-muted/30 p-3 sm:grid-cols-2">
+                <DetailField label={t("columns.employee")}>
+                  <span className="font-medium">{request.employeeName}</span>
+                </DetailField>
+                <DetailField label={tFields("dates")}>
+                  <span className="font-medium">
+                    {formatRequestDates(request.from, request.to)}
+                  </span>
+                </DetailField>
+                {request.startTime && request.endTime ? (
+                  <DetailField label={tFields("hours")}>
+                    <span className="font-medium">
+                      {request.startTime} → {request.endTime}
+                    </span>
+                  </DetailField>
+                ) : null}
+                {superAdmin ? (
+                  <>
+                    <DetailField label={t("columns.branch")}>
+                      <span className="text-text-secondary">
+                        {tBranch(request.branch)}
+                      </span>
+                    </DetailField>
+                    <DetailField label={t("columns.department")}>
+                      <span className="text-text-secondary">
+                        {tDept(request.department)}
+                      </span>
+                    </DetailField>
+                  </>
+                ) : null}
+                <DetailField label={tFields("createdAt")}>
+                  <span className="font-medium">{request.createdAt}</span>
+                </DetailField>
+                <DetailField label={tFields("reason")} className="sm:col-span-2">
+                  <span className="text-text-secondary">{request.reason}</span>
+                </DetailField>
+                {request.note ? (
+                  <DetailField label={tFields("note")} className="sm:col-span-2">
+                    <span className="text-text-secondary">{request.note}</span>
+                  </DetailField>
+                ) : null}
+              </dl>
+            </div>
           </div>
 
-          <dl className="grid grid-cols-2 gap-x-4 gap-y-3 rounded-xl border border-border bg-surface-muted/30 p-3">
-            <DetailField label={t("columns.employee")}>
-              <span className="font-medium">{request.employeeName}</span>
-            </DetailField>
-            <DetailField label={tFields("dates")}>
-              <span className="font-medium">
-                {formatRequestDates(request.from, request.to)}
-              </span>
-            </DetailField>
-            {request.startTime && request.endTime ? (
-              <DetailField label={tFields("hours")}>
-                <span className="font-medium">
-                  {request.startTime} → {request.endTime}
-                </span>
-              </DetailField>
-            ) : null}
-            {superAdmin ? (
-              <>
-                <DetailField label={t("columns.branch")}>
-                  <span className="text-text-secondary">
-                    {tBranch(request.branch)}
-                  </span>
-                </DetailField>
-                <DetailField label={t("columns.department")}>
-                  <span className="text-text-secondary">
-                    {tDept(request.department)}
-                  </span>
-                </DetailField>
-              </>
-            ) : null}
-            <DetailField label={tFields("createdAt")}>
-              <span className="font-medium">{request.createdAt}</span>
-            </DetailField>
-            <DetailField label={tFields("reason")} className="col-span-2">
-              <span className="text-text-secondary">{request.reason}</span>
-            </DetailField>
-            {request.note ? (
-              <DetailField label={tFields("note")} className="col-span-2">
-                <span className="text-text-secondary">{request.note}</span>
-              </DetailField>
-            ) : null}
-          </dl>
-        </div>
-
-        <div className="mt-4">
-          <MainButton variant="neutral" block onClick={onClose}>
-            {t("close")}
-          </MainButton>
+          <div className="shrink-0 border-t border-border p-4">
+            <MainButton variant="neutral" block onClick={onClose}>
+              {t("close")}
+            </MainButton>
+          </div>
         </div>
       </div>
     </div>
