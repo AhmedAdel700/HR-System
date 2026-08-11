@@ -167,6 +167,9 @@ export function AdminRegistrationsPage(): ReactElement {
                       <td className="px-4 py-3 text-start">
                         <p className="text-ink">{request.email}</p>
                         <p className="text-xs text-text-muted">{request.phone}</p>
+                        <p className="text-xs font-mono tabular-nums text-text-muted">
+                          {request.fingerprintNumber}
+                        </p>
                       </td>
                       <td className="px-4 py-3 text-start text-text-secondary">
                         {request.position}

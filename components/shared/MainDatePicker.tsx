@@ -11,6 +11,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { MainButton } from "@/components/shared/MainButton";
 import { cn } from "@/lib/utils";
 
 export interface MainDatePickerProps {
@@ -223,27 +224,31 @@ export function MainDatePicker({
           </div>
 
           <div className="flex items-center justify-between gap-2 border-t border-border px-2 py-1.5">
-            <button
+            <MainButton
               type="button"
+              variant="ghost-brand"
+              size="xs"
               disabled={todayDisabled}
               onClick={() => {
                 setMonth(today);
                 selectDate(today);
               }}
-              className="cursor-pointer rounded-md px-2 py-1 text-xs font-semibold text-primary-700 transition-colors hover:bg-primary-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="h-auto px-2 py-1 font-semibold shadow-none"
             >
               {t("today")}
-            </button>
-            <button
+            </MainButton>
+            <MainButton
               type="button"
+              variant="ghost"
+              size="xs"
               disabled={!selected}
               onClick={() => {
                 selectDate(undefined);
               }}
-              className="cursor-pointer rounded-md px-2 py-1 text-xs font-medium text-text-secondary transition-colors hover:bg-surface-muted hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
+              className="h-auto px-2 py-1 font-medium shadow-none"
             >
               {t("clearDate")}
-            </button>
+            </MainButton>
           </div>
         </PopoverContent>
       </Popover>

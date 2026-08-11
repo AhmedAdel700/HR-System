@@ -2,6 +2,7 @@
 
 import type { ReactElement } from "react";
 import { MainButton, type ButtonVariant } from "@/components/shared/MainButton";
+import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
 
 export interface DeleteConfirmModalProps {
   open: boolean;
@@ -33,12 +34,11 @@ export function DeleteConfirmModal({
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       role="presentation"
     >
-      <button
-        type="button"
-        aria-label={cancelLabel}
-        className="absolute inset-0 cursor-pointer bg-ink/50"
+      <ModalBackdrop
+        ariaLabel={cancelLabel}
         onClick={onCancel}
         disabled={loading}
+        position="absolute"
       />
       <div
         role="alertdialog"

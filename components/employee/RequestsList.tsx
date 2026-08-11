@@ -81,15 +81,25 @@ export function RequestsList() {
 
             return (
               <section key={group.key} className="space-y-3">
-                <button
+                <MainButton
                   type="button"
+                  variant="ghost"
+                  block
                   onClick={() => toggleMonth(group.key)}
                   aria-expanded={isOpen}
                   aria-controls={panelId}
+                  endIcon={
+                    <ChevronDown
+                      className={cn(
+                        "size-4 shrink-0 text-text-muted transition-transform duration-200",
+                        isOpen && "rotate-180"
+                      )}
+                    />
+                  }
                   className={cn(
-                    "flex w-full cursor-pointer items-center justify-between gap-3 rounded-xl px-3 py-2.5 text-start transition-colors",
+                    "h-auto w-full justify-between gap-3 rounded-xl px-3 py-2.5 text-start font-normal shadow-none ring-0",
                     isOpen
-                      ? "bg-transparent"
+                      ? "bg-transparent hover:bg-transparent"
                       : "bg-surface-muted hover:bg-neutral-200/70"
                   )}
                 >
@@ -101,14 +111,7 @@ export function RequestsList() {
                       {t("monthCount", { count: group.items.length })}
                     </span>
                   </span>
-                  <ChevronDown
-                    className={cn(
-                      "size-4 shrink-0 text-text-muted transition-transform duration-200",
-                      isOpen && "rotate-180"
-                    )}
-                    aria-hidden
-                  />
-                </button>
+                </MainButton>
 
                 {isOpen ? (
                   <ul id={panelId} className="space-y-3">

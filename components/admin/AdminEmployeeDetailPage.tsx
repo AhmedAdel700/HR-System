@@ -10,8 +10,10 @@ import {
   Hash,
   Mail,
   MapPinned,
+  Fingerprint,
   Pencil,
   Phone,
+  Trash2,
   UserRound,
   Users,
 } from "lucide-react";
@@ -170,6 +172,11 @@ export function AdminEmployeeDetailPage(): ReactElement {
             icon={Hash}
           />
           <DetailField
+            label={t("fields.fingerprintNumber")}
+            value={employee.fingerprintNumber}
+            icon={Fingerprint}
+          />
+          <DetailField
             label={t("fields.joinDate")}
             value={employee.joinedAt}
             icon={CalendarDays}
@@ -195,7 +202,12 @@ export function AdminEmployeeDetailPage(): ReactElement {
           ) : null}
 
           {canDelete ? (
-            <MainButton variant="delete" block onClick={() => setDeleteOpen(true)}>
+            <MainButton
+              variant="delete"
+              block
+              startIcon={<Trash2 className="size-4" />}
+              onClick={() => setDeleteOpen(true)}
+            >
               {t("deleteEmployee")}
             </MainButton>
           ) : null}

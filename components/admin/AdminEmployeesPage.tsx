@@ -128,7 +128,7 @@ export function AdminEmployeesPage(): ReactElement {
     ? getEmployeeById(editingEmployeeId)
     : undefined;
 
-  const columnCount = 6;
+  const columnCount = 7;
   const emptyMessage =
     employees.length === 0 ? t("emptyEmployees") : t("noResults");
 
@@ -210,7 +210,7 @@ export function AdminEmployeesPage(): ReactElement {
 
       <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-xs">
         <div className="admin-scroll-visible overflow-x-auto">
-          <table className="w-full min-w-[840px] border-collapse text-sm">
+          <table className="w-full min-w-[960px] border-collapse text-sm">
             <thead>
               <tr className="border-b border-border bg-surface-muted/60">
                 <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
@@ -218,6 +218,9 @@ export function AdminEmployeesPage(): ReactElement {
                 </th>
                 <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                   {t("columns.contact")}
+                </th>
+                <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  {t("columns.fingerprintNumber")}
                 </th>
                 <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
                   {t("columns.position")}
@@ -255,6 +258,9 @@ export function AdminEmployeesPage(): ReactElement {
                   <td className="px-4 py-3 text-start">
                     <p className="text-ink">{employee.email}</p>
                     <p className="text-xs text-text-muted">{employee.phone}</p>
+                  </td>
+                  <td className="px-4 py-3 text-start font-mono text-sm tabular-nums text-text-secondary">
+                    {employee.fingerprintNumber}
                   </td>
                   <td className="px-4 py-3 text-start text-text-secondary">
                     {employee.position}

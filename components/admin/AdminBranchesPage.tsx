@@ -7,6 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { CreateBranchModal } from "@/components/admin/CreateBranchModal";
 import { DeleteConfirmModal } from "@/components/shared/DeleteConfirmModal";
 import { MainButton } from "@/components/shared/MainButton";
+import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
 import { MainInput } from "@/components/shared/MainInput";
 import { buildBranchOverviews } from "@/lib/admin/buildBranchOverviews";
 import {
@@ -239,10 +240,8 @@ export function AdminBranchesPage(): ReactElement {
 
       {editing ? (
         <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain">
-          <button
-            type="button"
-            aria-label={t("cancel")}
-            className="fixed inset-0 cursor-pointer bg-ink/50"
+          <ModalBackdrop
+            ariaLabel={t("cancel")}
             onClick={() => setEditing(null)}
           />
           <div className="flex min-h-full items-center justify-center p-4">

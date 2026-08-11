@@ -72,6 +72,10 @@ export async function Profile() {
         <dl className="space-y-3">
           <DetailRow label={tLabel("email")} value={t("email")} />
           <DetailRow label={tLabel("phone")} value={t("phone")} />
+          <DetailRow
+            label={tLabel("fingerprintNumber")}
+            value={demoEmployee.fingerprintNumber}
+          />
         </dl>
       </section>
 

@@ -152,17 +152,18 @@ export function AdminSidebar(): ReactElement {
       : ChevronsRight;
 
   const renderCollapseButton = (compact: boolean): ReactElement => (
-    <button
+    <MainButton
       type="button"
-      onClick={toggleExpanded}
+      variant="ghost"
+      iconOnly
       aria-label={sidebarExpanded ? t("sidebar.collapse") : t("sidebar.expand")}
+      onClick={toggleExpanded}
       className={cn(
-        "flex cursor-pointer items-center justify-center rounded-xl text-text-muted transition-colors hover:bg-surface-muted hover:text-text-secondary",
-        compact ? "w-full px-2 py-2.5" : "size-9 shrink-0"
+        "rounded-xl text-text-muted hover:text-text-secondary",
+        compact ? "h-auto w-full px-2 py-2.5" : "size-9"
       )}
-    >
-      <CollapseIcon className="size-5" strokeWidth={1.75} />
-    </button>
+      startIcon={<CollapseIcon className="size-5" strokeWidth={1.75} />}
+    />
   );
 
   const sidebarContent = (

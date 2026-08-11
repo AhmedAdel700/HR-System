@@ -114,17 +114,17 @@ export function EmployeeManagerPicker({
           ) : (
             filteredEmployees.map((employee) => (
               <li key={employee.id}>
-                <button
+                <MainButton
                   type="button"
+                  variant="neutral"
+                  block
                   onClick={() => handleSelect(employee.id)}
-                  className={cn(
-                    "w-full cursor-pointer rounded-lg border border-border bg-surface px-3 py-2.5 text-start transition-colors hover:border-border-strong hover:bg-surface-muted/60"
-                  )}
+                  className="h-auto flex-col items-start justify-start gap-0 rounded-lg px-3 py-2.5 text-start font-normal"
                 >
                   <p className="text-sm font-medium text-ink">{employee.name}</p>
                   <p className="text-xs text-text-secondary">{employee.email}</p>
                   <p className="text-xs text-text-muted">{employee.position}</p>
-                </button>
+                </MainButton>
               </li>
             ))
           )}

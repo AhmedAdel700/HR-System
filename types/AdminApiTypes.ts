@@ -17,6 +17,7 @@ export interface AdminEmployee {
   name: string;
   email: string;
   phone: string;
+  fingerprintNumber: string;
   branch: BranchOption;
   department: DepartmentOption;
   position: string;
@@ -29,6 +30,7 @@ export interface RegistrationRequest {
   name: string;
   email: string;
   phone: string;
+  fingerprintNumber: string;
   branch: BranchOption;
   department: DepartmentOption;
   position: string;

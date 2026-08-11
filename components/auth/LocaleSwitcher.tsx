@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { MainButton } from "@/components/shared/MainButton";
 import { cn } from "@/lib/utils";
 
 type LocaleSwitcherProps = {
@@ -74,16 +75,18 @@ export function LocaleSwitcher({
         const name = t.has(code) ? t(code) : meta.name;
 
         return (
-          <button
+          <MainButton
             key={code}
             type="button"
+            variant="ghost"
+            size="xs"
             onClick={() => switchTo(code)}
             aria-pressed={active}
             aria-label={name}
             className={cn(
-              "relative z-10 inline-flex h-7 min-w-[2.75rem] items-center justify-center rounded-md px-3",
-              "text-[11px] font-semibold leading-none tracking-[0.08em] transition-colors duration-200",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/50",
+              "relative z-10 h-7 min-w-[2.75rem] rounded-md px-3",
+              "text-[11px] font-semibold tracking-[0.08em] shadow-none",
+              "hover:bg-transparent active:translate-y-0",
               tone === "dark"
                 ? active
                   ? "text-white"
@@ -93,8 +96,8 @@ export function LocaleSwitcher({
                   : "text-text-muted hover:text-text-secondary"
             )}
           >
-            <span className="inline-flex items-center leading-none">{meta.short}</span>
-          </button>
+            {meta.short}
+          </MainButton>
         );
       })}
     </div>

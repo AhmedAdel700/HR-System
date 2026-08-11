@@ -182,6 +182,9 @@ export function AdminDepartmentDetailPage(): ReactElement {
                       <td className="px-4 py-3 text-start">
                         <p className="text-ink">{member.email}</p>
                         <p className="text-xs text-text-muted">{member.phone}</p>
+                        <p className="text-xs font-mono tabular-nums text-text-muted">
+                          {member.fingerprintNumber}
+                        </p>
                       </td>
                       <td className="px-4 py-3 text-start text-text-secondary">
                         {member.position}

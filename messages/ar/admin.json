@@ -77,6 +77,7 @@
     "columns": {
       "name": "الموظف",
       "contact": "التواصل",
+      "fingerprintNumber": "البصمة",
       "position": "المسمى الوظيفي",
       "department": "القسم",
       "departmentManager": "مدير القسم",
@@ -134,6 +135,7 @@
       "departmentManager": "مدير القسم",
       "email": "البريد الإلكتروني",
       "phone": "الهاتف",
+      "fingerprintNumber": "رقم البصمة",
       "employeeId": "رقم الموظف",
       "joinDate": "تاريخ الانضمام"
     },

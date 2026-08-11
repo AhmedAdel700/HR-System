@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { MainButton } from "@/components/shared/MainButton";
 import { cn } from "@/lib/utils";
 
 export type MainInputSize = "sm" | "md" | "lg";
@@ -233,15 +234,15 @@ export const MainInput = React.forwardRef<
         )}
 
         {isPassword ? (
-          <button
+          <MainButton
             type="button"
+            variant="ghost"
+            iconOnly
             tabIndex={-1}
             disabled={disabled}
             onClick={() => setShowPassword((value) => !value)}
             className={cn(
-              "absolute end-0 top-0 z-10 flex h-full items-center justify-center text-text-muted transition-colors",
-              "hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500/30",
-              "disabled:pointer-events-none disabled:opacity-50",
+              "absolute end-0 top-0 z-10 h-full rounded-none text-text-muted shadow-none hover:bg-transparent hover:text-text",
               sizing.iconBox
             )}
             aria-label={
@@ -253,9 +254,8 @@ export const MainInput = React.forwardRef<
                   ? t("showPassword")
                   : "Show password"
             }
-          >
-            {showPassword ? <EyeOff /> : <Eye />}
-          </button>
+            startIcon={showPassword ? <EyeOff /> : <Eye />}
+          />
         ) : endIcon ? (
           <span
             className={cn(

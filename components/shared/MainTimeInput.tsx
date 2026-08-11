@@ -8,6 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { MainButton } from "@/components/shared/MainButton";
 import { cn } from "@/lib/utils";
 
 export interface MainTimeInputProps {
@@ -114,22 +115,23 @@ function TimeColumn({
         {values.map((item) => {
           const isActive = item === selected;
           return (
-            <button
+            <MainButton
               key={item}
               type="button"
+              variant={isActive ? "primary" : "ghost"}
+              size="sm"
+              block
               role="option"
               data-time-value={item}
               aria-selected={isActive}
               onClick={() => onSelect(item)}
               className={cn(
-                "mx-0.5 flex w-[calc(100%-4px)] cursor-pointer items-center justify-center rounded-md px-2 py-2 text-sm tabular-nums transition-colors",
-                isActive
-                  ? "bg-primary-500 font-semibold text-text-inverse"
-                  : "text-ink hover:bg-primary-50 hover:text-primary-800"
+                "mx-0.5 h-auto w-[calc(100%-4px)] rounded-md px-2 py-2 text-sm tabular-nums shadow-none",
+                isActive ? "font-semibold" : "font-normal hover:bg-primary-50 hover:text-primary-800"
               )}
             >
               {item}
-            </button>
+            </MainButton>
           );
         })}
       </div>
@@ -283,32 +285,38 @@ export function MainTimeInput({
                   !selectedPeriod && "opacity-0"
                 )}
               />
-              <button
+              <MainButton
                 type="button"
+                variant="ghost"
+                size="xs"
                 onClick={() => setPeriod("am")}
                 aria-pressed={selectedPeriod === "am"}
                 className={cn(
-                  "relative z-10 flex flex-1 cursor-pointer items-center justify-center rounded-md text-xs font-semibold transition-colors duration-200",
+                  "relative z-10 h-auto flex-1 rounded-md px-0 py-0 text-xs font-semibold shadow-none",
+                  "hover:bg-transparent active:translate-y-0",
                   selectedPeriod === "am"
                     ? "text-text-inverse"
                     : "text-text-secondary hover:text-primary-800"
                 )}
               >
                 {amLabel}
-              </button>
-              <button
+              </MainButton>
+              <MainButton
                 type="button"
+                variant="ghost"
+                size="xs"
                 onClick={() => setPeriod("pm")}
                 aria-pressed={selectedPeriod === "pm"}
                 className={cn(
-                  "relative z-10 flex flex-1 cursor-pointer items-center justify-center rounded-md text-xs font-semibold transition-colors duration-200",
+                  "relative z-10 h-auto flex-1 rounded-md px-0 py-0 text-xs font-semibold shadow-none",
+                  "hover:bg-transparent active:translate-y-0",
                   selectedPeriod === "pm"
                     ? "text-text-inverse"
                     : "text-text-secondary hover:text-primary-800"
                 )}
               >
                 {pmLabel}
-              </button>
+              </MainButton>
             </div>
           </div>
 
@@ -328,24 +336,28 @@ export function MainTimeInput({
           </div>
 
           <div className="flex items-center justify-between gap-2 border-t border-border px-2 py-1.5">
-            <button
+            <MainButton
               type="button"
+              variant="ghost"
+              size="xs"
               disabled={!parsed}
               onClick={() => {
                 onChange?.("");
               }}
-              className="cursor-pointer rounded-md px-2 py-1 text-xs font-medium text-text-secondary transition-colors hover:bg-surface-muted hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
+              className="h-auto px-2 py-1 font-medium shadow-none"
             >
               {t("clearDate")}
-            </button>
-            <button
+            </MainButton>
+            <MainButton
               type="button"
+              variant="ghost-brand"
+              size="xs"
               disabled={!parsed}
               onClick={() => setOpen(false)}
-              className="cursor-pointer rounded-md px-2 py-1 text-xs font-semibold text-primary-700 transition-colors hover:bg-primary-50 disabled:cursor-not-allowed disabled:opacity-40"
+              className="h-auto px-2 py-1 font-semibold shadow-none"
             >
               {t("done")}
-            </button>
+            </MainButton>
           </div>
         </PopoverContent>
       </Popover>

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Menu } from "lucide-react";
 import { usePathname } from "@/i18n/navigation";
 import { LocaleSwitcher } from "@/components/auth/LocaleSwitcher";
+import { MainButton } from "@/components/shared/MainButton";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import {
   AdminMobileNavProvider,
@@ -37,14 +38,16 @@ function AdminShellHeader(): React.ReactElement {
         </div>
         <div className="flex shrink-0 items-center gap-2">
           <LocaleSwitcher tone="light" />
-          <button
+          <MainButton
             type="button"
-            onClick={() => setOpen(true)}
+            variant="neutral"
+            size="sm"
+            iconOnly
             aria-label={t("sidebar.openMenu")}
-            className="inline-flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg border border-border bg-surface-muted text-text-secondary transition-colors hover:bg-primary-50 hover:text-primary-700 lg:hidden"
-          >
-            <Menu className="size-5" strokeWidth={1.75} />
-          </button>
+            className="size-9 border-border bg-surface-muted text-text-secondary hover:border-border hover:bg-primary-50 hover:text-primary-700 lg:hidden"
+            onClick={() => setOpen(true)}
+            startIcon={<Menu className="size-5" strokeWidth={1.75} />}
+          />
         </div>
       </div>
     </header>

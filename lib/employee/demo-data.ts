@@ -68,6 +68,7 @@ export const LEAVE_BALANCE_GROUPS: {
 export const demoEmployee = {
   avatarSrc: "/avatars/sara.png",
   initials: "SA",
+  fingerprintNumber: "100001",
   leaveBalance: LEAVE_BALANCE,
 } as const;
 

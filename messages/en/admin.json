@@ -77,6 +77,7 @@
     "columns": {
       "name": "Employee",
       "contact": "Contact",
+      "fingerprintNumber": "Fingerprint",
       "position": "Position",
       "department": "Department",
       "departmentManager": "Department manager",
@@ -134,6 +135,7 @@
       "departmentManager": "Department manager",
       "email": "Email",
       "phone": "Phone",
+      "fingerprintNumber": "Fingerprint number",
       "employeeId": "Employee ID",
       "joinDate": "Join date"
     },

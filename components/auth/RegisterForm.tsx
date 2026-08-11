@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { Building2, Briefcase, Mail, MapPinned, Phone, User } from "lucide-react";
+import { Building2, Briefcase, Fingerprint, Mail, MapPinned, Phone, User } from "lucide-react";
 import { Link } from "@/i18n/navigation";
 import { MainButton } from "@/components/shared/MainButton";
 import { MainInput } from "@/components/shared/MainInput";
@@ -32,6 +32,8 @@ export function RegisterForm() {
         emailInvalid: t("errors.emailInvalid"),
         phoneRequired: t("errors.phoneRequired"),
         phoneInvalid: t("errors.phoneInvalid"),
+        fingerprintRequired: t("errors.fingerprintRequired"),
+        fingerprintInvalid: t("errors.fingerprintInvalid"),
         branchRequired: t("errors.branchRequired"),
         departmentRequired: t("errors.departmentRequired"),
         positionRequired: t("errors.positionRequired"),
@@ -73,6 +75,7 @@ export function RegisterForm() {
       name: "",
       email: "",
       phone: "",
+      fingerprintNumber: "",
       branch: "",
       department: "",
       position: "",
@@ -116,14 +119,27 @@ export function RegisterForm() {
         placeholder={t("register.phonePlaceholder")}
       />
 
-      <MainInput
-        label={t("register.position")}
-        autoComplete="organization-title"
-        startIcon={<Briefcase />}
-        error={errors.position?.message}
-        {...register("position")}
-        placeholder={t("register.positionPlaceholder")}
-      />
+      <div className="grid grid-cols-2 gap-3">
+        <MainInput
+          label={t("register.fingerprintNumber")}
+          type="text"
+          inputMode="numeric"
+          autoComplete="off"
+          startIcon={<Fingerprint />}
+          error={errors.fingerprintNumber?.message}
+          {...register("fingerprintNumber")}
+          placeholder={t("register.fingerprintPlaceholder")}
+        />
+
+        <MainInput
+          label={t("register.position")}
+          autoComplete="organization-title"
+          startIcon={<Briefcase />}
+          error={errors.position?.message}
+          {...register("position")}
+          placeholder={t("register.positionPlaceholder")}
+        />
+      </div>
 
       <div className="grid grid-cols-2 gap-3">
         <Controller

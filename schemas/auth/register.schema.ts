@@ -7,6 +7,8 @@ export type RegisterErrorMessages = {
   emailInvalid: string;
   phoneRequired: string;
   phoneInvalid: string;
+  fingerprintRequired: string;
+  fingerprintInvalid: string;
   branchRequired: string;
   departmentRequired: string;
   positionRequired: string;
@@ -32,6 +34,10 @@ export function createRegisterSchema(errors: RegisterErrorMessages) {
         .string()
         .min(1, { error: errors.phoneRequired })
         .regex(/^[0-9]{8,15}$/, { error: errors.phoneInvalid }),
+      fingerprintNumber: z
+        .string()
+        .min(1, { error: errors.fingerprintRequired })
+        .regex(/^[0-9]{4,20}$/, { error: errors.fingerprintInvalid }),
       branch: z.string().min(1, { error: errors.branchRequired }),
       department: z.string().min(1, { error: errors.departmentRequired }),
       position: z

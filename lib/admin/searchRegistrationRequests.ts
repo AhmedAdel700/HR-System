@@ -19,6 +19,7 @@ export function searchRegistrationRequests(
       request.name,
       request.email,
       request.phone,
+      request.fingerprintNumber,
       request.position,
       labels.department(request.department),
       labels.branch(request.branch),

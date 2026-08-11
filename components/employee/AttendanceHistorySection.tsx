@@ -5,6 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { arSA, enUS } from "date-fns/locale";
 import { ChevronDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { MainButton } from "@/components/shared/MainButton";
 import {
   MOCK_ATTENDANCE_HISTORY_MONTHS,
   countMarks,
@@ -152,21 +153,31 @@ export function AttendanceHistorySection({
           return (
             <div
               key={month.key}
-              className="overflow-hidden rounded-2xl border border-border bg-surface shadow-xs"
+              className="overflow-hidden rounded-2xl border border-border"
             >
-              <button
+              <MainButton
                 type="button"
+                variant="ghost"
+                block
                 onClick={() => toggleMonth(month.key)}
                 aria-expanded={isOpen}
                 aria-controls={panelId}
+                endIcon={
+                  <ChevronDown
+                    className={cn(
+                      "size-4 shrink-0 text-text-muted transition-transform duration-200",
+                      isOpen && "rotate-180"
+                    )}
+                  />
+                }
                 className={cn(
-                  "flex w-full cursor-pointer items-center justify-between gap-3 px-3 py-2.5 text-start transition-colors",
+                  "h-auto w-full justify-between gap-3 rounded-none border-0 px-3 py-2.5 text-start font-normal shadow-none ring-0",
                   isOpen
-                    ? "bg-transparent"
+                    ? "bg-surface hover:bg-surface"
                     : "bg-surface-muted hover:bg-neutral-200/70"
                 )}
               >
-                <span className="min-w-0">
+                <span className="min-w-0 text-start">
                   <span className="block text-sm font-semibold text-ink">
                     {formatMonthLabel(month.key, locale)}
                   </span>
@@ -177,14 +188,7 @@ export function AttendanceHistorySection({
                     })}
                   </span>
                 </span>
-                <ChevronDown
-                  className={cn(
-                    "size-4 shrink-0 text-text-muted transition-transform duration-200",
-                    isOpen && "rotate-180"
-                  )}
-                  aria-hidden
-                />
-              </button>
+              </MainButton>
 
               {isOpen ? (
                 <div id={panelId} className="border-t border-border px-2 py-2">

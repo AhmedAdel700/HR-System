@@ -20,6 +20,7 @@ export function searchEmployees(
       employee.name,
       employee.email,
       employee.phone,
+      employee.fingerprintNumber,
       employee.position,
       labels.department(employee.department),
       labels.departmentManager(employee.department),

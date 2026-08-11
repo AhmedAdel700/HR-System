@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import type { ReactElement, ReactNode } from "react";
 import { MainButton } from "@/components/shared/MainButton";
+import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
 import { leaveTypeSurface, type DemoRequest } from "@/lib/employee/demo-data";
 import { cn } from "@/lib/utils";
 
@@ -50,12 +51,7 @@ export function LeaveRequestViewModal({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain">
-      <button
-        type="button"
-        aria-label={t("close")}
-        className="fixed inset-0 cursor-pointer bg-ink/50"
-        onClick={onClose}
-      />
+      <ModalBackdrop ariaLabel={t("close")} onClick={onClose} />
       <div className="flex min-h-full items-center justify-center p-4">
         <div
           role="dialog"
