@@ -1,5 +1,7 @@
 import type { BranchOption, DepartmentOption } from "@/lib/auth/register-options";
 
+import { DEMO_EMPLOYEE_PROFILE } from "@/lib/employee/demo-profile";
+
 /** Demo employee whose session the employee app represents (Sara Ahmed). */
 export const DEMO_EMPLOYEE_ID = "emp-1";
 
@@ -66,9 +68,9 @@ export const LEAVE_BALANCE_GROUPS: {
 ];
 
 export const demoEmployee = {
-  avatarSrc: "/avatars/sara.png",
+  avatarSrc: DEMO_EMPLOYEE_PROFILE.avatarSrc,
   initials: "SA",
-  fingerprintNumber: "100001",
+  fingerprintNumber: DEMO_EMPLOYEE_PROFILE.fingerprintNumber,
   leaveBalance: LEAVE_BALANCE,
 } as const;
 

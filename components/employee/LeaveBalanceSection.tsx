@@ -1,10 +1,13 @@
-import { getTranslations } from "next-intl/server";
-import { CalendarDays } from "lucide-react";
-import { DEMO_EMPLOYEE_ID } from "@/lib/employee/demo-data";
-import { LeaveBalanceGroupsList } from "@/components/employee/LeaveBalanceGroupsList";
+"use client";
 
-export async function LeaveBalanceSection() {
-  const t = await getTranslations("employee.leave");
+import { useTranslations } from "next-intl";
+import { CalendarDays } from "lucide-react";
+import type { ReactElement } from "react";
+import { LeaveBalanceGroupsList } from "@/components/employee/LeaveBalanceGroupsList";
+import { DEMO_EMPLOYEE_ID } from "@/lib/employee/demo-data";
+
+export function LeaveBalanceSection(): ReactElement {
+  const t = useTranslations("employee.leave");
 
   return (
     <section className="overflow-hidden rounded-2xl border border-border bg-surface shadow-xs">

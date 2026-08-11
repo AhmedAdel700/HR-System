@@ -1,10 +1,14 @@
 "use client";
 
-import Image from "next/image";
+import { useSyncExternalStore, type ReactElement } from "react";
 import { CalendarClock, FileText, Home, UserRound } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { demoEmployee } from "@/lib/employee/demo-data";
+import { ProfileAvatar } from "@/components/shared/AvatarUpload";
+import {
+  getEmployeeProfileSnapshot,
+  subscribeEmployeeProfile,
+} from "@/lib/employee/employeeProfileStore";
 import { cn } from "@/lib/utils";
 
 const tabs = [
@@ -36,8 +40,15 @@ const tabs = [
 
 export function EmployeeTabBar() {
   const t = useTranslations("employee.tabs");
-  const tProfile = useTranslations("employee.profile");
   const pathname = usePathname();
+
+  useSyncExternalStore(
+    subscribeEmployeeProfile,
+    getEmployeeProfileSnapshot,
+    getEmployeeProfileSnapshot,
+  );
+
+  const profile = getEmployeeProfileSnapshot();
 
   return (
     <aside
@@ -52,19 +63,19 @@ export function EmployeeTabBar() {
       )}
     >
       <div className="mb-4 hidden items-center gap-3 px-2 pb-4 pt-1.5 lg:flex lg:border-b lg:border-border">
-        <Image
-          src={demoEmployee.avatarSrc}
-          alt={tProfile("name")}
+        <ProfileAvatar
+          src={profile.avatarSrc}
+          alt={profile.name}
           width={44}
           height={44}
           className="size-11 shrink-0 rounded-full object-cover ring-2 ring-primary-100"
         />
         <div className="min-w-0">
           <p className="truncate text-sm font-semibold text-ink lg:text-base">
-            {tProfile("name")}
+            {profile.name}
           </p>
           <p className="truncate text-[12px] text-text-muted lg:text-sm">
-            {tProfile("role")}
+            {profile.role}
           </p>
         </div>
       </div>

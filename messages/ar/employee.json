@@ -179,7 +179,17 @@
       "joinDate": "تاريخ الالتحاق"
     },
     "language": "اللغة",
-    "signOut": "تسجيل الخروج"
+    "signOut": "تسجيل الخروج",
+    "edit": "تعديل الملف الشخصي",
+    "editTitle": "تعديل الملف الشخصي",
+    "save": "حفظ التغييرات",
+    "cancel": "إلغاء",
+    "nameLabel": "الاسم الكامل",
+    "avatarLabel": "الصورة الشخصية",
+    "avatarHint": "JPG أو PNG أو WebP حتى 5 م.ب",
+    "avatarUpload": "رفع صورة",
+    "avatarChange": "تغيير الصورة",
+    "avatarRemove": "إزالة"
   },
   "leave": {
     "title": "رصيد الإجازات",

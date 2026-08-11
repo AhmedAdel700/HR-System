@@ -179,7 +179,17 @@
       "joinDate": "Join date"
     },
     "language": "Language",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "edit": "Edit profile",
+    "editTitle": "Edit profile",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "nameLabel": "Full name",
+    "avatarLabel": "Profile photo",
+    "avatarHint": "JPG, PNG, or WebP up to 5 MB",
+    "avatarUpload": "Upload photo",
+    "avatarChange": "Change photo",
+    "avatarRemove": "Remove"
   },
   "leave": {
     "title": "Leave balance",

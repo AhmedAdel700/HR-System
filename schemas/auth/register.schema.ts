@@ -17,6 +17,8 @@ export type RegisterErrorMessages = {
   passwordMin: string;
   confirmPasswordRequired: string;
   passwordMismatch: string;
+  avatarInvalidType: string;
+  avatarTooLarge: string;
 };
 
 export function createRegisterSchema(errors: RegisterErrorMessages) {
@@ -37,7 +39,7 @@ export function createRegisterSchema(errors: RegisterErrorMessages) {
       fingerprintNumber: z
         .string()
         .min(1, { error: errors.fingerprintRequired })
-        .regex(/^[0-9]{4,20}$/, { error: errors.fingerprintInvalid }),
+        .regex(/^[0-9]{1,20}$/, { error: errors.fingerprintInvalid }),
       branch: z.string().min(1, { error: errors.branchRequired }),
       department: z.string().min(1, { error: errors.departmentRequired }),
       position: z
@@ -51,6 +53,18 @@ export function createRegisterSchema(errors: RegisterErrorMessages) {
       confirmPassword: z
         .string()
         .min(1, { error: errors.confirmPasswordRequired }),
+      avatar: z
+        .custom<File | undefined>(
+          (value) => value === undefined || value instanceof File,
+          { message: errors.avatarInvalidType },
+        )
+        .optional()
+        .refine((file) => !file || file.type.startsWith("image/"), {
+          message: errors.avatarInvalidType,
+        })
+        .refine((file) => !file || file.size <= 5 * 1024 * 1024, {
+          message: errors.avatarTooLarge,
+        }),
     })
     .refine((data) => data.password === data.confirmPassword, {
       path: ["confirmPassword"],
