@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore, type ReactElement, type ReactNode } from "react";
+import { useState, useSyncExternalStore, type ReactElement, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import {
@@ -17,6 +17,7 @@ import {
   UserRound,
   Users,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
 import { AttendanceHistorySection } from "@/components/employee/AttendanceHistorySection";
 import { LeaveStatsSection } from "@/components/employee/LeaveStatsSection";
@@ -41,8 +42,6 @@ import {
   canViewEmployee,
   isSuperAdmin,
 } from "@/lib/admin/permissions";
-import { getEmployeeAttendanceHistoryMonths } from "@/lib/employee/attendanceHistory";
-import type { LucideIcon } from "lucide-react";
 
 export function AdminEmployeeDetailPage(): ReactElement {
   const t = useTranslations("admin.employeeDetailPage");
@@ -66,14 +65,6 @@ export function AdminEmployeeDetailPage(): ReactElement {
 
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
-
-  const attendanceMonths = useMemo(
-    () =>
-      employee
-        ? getEmployeeAttendanceHistoryMonths(employee.id, 4, new Date(2026, 7, 10))
-        : [],
-    [employee]
-  );
 
   if (!employee || !canView) {
     return (
@@ -186,7 +177,7 @@ export function AdminEmployeeDetailPage(): ReactElement {
 
       <LeaveStatsSection employeeId={employee.id} />
 
-      <AttendanceHistorySection months={attendanceMonths} />
+      <AttendanceHistorySection employeeId={employee.id} />
 
       {(canEdit || canDelete) ? (
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">

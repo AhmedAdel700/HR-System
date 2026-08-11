@@ -22,7 +22,8 @@
     "attendanceHistory": {
       "title": "سجل الحضور",
       "subtitle": "الأشهر السابقة. الجمعة والسبت عطلة أسبوعية.",
-      "legendWorked": "حضور",
+      "legendWorked": "حضور في المقر",
+      "legendRemote": "عمل عن بُعد",
       "legendAbsent": "غياب",
       "legendOff": "عطلة / إجازة / نهاية الأسبوع",
       "monthSummary": "{worked} حضور · {absent} غياب"

@@ -208,7 +208,7 @@ export const demoRequests: DemoRequest[] = [
     department: "hr",
     branch: "riyadh",
     type: "remote",
-    status: "rejected",
+    status: "approved",
     from: "2026-07-28",
     to: "2026-07-28",
     reason: "Home internet maintenance window.",

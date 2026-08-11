@@ -1,23 +1,30 @@
 "use client";
 
-import { useMemo, useState, type ReactElement } from "react";
+import { useMemo, useState, useSyncExternalStore, type ReactElement } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { arSA, enUS } from "date-fns/locale";
 import { ChevronDown } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { MainButton } from "@/components/shared/MainButton";
 import {
+  getEmployeeAttendanceHistoryMonths,
   MOCK_ATTENDANCE_HISTORY_MONTHS,
   countMarks,
   parseISODateLocal,
   type AttendanceHistoryMark,
   type AttendanceHistoryMonth,
 } from "@/lib/employee/attendanceHistory";
+import {
+  getRequestsSnapshot,
+  subscribeRequests,
+} from "@/lib/employee/requestsStore";
 import { cn } from "@/lib/utils";
 
 const MARK_CELL_CLASS: Record<AttendanceHistoryMark, string> = {
   worked:
     "[&_button]:bg-attendance-present-50 [&_button]:text-attendance-present-700 [&_button]:hover:bg-attendance-present-50 [&_button]:hover:text-attendance-present-700",
+  remote:
+    "[&_button]:bg-attendance-remote-50 [&_button]:text-attendance-remote-700 [&_button]:hover:bg-attendance-remote-50 [&_button]:hover:text-attendance-remote-700",
   absent:
     "[&_button]:bg-attendance-absent-50 [&_button]:text-attendance-absent-700 [&_button]:hover:bg-attendance-absent-50 [&_button]:hover:text-attendance-absent-700",
   off: "[&_button]:bg-attendance-holiday-50 [&_button]:text-attendance-holiday-700 [&_button]:hover:bg-attendance-holiday-50 [&_button]:hover:text-attendance-holiday-700",
@@ -50,6 +57,7 @@ function MonthAttendanceCalendar({
 
   const modifiers = useMemo(() => {
     const worked: Date[] = [];
+    const remote: Date[] = [];
     const absent: Date[] = [];
     const off: Date[] = [];
 
@@ -57,11 +65,12 @@ function MonthAttendanceCalendar({
       const date = parseISODateLocal(day.date);
       if (!date) continue;
       if (day.mark === "worked") worked.push(date);
+      else if (day.mark === "remote") remote.push(date);
       else if (day.mark === "absent") absent.push(date);
       else off.push(date);
     }
 
-    return { worked, absent, off };
+    return { worked, remote, absent, off };
   }, [month.days]);
 
   return (
@@ -77,6 +86,7 @@ function MonthAttendanceCalendar({
       modifiers={modifiers}
       modifiersClassNames={{
         worked: MARK_CELL_CLASS.worked,
+        remote: MARK_CELL_CLASS.remote,
         absent: MARK_CELL_CLASS.absent,
         off: MARK_CELL_CLASS.off,
       }}
@@ -101,13 +111,34 @@ function MonthAttendanceCalendar({
 
 interface AttendanceHistorySectionProps {
   months?: readonly AttendanceHistoryMonth[];
+  employeeId?: string;
 }
 
+const DEMO_ATTENDANCE_FROM = new Date(2026, 7, 10);
+const DEMO_ATTENDANCE_MONTH_COUNT = 4;
+
 export function AttendanceHistorySection({
-  months = MOCK_ATTENDANCE_HISTORY_MONTHS,
+  months: monthsProp,
+  employeeId,
 }: AttendanceHistorySectionProps): ReactElement {
   const t = useTranslations("employee.home.attendanceHistory");
   const locale = useLocale();
+
+  useSyncExternalStore(subscribeRequests, getRequestsSnapshot, getRequestsSnapshot);
+  const requests = getRequestsSnapshot();
+
+  const months = useMemo(() => {
+    if (monthsProp) return monthsProp;
+    if (employeeId) {
+      return getEmployeeAttendanceHistoryMonths(
+        employeeId,
+        DEMO_ATTENDANCE_MONTH_COUNT,
+        DEMO_ATTENDANCE_FROM,
+        requests
+      );
+    }
+    return MOCK_ATTENDANCE_HISTORY_MONTHS;
+  }, [monthsProp, employeeId, requests]);
 
   const [openMonths, setOpenMonths] = useState<ReadonlySet<string>>(
     () => new Set(months[0] ? [months[0].key] : [])
@@ -135,6 +166,10 @@ export function AttendanceHistorySection({
           label={t("legendWorked")}
         />
         <LegendSwatch
+          className="bg-attendance-remote-50 text-attendance-remote-700"
+          label={t("legendRemote")}
+        />
+        <LegendSwatch
           className="bg-attendance-absent-50 text-attendance-absent-700"
           label={t("legendAbsent")}
         />
@@ -153,7 +188,7 @@ export function AttendanceHistorySection({
           return (
             <div
               key={month.key}
-              className="overflow-hidden rounded-2xl border border-border"
+              className="overflow-hidden rounded-2xl border border-border bg-surface"
             >
               <MainButton
                 type="button"
@@ -172,9 +207,7 @@ export function AttendanceHistorySection({
                 }
                 className={cn(
                   "h-auto w-full justify-between gap-3 rounded-none border-0 px-3 py-2.5 text-start font-normal shadow-none ring-0",
-                  isOpen
-                    ? "bg-surface hover:bg-surface"
-                    : "bg-surface-muted hover:bg-neutral-200/70"
+                  "bg-surface hover:bg-surface-muted/40"
                 )}
               >
                 <span className="min-w-0 text-start">
@@ -183,7 +216,7 @@ export function AttendanceHistorySection({
                   </span>
                   <span className="text-xs text-text-muted">
                     {t("monthSummary", {
-                      worked: counts.worked,
+                      worked: counts.worked + counts.remote,
                       absent: counts.absent,
                     })}
                   </span>
@@ -191,7 +224,10 @@ export function AttendanceHistorySection({
               </MainButton>
 
               {isOpen ? (
-                <div id={panelId} className="border-t border-border px-2 py-2">
+                <div
+                  id={panelId}
+                  className="border-t border-border bg-surface px-2 py-2"
+                >
                   <MonthAttendanceCalendar month={month} />
                 </div>
               ) : null}

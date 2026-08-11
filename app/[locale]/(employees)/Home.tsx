@@ -68,7 +68,7 @@ export async function EmployeeHome() {
         </div>
       </section>
 
-      <AttendanceHistorySection />
+      <AttendanceHistorySection employeeId={DEMO_EMPLOYEE_ID} />
     </div>
   );
 }

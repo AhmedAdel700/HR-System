@@ -1,4 +1,6 @@
-export type AttendanceHistoryMark = "worked" | "absent" | "off";
+import type { DemoRequest, RequestType } from "@/lib/employee/demo-data";
+
+export type AttendanceHistoryMark = "worked" | "remote" | "absent" | "off";
 
 export interface AttendanceHistoryDay {
   date: string;
@@ -10,6 +12,65 @@ export interface AttendanceHistoryMonth {
   year: number;
   month: number;
   days: AttendanceHistoryDay[];
+}
+
+/** Request types that count as a worked day on the attendance calendar. */
+export const WORK_ATTENDANCE_REQUEST_TYPES = ["remote"] as const satisfies readonly RequestType[];
+
+export function countsAsWorkInAttendance(type: RequestType): boolean {
+  return (WORK_ATTENDANCE_REQUEST_TYPES as readonly string[]).includes(type);
+}
+
+export function countsAsLeaveInAttendance(type: RequestType): boolean {
+  return type !== "remote" && type !== "permission";
+}
+
+function eachDateInRange(from: string, to: string): string[] {
+  const start = parseISODateLocal(from);
+  const end = parseISODateLocal(to);
+  if (!start || !end || start > end) return [];
+
+  const dates: string[] = [];
+  const cursor = new Date(start);
+
+  while (cursor <= end) {
+    dates.push(toISODateLocal(cursor));
+    cursor.setDate(cursor.getDate() + 1);
+  }
+
+  return dates;
+}
+
+function applyApprovedRequestsToMonth(
+  days: AttendanceHistoryDay[],
+  requests: readonly DemoRequest[],
+  employeeId: string,
+  year: number,
+  month: number
+): AttendanceHistoryDay[] {
+  const dayMap = new Map(days.map((day) => [day.date, day]));
+  const monthPrefix = `${year}-${pad2(month)}`;
+
+  for (const request of requests) {
+    if (request.employeeId !== employeeId || request.status !== "approved") {
+      continue;
+    }
+
+    for (const iso of eachDateInRange(request.from, request.to)) {
+      if (!iso.startsWith(monthPrefix)) continue;
+
+      const existing = dayMap.get(iso);
+      if (!existing) continue;
+
+      if (countsAsWorkInAttendance(request.type)) {
+        dayMap.set(iso, { date: iso, mark: "remote" });
+      } else if (countsAsLeaveInAttendance(request.type)) {
+        dayMap.set(iso, { date: iso, mark: "off" });
+      }
+    }
+  }
+
+  return days.map((day) => dayMap.get(day.date) ?? day);
 }
 
 /** Egypt weekend: Friday + Saturday */
@@ -54,7 +115,8 @@ function hashString(value: string): number {
 function buildMonthForEmployee(
   employeeId: string,
   year: number,
-  monthIndex: number
+  monthIndex: number,
+  requests: readonly DemoRequest[] = []
 ): AttendanceHistoryMonth {
   const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
   const days: AttendanceHistoryDay[] = [];
@@ -78,18 +140,27 @@ function buildMonthForEmployee(
     }
   }
 
+  const appliedDays = applyApprovedRequestsToMonth(
+    days,
+    requests,
+    employeeId,
+    year,
+    monthIndex + 1
+  );
+
   return {
     key: `${year}-${pad2(monthIndex + 1)}`,
     year,
     month: monthIndex + 1,
-    days,
+    days: appliedDays,
   };
 }
 
 export function getEmployeeAttendanceHistoryMonths(
   employeeId: string,
   count: number,
-  from: Date
+  from: Date,
+  requests: readonly DemoRequest[] = []
 ): AttendanceHistoryMonth[] {
   const months: AttendanceHistoryMonth[] = [];
   let year = from.getFullYear();
@@ -100,7 +171,7 @@ export function getEmployeeAttendanceHistoryMonths(
       monthIndex = 11;
       year -= 1;
     }
-    months.push(buildMonthForEmployee(employeeId, year, monthIndex));
+    months.push(buildMonthForEmployee(employeeId, year, monthIndex, requests));
     monthIndex -= 1;
   }
 
@@ -166,7 +237,7 @@ export function countMarks(
       acc[day.mark] += 1;
       return acc;
     },
-    { worked: 0, absent: 0, off: 0 }
+    { worked: 0, remote: 0, absent: 0, off: 0 }
   );
 }
 
