@@ -62,8 +62,6 @@ export async function Profile() {
             value={t("lineManager")}
             hint={t("lineManagerRole")}
           />
-          <DetailRow label={tLabel("workLocation")} value={t("workLocation")} />
-          <DetailRow label={tLabel("workSchedule")} value={t("workSchedule")} />
         </dl>
       </section>
 

@@ -122,11 +122,11 @@ export function RegisterForm() {
       <div className="grid grid-cols-2 gap-3">
         <MainInput
           label={t("register.fingerprintNumber")}
-          type="text"
-          inputMode="numeric"
+          type="tel"
           autoComplete="off"
           startIcon={<Fingerprint />}
           error={errors.fingerprintNumber?.message}
+          maxLength={20}
           {...register("fingerprintNumber")}
           placeholder={t("register.fingerprintPlaceholder")}
         />
