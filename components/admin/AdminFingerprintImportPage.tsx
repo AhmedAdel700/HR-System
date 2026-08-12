@@ -30,16 +30,17 @@ import {
 } from "@/lib/admin/fingerprintImportStore";
 import { searchFingerprintRecords } from "@/lib/admin/searchFingerprintRecords";
 import { formatDateTime12, formatStoredDate, formatStoredTime12, resolveTimeLocale } from "@/lib/formatTime";
-import type { FingerprintImportMonthData } from "@/types/FingerprintImportApiTypes";
-import type { FingerprintAttendanceStatus } from "@/types/FingerprintImportApiTypes";
+import type {
+  FingerprintAttendanceStatus,
+  FingerprintImportMonthData,
+} from "@/types/FingerprintImportApiTypes";
 import { cn } from "@/lib/utils";
 
 const RECORDS_PAGE_SIZE = 31;
 const RECORDS_COLUMN_COUNT = 8;
-const recordsTableColClass = "w-[12.5%] max-w-0";
 const recordsTableHeaderClass =
-  "truncate px-4 py-4 text-start text-xs font-semibold text-text-muted";
-const recordsTableCellClass = "truncate px-4 py-3 text-start";
+  "whitespace-nowrap px-4 py-4 text-start text-xs font-semibold text-text-muted";
+const recordsTableCellClass = "whitespace-nowrap px-4 py-3 text-start";
 
 const attendanceStatusSurface: Record<
   FingerprintAttendanceStatus,
@@ -379,13 +380,8 @@ export function AdminFingerprintImportPage(): ReactElement {
         </div>
 
         <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-xs">
-          <div className="admin-scroll-visible overflow-x-auto">
-            <table className="w-full table-fixed border-collapse text-sm">
-              <colgroup>
-                {Array.from({ length: RECORDS_COLUMN_COUNT }, (_, index) => (
-                  <col key={index} className={recordsTableColClass} />
-                ))}
-              </colgroup>
+          <div className="admin-scroll-visible -mx-px overflow-x-auto">
+            <table className="w-full min-w-[68rem] border-collapse text-sm">
               <thead>
                 <tr className="border-b border-border bg-surface-muted/60">
                   <th className={recordsTableHeaderClass}>
@@ -448,7 +444,7 @@ export function AdminFingerprintImportPage(): ReactElement {
                       <td className={recordsTableCellClass}>
                         <span
                           className={cn(
-                            "inline-flex max-w-full truncate rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+                            "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium",
                             attendanceStatusSurface[record.attendanceStatus]
                           )}
                         >
