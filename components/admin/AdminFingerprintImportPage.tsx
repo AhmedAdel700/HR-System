@@ -29,12 +29,17 @@ import {
   subscribeFingerprintImports,
 } from "@/lib/admin/fingerprintImportStore";
 import { searchFingerprintRecords } from "@/lib/admin/searchFingerprintRecords";
-import { formatDateTime12, formatStoredTime12, resolveTimeLocale } from "@/lib/formatTime";
+import { formatDateTime12, formatStoredDate, formatStoredTime12, resolveTimeLocale } from "@/lib/formatTime";
 import type { FingerprintImportMonthData } from "@/types/FingerprintImportApiTypes";
 import type { FingerprintAttendanceStatus } from "@/types/FingerprintImportApiTypes";
 import { cn } from "@/lib/utils";
 
 const RECORDS_PAGE_SIZE = 31;
+const RECORDS_COLUMN_COUNT = 8;
+const recordsTableColClass = "w-[12.5%] max-w-0";
+const recordsTableHeaderClass =
+  "truncate px-4 py-4 text-start text-xs font-semibold text-text-muted";
+const recordsTableCellClass = "truncate px-4 py-3 text-start";
 
 const attendanceStatusSurface: Record<
   FingerprintAttendanceStatus,
@@ -375,28 +380,36 @@ export function AdminFingerprintImportPage(): ReactElement {
 
         <div className="overflow-hidden rounded-lg border border-border bg-surface shadow-xs">
           <div className="admin-scroll-visible overflow-x-auto">
-            <table className="w-full min-w-[980px] border-collapse text-sm">
+            <table className="w-full table-fixed border-collapse text-sm">
+              <colgroup>
+                {Array.from({ length: RECORDS_COLUMN_COUNT }, (_, index) => (
+                  <col key={index} className={recordsTableColClass} />
+                ))}
+              </colgroup>
               <thead>
                 <tr className="border-b border-border bg-surface-muted/60">
-                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  <th className={recordsTableHeaderClass}>
                     {t("recordsColumns.name")}
                   </th>
-                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  <th className={recordsTableHeaderClass}>
                     {t("recordsColumns.phoneNumber")}
                   </th>
-                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  <th className={recordsTableHeaderClass}>
                     {t("recordsColumns.fingerprintId")}
                   </th>
-                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  <th className={recordsTableHeaderClass}>
                     {t("recordsColumns.fingerprintSerial")}
                   </th>
-                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  <th className={recordsTableHeaderClass}>
                     {t("recordsColumns.clockIn")}
                   </th>
-                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  <th className={recordsTableHeaderClass}>
                     {t("recordsColumns.clockOut")}
                   </th>
-                  <th className="px-4 py-4 text-start text-xs font-semibold text-text-muted">
+                  <th className={recordsTableHeaderClass}>
+                    {t("recordsColumns.date")}
+                  </th>
+                  <th className={recordsTableHeaderClass}>
                     {t("recordsColumns.attendanceStatus")}
                   </th>
                 </tr>
@@ -404,35 +417,38 @@ export function AdminFingerprintImportPage(): ReactElement {
               <tbody>
                 {pagedRecords.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-4 py-10 text-center text-sm text-text-muted">
+                    <td colSpan={RECORDS_COLUMN_COUNT} className="px-4 py-10 text-center text-sm text-text-muted">
                       {recordsEmptyMessage}
                     </td>
                   </tr>
                 ) : (
                   pagedRecords.map((record) => (
                     <tr key={record.id} className="border-b border-border last:border-b-0">
-                      <td className="px-4 py-3 font-medium text-ink">
+                      <td className={cn(recordsTableCellClass, "font-medium text-ink")} title={record.name ?? undefined}>
                         {record.name ?? t("recordsUnknownEmployee")}
                       </td>
-                      <td className="px-4 py-3 tabular-nums text-text-secondary">
+                      <td className={cn(recordsTableCellClass, "tabular-nums text-text-secondary")} title={record.phoneNumber ?? undefined}>
                         {record.phoneNumber ?? "—"}
                       </td>
-                      <td className="px-4 py-3 tabular-nums text-text-secondary">
+                      <td className={cn(recordsTableCellClass, "tabular-nums text-text-secondary")} title={record.fingerprintId}>
                         {record.fingerprintId}
                       </td>
-                      <td className="px-4 py-3 tabular-nums text-text-secondary">
+                      <td className={cn(recordsTableCellClass, "tabular-nums text-text-secondary")} title={record.fingerprintSerial ?? undefined}>
                         {record.fingerprintSerial ?? "—"}
                       </td>
-                      <td className="px-4 py-3 tabular-nums text-text-secondary">
+                      <td className={cn(recordsTableCellClass, "tabular-nums text-text-secondary")}>
                         {formatStoredTime12(record.clockIn, resolveTimeLocale(locale))}
                       </td>
-                      <td className="px-4 py-3 tabular-nums text-text-secondary">
+                      <td className={cn(recordsTableCellClass, "tabular-nums text-text-secondary")}>
                         {formatStoredTime12(record.clockOut, resolveTimeLocale(locale))}
                       </td>
-                      <td className="px-4 py-3 text-start">
+                      <td className={cn(recordsTableCellClass, "text-text-secondary")} title={record.date}>
+                        {formatStoredDate(record.date, resolveTimeLocale(locale))}
+                      </td>
+                      <td className={recordsTableCellClass}>
                         <span
                           className={cn(
-                            "inline-flex rounded-full px-2.5 py-0.5 text-[11px] font-medium",
+                            "inline-flex max-w-full truncate rounded-full px-2.5 py-0.5 text-[11px] font-medium",
                             attendanceStatusSurface[record.attendanceStatus]
                           )}
                         >

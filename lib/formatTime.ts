@@ -94,3 +94,32 @@ export function formatClock12Display(
 export function resolveTimeLocale(locale: string): string {
   return locale === "ar" ? "ar-EG" : "en-US";
 }
+
+export function parseStoredDate(isoDate: string): Date | null {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(isoDate);
+  if (!match) return null;
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  if (!Number.isFinite(year) || !Number.isFinite(month) || !Number.isFinite(day)) {
+    return null;
+  }
+
+  return new Date(year, month - 1, day);
+}
+
+export function formatStoredDate(
+  isoDate: string,
+  locale?: string
+): string {
+  const date = parseStoredDate(isoDate);
+  if (!date) return isoDate;
+
+  return new Intl.DateTimeFormat(locale, {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+}

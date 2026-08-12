@@ -513,6 +513,7 @@
       "in_out": "In & Out"
     },
     "recordsColumns": {
+      "date": "Date",
       "name": "Name",
       "phoneNumber": "Phone number",
       "fingerprintId": "Fing-ID",

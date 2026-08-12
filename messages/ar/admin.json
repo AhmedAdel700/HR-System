@@ -513,6 +513,7 @@
       "in_out": "حضور وانصراف"
     },
     "recordsColumns": {
+      "date": "التاريخ",
       "name": "الاسم",
       "phoneNumber": "رقم الهاتف",
       "fingerprintId": "رقم البصمة",
