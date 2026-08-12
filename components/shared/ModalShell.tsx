@@ -280,6 +280,10 @@ export function ModalShell({
         backdropAriaLabel={backdropAriaLabel}
         backdropDisabled={backdropDisabled}
         panelClassName={panelClassName}
+        role={role}
+        ariaModal={ariaModal}
+        ariaLabelledBy={ariaLabelledBy}
+        ariaDescribedBy={ariaDescribedBy}
       >
         {children}
       </GenieModalShell>

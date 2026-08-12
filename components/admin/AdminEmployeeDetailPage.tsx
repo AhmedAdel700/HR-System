@@ -66,6 +66,7 @@ export function AdminEmployeeDetailPage(): ReactElement {
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
   const editEmployeeTriggerRef = useRef<HTMLButtonElement>(null);
+  const deleteEmployeeTriggerRef = useRef<HTMLButtonElement>(null);
 
   if (!employee || !canView) {
     return (
@@ -92,11 +93,11 @@ export function AdminEmployeeDetailPage(): ReactElement {
   );
   const departmentName = departmentRecord?.name ?? tDept(employee.department);
 
-  const handleDelete = (): void => {
+  const handleDelete = (): boolean => {
     const deleted = deleteEmployee(employee.id);
-    if (!deleted) return;
-    setDeleteOpen(false);
+    if (!deleted) return false;
     router.push("/admin-dashboard/employees");
+    return true;
   };
 
   return (
@@ -196,6 +197,7 @@ export function AdminEmployeeDetailPage(): ReactElement {
 
           {canDelete ? (
             <MainButton
+              ref={deleteEmployeeTriggerRef}
               variant="delete"
               block
               startIcon={<Trash2 className="size-4" />}
@@ -215,6 +217,7 @@ export function AdminEmployeeDetailPage(): ReactElement {
         cancelLabel={tEmployees("cancel")}
         onCancel={() => setDeleteOpen(false)}
         onConfirm={handleDelete}
+        triggerRef={deleteEmployeeTriggerRef}
       />
 
       {employee && canEdit ? (

@@ -46,10 +46,11 @@ export function AdminDepartmentsPage(): ReactElement {
   const createDepartmentTriggerRef = useRef<HTMLButtonElement>(null);
   const { triggerRef: editDepartmentTriggerRef, bindTrigger: bindEditDepartmentTrigger } =
     useModalTriggerRef();
+  const { triggerRef: deleteDepartmentTriggerRef, bindTrigger: bindDeleteDepartmentTrigger } =
+    useModalTriggerRef();
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<AdminBranchDepartmentRecord | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   const branchFilterOptions = useMemo(
     () => [
@@ -90,19 +91,10 @@ export function AdminDepartmentsPage(): ReactElement {
     setEditing(department);
   };
 
-  const confirmDelete = (): void => {
-    if (!deleteId) return;
+  const confirmDelete = (): boolean => {
+    if (!deleteId) return false;
     const result = deleteBranchDepartment(deleteId);
-    if (!result.success) {
-      setDeleteError(
-        result.reason === "has_members"
-          ? t("deleteBlockedMembers")
-          : t("departmentNotFoundDescription")
-      );
-      return;
-    }
-    setDeleteId(null);
-    setDeleteError(null);
+    return result.success;
   };
 
   return (
@@ -251,8 +243,8 @@ export function AdminDepartmentsPage(): ReactElement {
                               iconOnly
                               aria-label={t("delete")}
                               startIcon={<Trash2 className="size-4" />}
-                              onClick={() => {
-                                setDeleteError(null);
+                              onClick={(event) => {
+                                bindDeleteDepartmentTrigger(event);
                                 setDeleteId(department.id);
                               }}
                             />
@@ -287,18 +279,15 @@ export function AdminDepartmentsPage(): ReactElement {
         open={deleteTarget !== null}
         title={t("deleteTitle")}
         description={
-          deleteError ??
-          (deleteTarget
+          deleteTarget
             ? t("deleteDescription", { name: deleteTarget.name })
-            : "")
+            : ""
         }
         confirmLabel={t("deleteConfirm")}
         cancelLabel={t("cancel")}
-        onCancel={() => {
-          setDeleteId(null);
-          setDeleteError(null);
-        }}
+        onCancel={() => setDeleteId(null)}
         onConfirm={confirmDelete}
+        triggerRef={deleteDepartmentTriggerRef}
       />
     </div>
   );

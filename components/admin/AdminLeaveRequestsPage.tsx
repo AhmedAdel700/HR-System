@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore, type ReactElement } from "react";
+import { useMemo, useState, useSyncExternalStore, type MouseEvent, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
 import { Check, Eye, Search, X } from "lucide-react";
 import { DeleteConfirmModal } from "@/components/shared/DeleteConfirmModal";
@@ -27,6 +27,7 @@ import {
   DEPARTMENT_OPTIONS,
 } from "@/lib/auth/register-options";
 import { cn } from "@/lib/utils";
+import { useModalTriggerRef } from "@/lib/useModalTriggerRef";
 
 const PAGE_SIZE = 5;
 
@@ -79,6 +80,12 @@ export function AdminLeaveRequestsPage(): ReactElement {
   const [approveId, setApproveId] = useState<string | null>(null);
   const [rejectId, setRejectId] = useState<string | null>(null);
   const [viewId, setViewId] = useState<string | null>(null);
+  const { triggerRef: viewRequestTriggerRef, bindTrigger: bindViewRequestTrigger } =
+    useModalTriggerRef();
+  const { triggerRef: approveRequestTriggerRef, bindTrigger: bindApproveRequestTrigger } =
+    useModalTriggerRef();
+  const { triggerRef: rejectRequestTriggerRef, bindTrigger: bindRejectRequestTrigger } =
+    useModalTriggerRef();
 
   const filteredPending = useMemo(() => {
     const byFilters = filterLeaveRequestsByBranchAndDepartment(pending, {
@@ -150,16 +157,16 @@ export function AdminLeaveRequestsPage(): ReactElement {
     setPage(1);
   };
 
-  const confirmApprove = (): void => {
-    if (!approveId) return;
+  const confirmApprove = (): boolean => {
+    if (!approveId) return false;
     setRequestStatus(approveId, "approved");
-    setApproveId(null);
+    return true;
   };
 
-  const confirmReject = (): void => {
-    if (!rejectId) return;
+  const confirmReject = (): boolean => {
+    if (!rejectId) return false;
     setRequestStatus(rejectId, "rejected");
-    setRejectId(null);
+    return true;
   };
 
   const columnCount = superAdmin ? 7 : 5;
@@ -330,7 +337,10 @@ export function AdminLeaveRequestsPage(): ReactElement {
                             iconOnly
                             aria-label={t("view")}
                             startIcon={<Eye className="size-4" />}
-                            onClick={() => setViewId(request.id)}
+                            onClick={(event) => {
+                              bindViewRequestTrigger(event);
+                              setViewId(request.id);
+                            }}
                           />
                           <MainButton
                             variant="add-soft"
@@ -338,7 +348,10 @@ export function AdminLeaveRequestsPage(): ReactElement {
                             iconOnly
                             aria-label={t("approve")}
                             startIcon={<Check className="size-4" />}
-                            onClick={() => setApproveId(request.id)}
+                            onClick={(event) => {
+                              bindApproveRequestTrigger(event);
+                              setApproveId(request.id);
+                            }}
                           />
                           <MainButton
                             variant="delete-soft"
@@ -346,7 +359,10 @@ export function AdminLeaveRequestsPage(): ReactElement {
                             iconOnly
                             aria-label={t("reject")}
                             startIcon={<X className="size-4" />}
-                            onClick={() => setRejectId(request.id)}
+                            onClick={(event) => {
+                              bindRejectRequestTrigger(event);
+                              setRejectId(request.id);
+                            }}
                           />
                         </div>
                       </td>
@@ -376,6 +392,7 @@ export function AdminLeaveRequestsPage(): ReactElement {
         request={viewRequest}
         superAdmin={superAdmin}
         onClose={() => setViewId(null)}
+        triggerRef={viewRequestTriggerRef}
       />
 
       <DeleteConfirmModal
@@ -391,6 +408,7 @@ export function AdminLeaveRequestsPage(): ReactElement {
         confirmVariant="add-soft"
         onCancel={() => setApproveId(null)}
         onConfirm={confirmApprove}
+        triggerRef={approveRequestTriggerRef}
       />
 
       <DeleteConfirmModal
@@ -406,6 +424,7 @@ export function AdminLeaveRequestsPage(): ReactElement {
         confirmVariant="delete-soft"
         onCancel={() => setRejectId(null)}
         onConfirm={confirmReject}
+        triggerRef={rejectRequestTriggerRef}
       />
     </div>
   );

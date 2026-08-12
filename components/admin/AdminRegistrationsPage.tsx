@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore, type ReactElement } from "react";
+import { useMemo, useState, useSyncExternalStore, type MouseEvent, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
 import { Check, Search, X } from "lucide-react";
 import { DeleteConfirmModal } from "@/components/shared/DeleteConfirmModal";
@@ -18,6 +18,7 @@ import {
 } from "@/lib/admin/adminSessionStore";
 import { filterRegistrationsForAdmin } from "@/lib/admin/permissions";
 import { searchRegistrationRequests } from "@/lib/admin/searchRegistrationRequests";
+import { useModalTriggerRef } from "@/lib/useModalTriggerRef";
 
 const PAGE_SIZE = 5;
 
@@ -43,6 +44,10 @@ export function AdminRegistrationsPage(): ReactElement {
   const [page, setPage] = useState(1);
   const [approveId, setApproveId] = useState<string | null>(null);
   const [rejectId, setRejectId] = useState<string | null>(null);
+  const { triggerRef: approveRegistrationTriggerRef, bindTrigger: bindApproveRegistrationTrigger } =
+    useModalTriggerRef();
+  const { triggerRef: rejectRegistrationTriggerRef, bindTrigger: bindRejectRegistrationTrigger } =
+    useModalTriggerRef();
 
   const filteredPending = useMemo(
     () =>
@@ -73,16 +78,16 @@ export function AdminRegistrationsPage(): ReactElement {
     setPage(1);
   };
 
-  const confirmApprove = (): void => {
-    if (!approveId) return;
+  const confirmApprove = (): boolean => {
+    if (!approveId) return false;
     setRegistrationStatus(approveId, "approved");
-    setApproveId(null);
+    return true;
   };
 
-  const confirmReject = (): void => {
-    if (!rejectId) return;
+  const confirmReject = (): boolean => {
+    if (!rejectId) return false;
     setRegistrationStatus(rejectId, "rejected");
-    setRejectId(null);
+    return true;
   };
 
   const columnCount = 7;
@@ -191,7 +196,10 @@ export function AdminRegistrationsPage(): ReactElement {
                             iconOnly
                             aria-label={t("approve")}
                             startIcon={<Check className="size-4" />}
-                            onClick={() => setApproveId(request.id)}
+                            onClick={(event) => {
+                              bindApproveRegistrationTrigger(event);
+                              setApproveId(request.id);
+                            }}
                           />
                           <MainButton
                             variant="delete-soft"
@@ -199,7 +207,10 @@ export function AdminRegistrationsPage(): ReactElement {
                             iconOnly
                             aria-label={t("reject")}
                             startIcon={<X className="size-4" />}
-                            onClick={() => setRejectId(request.id)}
+                            onClick={(event) => {
+                              bindRejectRegistrationTrigger(event);
+                              setRejectId(request.id);
+                            }}
                           />
                         </div>
                       </td>
@@ -237,6 +248,7 @@ export function AdminRegistrationsPage(): ReactElement {
         confirmVariant="add-soft"
         onCancel={() => setApproveId(null)}
         onConfirm={confirmApprove}
+        triggerRef={approveRegistrationTriggerRef}
       />
 
       <DeleteConfirmModal
@@ -252,6 +264,7 @@ export function AdminRegistrationsPage(): ReactElement {
         confirmVariant="delete-soft"
         onCancel={() => setRejectId(null)}
         onConfirm={confirmReject}
+        triggerRef={rejectRegistrationTriggerRef}
       />
     </div>
   );

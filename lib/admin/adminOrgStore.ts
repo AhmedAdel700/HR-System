@@ -21,10 +21,7 @@ export interface CreateBranchInput {
 
 export type UpdateBranchInput = CreateBranchInput;
 
-export type DeleteBranchFailureReason =
-  | "not_found"
-  | "has_employees"
-  | "has_departments";
+export type DeleteBranchFailureReason = "not_found";
 
 export type DeleteBranchResult =
   | { success: true }
@@ -38,7 +35,7 @@ export interface CreateBranchDepartmentInput {
 
 export type UpdateBranchDepartmentInput = CreateBranchDepartmentInput;
 
-export type DeleteDepartmentFailureReason = "not_found" | "has_members";
+export type DeleteDepartmentFailureReason = "not_found";
 
 export type DeleteDepartmentResult =
   | { success: true }
@@ -147,18 +144,7 @@ export function deleteBranch(id: string): DeleteBranchResult {
     return { success: false, reason: "not_found" };
   }
 
-  const hasEmployees = getEmployeesSnapshot().some(
-    (employee) => employee.branch === branch.slug
-  );
-  if (hasEmployees) {
-    return { success: false, reason: "has_employees" };
-  }
-
-  const hasDepartments = getBranchDepartmentsForBranch(id).length > 0;
-  if (hasDepartments) {
-    return { success: false, reason: "has_departments" };
-  }
-
+  branchDepartments = branchDepartments.filter((item) => item.branchId !== id);
   branches = branches.filter((item) => item.id !== id);
   emit();
   return { success: true };
@@ -245,18 +231,6 @@ export function deleteBranchDepartment(id: string): DeleteDepartmentResult {
   const department = getBranchDepartmentById(id);
   if (!department) {
     return { success: false, reason: "not_found" };
-  }
-
-  const branch = getBranchById(department.branchId);
-  if (branch) {
-    const hasMembers = getEmployeesSnapshot().some(
-      (employee) =>
-        employee.branch === branch.slug &&
-        employee.department === department.slug
-    );
-    if (hasMembers) {
-      return { success: false, reason: "has_members" };
-    }
   }
 
   branchDepartments = branchDepartments.filter((item) => item.id !== id);

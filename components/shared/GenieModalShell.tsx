@@ -39,6 +39,10 @@ export interface GenieModalShellProps {
   backdropDisabled?: boolean;
   children: ReactNode;
   panelClassName?: string;
+  role?: "dialog" | "alertdialog";
+  ariaModal?: boolean;
+  ariaLabelledBy?: string;
+  ariaDescribedBy?: string;
 }
 
 const GenieModalCloseContext = createContext<(() => void) | null>(null);
@@ -205,6 +209,10 @@ export function GenieModalShell({
   backdropDisabled = false,
   children,
   panelClassName,
+  role,
+  ariaModal,
+  ariaLabelledBy,
+  ariaDescribedBy,
 }: GenieModalShellProps): ReactElement | null {
   const isLargeScreen = useLargeScreen();
   const useGenie = isLargeScreen;
@@ -548,6 +556,10 @@ export function GenieModalShell({
             <div
               ref={panelRef}
               className={resolvedPanelClassName}
+              role={panelInteractive ? role : undefined}
+              aria-modal={panelInteractive ? ariaModal : undefined}
+              aria-labelledby={panelInteractive ? ariaLabelledBy : undefined}
+              aria-describedby={panelInteractive ? ariaDescribedBy : undefined}
               aria-hidden={!panelInteractive}
               style={{
                 opacity: panelInteractive ? 1 : 0,

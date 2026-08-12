@@ -42,11 +42,12 @@ export function AdminBranchesPage(): ReactElement {
   const createBranchTriggerRef = useRef<HTMLButtonElement>(null);
   const { triggerRef: editBranchTriggerRef, bindTrigger: bindEditBranchTrigger } =
     useModalTriggerRef();
+  const { triggerRef: deleteBranchTriggerRef, bindTrigger: bindDeleteBranchTrigger } =
+    useModalTriggerRef();
   const [creating, setCreating] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [editing, setEditing] = useState<AdminBranchRecord | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-  const [deleteError, setDeleteError] = useState<string | null>(null);
   const [draft, setDraft] = useState<UpdateBranchDraft>(emptyDraft());
 
   const overviews = buildBranchOverviews(getEmployeesSnapshot());
@@ -94,21 +95,11 @@ export function AdminBranchesPage(): ReactElement {
     setDraft(emptyDraft());
   };
 
-  const confirmDelete = (): void => {
-    if (!deleteId) return;
+  const confirmDelete = (): boolean => {
+    if (!deleteId) return false;
     const result = deleteBranch(deleteId);
-    if (!result.success) {
-      if (result.reason === "has_employees") {
-        setDeleteError(t("deleteBlockedEmployees"));
-      } else if (result.reason === "has_departments") {
-        setDeleteError(t("deleteBlockedDepartments"));
-      } else {
-        setDeleteError(t("branchNotFoundDescription"));
-      }
-      return;
-    }
-    setDeleteId(null);
-    setDeleteError(null);
+    if (!result.success) return false;
+    return true;
   };
 
   const columnCount = 6;
@@ -237,8 +228,8 @@ export function AdminBranchesPage(): ReactElement {
                             iconOnly
                             aria-label={t("delete")}
                             startIcon={<Trash2 className="size-4" />}
-                            onClick={() => {
-                              setDeleteError(null);
+                            onClick={(event) => {
+                              bindDeleteBranchTrigger(event);
                               setDeleteId(branch.id);
                             }}
                           />
@@ -289,18 +280,15 @@ export function AdminBranchesPage(): ReactElement {
         open={deleteTarget !== null}
         title={t("deleteTitle")}
         description={
-          deleteError ??
-          (deleteTarget
+          deleteTarget
             ? t("deleteDescription", { name: deleteTarget.name })
-            : "")
+            : ""
         }
         confirmLabel={t("deleteConfirm")}
         cancelLabel={t("cancel")}
-        onCancel={() => {
-          setDeleteId(null);
-          setDeleteError(null);
-        }}
+        onCancel={() => setDeleteId(null)}
         onConfirm={confirmDelete}
+        triggerRef={deleteBranchTriggerRef}
       />
     </div>
   );

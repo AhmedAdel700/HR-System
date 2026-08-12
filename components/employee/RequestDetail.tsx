@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore, type ReactElement } from "react";
+import { useRef, useState, useSyncExternalStore, type ReactElement } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Pencil, Trash2 } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -24,6 +24,7 @@ export function RequestDetail({ id }: { id: string }): ReactElement {
   const router = useRouter();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const deleteRequestTriggerRef = useRef<HTMLButtonElement>(null);
 
   useSyncExternalStore(
     subscribeRequests,
@@ -38,14 +39,14 @@ export function RequestDetail({ id }: { id: string }): ReactElement {
 
   const canModify = canModifyRequest(item.status);
 
-  const handleDelete = (): void => {
+  const handleDelete = (): boolean => {
     setDeleting(true);
     const removed = deleteRequest(id);
     setDeleting(false);
-    setConfirmOpen(false);
     if (removed) {
       router.push("/requests");
     }
+    return removed;
   };
 
   return (
@@ -119,6 +120,7 @@ export function RequestDetail({ id }: { id: string }): ReactElement {
             {t("edit")}
           </MainButton>
           <MainButton
+            ref={deleteRequestTriggerRef}
             variant="delete-soft"
             block
             startIcon={<Trash2 className="size-4" />}
@@ -145,6 +147,7 @@ export function RequestDetail({ id }: { id: string }): ReactElement {
         loading={deleting}
         onCancel={() => setConfirmOpen(false)}
         onConfirm={handleDelete}
+        triggerRef={deleteRequestTriggerRef}
       />
     </div>
   );
