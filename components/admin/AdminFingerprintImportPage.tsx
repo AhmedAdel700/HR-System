@@ -29,6 +29,7 @@ import {
   subscribeFingerprintImports,
 } from "@/lib/admin/fingerprintImportStore";
 import { searchFingerprintRecords } from "@/lib/admin/searchFingerprintRecords";
+import { formatDateTime12, formatStoredTime12, resolveTimeLocale } from "@/lib/formatTime";
 import type { FingerprintImportMonthData } from "@/types/FingerprintImportApiTypes";
 import type { FingerprintAttendanceStatus } from "@/types/FingerprintImportApiTypes";
 import { cn } from "@/lib/utils";
@@ -43,13 +44,6 @@ const attendanceStatusSurface: Record<
   out: "bg-neutral-100 text-neutral-700",
   in_out: "bg-jade-50 text-jade-800",
 };
-
-function formatUploadedAt(iso: string, locale: string): string {
-  return new Intl.DateTimeFormat(locale === "ar" ? "ar-EG" : "en-US", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(new Date(iso));
-}
 
 export function AdminFingerprintImportPage(): ReactElement {
   const t = useTranslations("admin.fingerprintImportPage");
@@ -315,7 +309,10 @@ export function AdminFingerprintImportPage(): ReactElement {
                         {t(`months.${upload.month}` as "months.1")} {upload.year}
                       </td>
                       <td className="px-4 py-3 text-text-secondary">
-                        {formatUploadedAt(upload.uploadedAt, locale)}
+                        {formatDateTime12(
+                          new Date(upload.uploadedAt),
+                          resolveTimeLocale(locale)
+                        )}
                       </td>
                       <td className="px-4 py-3 text-text-secondary">{upload.uploadedBy}</td>
                       <td className="px-4 py-3 tabular-nums text-text-secondary">
@@ -427,10 +424,10 @@ export function AdminFingerprintImportPage(): ReactElement {
                         {record.fingerprintSerial ?? "—"}
                       </td>
                       <td className="px-4 py-3 tabular-nums text-text-secondary">
-                        {record.clockIn ?? "—"}
+                        {formatStoredTime12(record.clockIn, resolveTimeLocale(locale))}
                       </td>
                       <td className="px-4 py-3 tabular-nums text-text-secondary">
-                        {record.clockOut ?? "—"}
+                        {formatStoredTime12(record.clockOut, resolveTimeLocale(locale))}
                       </td>
                       <td className="px-4 py-3 text-start">
                         <span

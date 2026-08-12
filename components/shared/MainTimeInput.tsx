@@ -9,6 +9,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { MainButton } from "@/components/shared/MainButton";
+import {
+  formatClock12Display,
+  parseClock12,
+  toValue24,
+  type TimePeriod,
+} from "@/lib/formatTime";
 import { cn } from "@/lib/utils";
 
 export interface MainTimeInputProps {
@@ -27,58 +33,10 @@ export interface MainTimeInputProps {
   className?: string;
 }
 
-type DayPeriod = "am" | "pm";
-
-interface ParsedClock {
-  hour12: number;
-  minute: string;
-  period: DayPeriod;
-  value24: string;
-}
-
-const HOURS_12 = Array.from({ length: 12 }, (_, i) => i + 1);
-const MINUTES = Array.from({ length: 60 }, (_, i) =>
-  String(i).padStart(2, "0")
+const HOURS_12 = Array.from({ length: 12 }, (_, index) => String(index + 1));
+const MINUTES = Array.from({ length: 60 }, (_, index) =>
+  String(index).padStart(2, "0")
 );
-
-function toValue24(hour12: number, minute: string, period: DayPeriod): string {
-  let hour24 = hour12 % 12;
-  if (period === "pm") hour24 += 12;
-  return `${String(hour24).padStart(2, "0")}:${minute}`;
-}
-
-function parseTime(value: string | undefined): ParsedClock | null {
-  if (!value) return null;
-  const match = /^(\d{2}):(\d{2})$/.exec(value);
-  if (!match) return null;
-  const hourRaw = match[1];
-  const minute = match[2];
-  if (!hourRaw || !minute) return null;
-  const hour24 = Number(hourRaw);
-  const minuteNum = Number(minute);
-  if (hour24 < 0 || hour24 > 23 || minuteNum < 0 || minuteNum > 59) {
-    return null;
-  }
-
-  const period: DayPeriod = hour24 < 12 ? "am" : "pm";
-  const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
-
-  return {
-    hour12,
-    minute,
-    period,
-    value24: `${hourRaw}:${minute}`,
-  };
-}
-
-function formatDisplay(
-  parsed: ParsedClock,
-  amLabel: string,
-  pmLabel: string
-): string {
-  const periodLabel = parsed.period === "am" ? amLabel : pmLabel;
-  return `${parsed.hour12}:${parsed.minute} ${periodLabel}`;
-}
 
 function TimeColumn({
   values,
@@ -127,7 +85,9 @@ function TimeColumn({
               onClick={() => onSelect(item)}
               className={cn(
                 "mx-0.5 h-auto w-[calc(100%-4px)] rounded-md px-2 py-2 text-sm tabular-nums shadow-none",
-                isActive ? "font-semibold" : "font-normal hover:bg-primary-50 hover:text-primary-800"
+                isActive
+                  ? "font-semibold"
+                  : "font-normal hover:bg-primary-50 hover:text-primary-800"
               )}
             >
               {item}
@@ -164,12 +124,12 @@ export function MainTimeInput({
   const hintId = `${fieldId}-hint`;
   const errorId = `${fieldId}-error`;
   const invalid = Boolean(error);
-  const parsed = parseTime(value);
+  const parsed = parseClock12(value);
   const resolvedPlaceholder = placeholder ?? t("pickTime");
   const amLabel = t("am");
   const pmLabel = t("pm");
   const displayValue = parsed
-    ? formatDisplay(parsed, amLabel, pmLabel)
+    ? formatClock12Display(parsed, amLabel, pmLabel)
     : null;
 
   const describedBy =
@@ -180,7 +140,7 @@ export function MainTimeInput({
   const commit = (
     hour12: number,
     minute: string,
-    period: DayPeriod
+    period: TimePeriod
   ): void => {
     onChange?.(toValue24(hour12, minute, period));
   };
@@ -198,13 +158,12 @@ export function MainTimeInput({
     commit(hour12, minute, period);
   };
 
-  const setPeriod = (period: DayPeriod): void => {
+  const setPeriod = (period: TimePeriod): void => {
     const hour12 = parsed?.hour12 ?? 12;
     const minute = parsed?.minute ?? "00";
     commit(hour12, minute, period);
   };
 
-  const hourValues = HOURS_12.map(String);
   const selectedHour = parsed ? String(parsed.hour12) : null;
   const selectedPeriod = parsed?.period ?? null;
 
@@ -323,7 +282,7 @@ export function MainTimeInput({
           <div className="flex gap-2.5 p-2.5">
             <TimeColumn
               label={t("hour")}
-              values={hourValues}
+              values={HOURS_12}
               selected={selectedHour}
               onSelect={setHour}
             />

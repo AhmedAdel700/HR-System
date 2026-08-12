@@ -1,10 +1,11 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { ReactElement, ReactNode } from "react";
 import { MainButton } from "@/components/shared/MainButton";
 import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
 import { leaveTypeSurface, type DemoRequest } from "@/lib/employee/demo-data";
+import { formatStoredTime12, resolveTimeLocale } from "@/lib/formatTime";
 import { cn } from "@/lib/utils";
 
 interface LeaveRequestViewModalProps {
@@ -42,6 +43,7 @@ export function LeaveRequestViewModal({
   onClose,
 }: LeaveRequestViewModalProps): ReactElement | null {
   const t = useTranslations("admin.leaveRequests");
+  const locale = useLocale();
   const tFields = useTranslations("employee.requests");
   const tDept = useTranslations("admin.departments");
   const tBranch = useTranslations("auth.branchOptions");
@@ -90,7 +92,8 @@ export function LeaveRequestViewModal({
                 {request.startTime && request.endTime ? (
                   <DetailField label={tFields("hours")}>
                     <span className="font-medium">
-                      {request.startTime} → {request.endTime}
+                      {formatStoredTime12(request.startTime, resolveTimeLocale(locale))} →{" "}
+                      {formatStoredTime12(request.endTime, resolveTimeLocale(locale))}
                     </span>
                   </DetailField>
                 ) : null}

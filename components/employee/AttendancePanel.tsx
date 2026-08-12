@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { MainButton } from "@/components/shared/MainButton";
+import { formatStoredTime12, formatTime12, resolveTimeLocale } from "@/lib/formatTime";
 import {
   getCurrentPosition,
   LocationError,
@@ -22,16 +23,9 @@ import { cn } from "@/lib/utils";
 
 type TodayState = "idle" | "in" | "out";
 
-function formatNow(): string {
-  return new Intl.DateTimeFormat(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(new Date());
-}
-
 export function AttendancePanel() {
   const t = useTranslations("employee.attendance");
+  const locale = useLocale();
   const [state, setState] = useState<TodayState>("idle");
   const [checkIn, setCheckIn] = useState<string | null>(null);
   const [checkOut, setCheckOut] = useState<string | null>(null);
@@ -84,7 +78,7 @@ export function AttendancePanel() {
         return;
       }
 
-      const time = formatNow();
+      const time = formatTime12(new Date(), resolveTimeLocale(locale));
       if (action === "check-in") {
         setCheckIn(time);
         setState("in");
@@ -179,7 +173,7 @@ export function AttendancePanel() {
                 <p className="text-sm font-medium text-ink">{day.date}</p>
                 <p className="text-xs text-text-muted">
                   {day.checkIn || day.checkOut
-                    ? `${day.checkIn ?? "—"} → ${day.checkOut ?? "—"}`
+                    ? `${formatStoredTime12(day.checkIn, resolveTimeLocale(locale))} → ${formatStoredTime12(day.checkOut, resolveTimeLocale(locale))}`
                     : "—"}
                 </p>
               </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore, type ReactElement } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Pencil, Trash2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -15,10 +15,12 @@ import {
   getEmployeeRequestsSnapshot,
   subscribeRequests,
 } from "@/lib/employee/requestsStore";
+import { formatStoredTime12, resolveTimeLocale } from "@/lib/formatTime";
 import { cn } from "@/lib/utils";
 
 export function RequestDetail({ id }: { id: string }): ReactElement {
   const t = useTranslations("employee.requests");
+  const locale = useLocale();
   const router = useRouter();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [deleting, setDeleting] = useState(false);
@@ -85,7 +87,8 @@ export function RequestDetail({ id }: { id: string }): ReactElement {
           <div>
             <dt className="text-xs text-text-muted">{t("hours")}</dt>
             <dd className="mt-1 text-sm font-medium text-ink">
-              {item.startTime} → {item.endTime}
+              {formatStoredTime12(item.startTime, resolveTimeLocale(locale))} →{" "}
+              {formatStoredTime12(item.endTime, resolveTimeLocale(locale))}
             </dd>
           </div>
         ) : null}
