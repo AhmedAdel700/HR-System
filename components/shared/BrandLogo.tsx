@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 const LOGO_SRC = "/logo.png";
 
-type BrandLogoSize = "xs" | "sm" | "md" | "lg" | "xl";
+type BrandLogoSize = "xs" | "sm" | "md" | "lg" | "header" | "xl";
 
 const sizeMap: Record<
   BrandLogoSize,
@@ -14,6 +14,7 @@ const sizeMap: Record<
   sm: { width: 112, height: 42, className: "h-10 w-auto" },
   md: { width: 128, height: 48, className: "h-11 w-auto" },
   lg: { width: 168, height: 64, className: "h-14 w-auto" },
+  header: { width: 184, height: 70, className: "h-16 w-auto" },
   xl: { width: 240, height: 92, className: "h-[5.5rem] w-auto sm:h-24" },
 };
 

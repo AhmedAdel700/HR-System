@@ -30,9 +30,10 @@ export function EmployeeShell({
       <header className="sticky top-0 z-30 border-b border-border bg-surface/95 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-lg items-center justify-between gap-3 px-4 lg:max-w-5xl">
           <div className="inline-flex min-w-0 items-center gap-2.5">
-            <BrandLogo size="md" />
+            <BrandLogo size="lg" />
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-ink">{title}</p>
+              <p className="truncate text-[11px] text-text-muted">{t("roles.employee")}</p>
             </div>
           </div>
           <LocaleSwitcher tone="light" className="shrink-0" />

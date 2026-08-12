@@ -6,6 +6,9 @@
     "profile": "حسابي"
   },
   "brand": "بي إتش آر",
+  "roles": {
+    "employee": "موظف"
+  },
   "home": {
     "greeting": "مرحباً",
     "subtitle": "نظرة سريعة على يومك.",

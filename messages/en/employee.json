@@ -6,6 +6,9 @@
     "profile": "Profile"
   },
   "brand": "BeHR",
+  "roles": {
+    "employee": "Employee"
+  },
   "home": {
     "greeting": "Hello",
     "subtitle": "Here’s your day at a glance.",

@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import { useSyncExternalStore } from "react";
 import { useTranslations } from "next-intl";
 import { Menu } from "lucide-react";
 import { usePathname } from "@/i18n/navigation";
@@ -13,6 +14,10 @@ import {
   useAdminMobileNav,
 } from "@/lib/admin/adminMobileNav";
 import { getAdminPageTitleKey } from "@/lib/admin/adminNav";
+import {
+  getAdminSessionSnapshot,
+  subscribeAdminSession,
+} from "@/lib/admin/adminSessionStore";
 import { cn } from "@/lib/utils";
 
 function AdminShellHeader(): React.ReactElement {
@@ -21,15 +26,23 @@ function AdminShellHeader(): React.ReactElement {
   const pageKey = getAdminPageTitleKey(pathname);
   const { setOpen } = useAdminMobileNav();
 
+  useSyncExternalStore(subscribeAdminSession, getAdminSessionSnapshot, getAdminSessionSnapshot);
+  const admin = getAdminSessionSnapshot();
+  const roleLabel =
+    admin.role === "super_admin"
+      ? t("roles.superAdmin")
+      : t("roles.departmentManager");
+
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-surface">
       <div className="flex h-16 items-center justify-between gap-3 px-4 lg:px-6">
         <div className="inline-flex min-w-0 items-center gap-2.5">
-          <BrandLogo size="lg" />
+          <BrandLogo size="header" />
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-ink lg:text-base">
               {t(`nav.${pageKey}`)}
             </p>
+            <p className="truncate text-[11px] text-text-muted lg:text-xs">{roleLabel}</p>
           </div>
         </div>
         <div className="flex shrink-0 items-center gap-2">
