@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname } from "@/i18n/navigation";
+import { BrandLogo } from "@/components/shared/BrandLogo";
 import { LocaleSwitcher } from "@/components/auth/LocaleSwitcher";
 import { EmployeeTabBar } from "@/components/employee/EmployeeTabBar";
 import { cn } from "@/lib/utils";
@@ -29,12 +30,9 @@ export function EmployeeShell({
       <header className="sticky top-0 z-30 border-b border-border bg-surface/95 backdrop-blur-md">
         <div className="mx-auto flex h-14 max-w-lg items-center justify-between gap-3 px-4 lg:max-w-5xl">
           <div className="inline-flex min-w-0 items-center gap-2.5">
-            <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-primary-500 text-[10px] font-semibold text-text-inverse shadow-primary-sm">
-              HR
-            </span>
+            <BrandLogo size="md" />
             <div className="min-w-0">
               <p className="truncate text-sm font-semibold text-ink">{title}</p>
-              <p className="truncate text-[11px] text-text-muted">{t("brand")}</p>
             </div>
           </div>
           <LocaleSwitcher tone="light" className="shrink-0" />

@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { Menu } from "lucide-react";
 import { usePathname } from "@/i18n/navigation";
+import { BrandLogo } from "@/components/shared/BrandLogo";
 import { LocaleSwitcher } from "@/components/auth/LocaleSwitcher";
 import { MainButton } from "@/components/shared/MainButton";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
@@ -24,15 +25,10 @@ function AdminShellHeader(): React.ReactElement {
     <header className="sticky top-0 z-40 border-b border-border bg-surface">
       <div className="flex h-16 items-center justify-between gap-3 px-4 lg:px-6">
         <div className="inline-flex min-w-0 items-center gap-2.5">
-          <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-primary-500 text-[10px] font-semibold text-text-inverse shadow-primary-sm">
-            AD
-          </span>
+          <BrandLogo size="lg" />
           <div className="min-w-0">
             <p className="truncate text-sm font-semibold text-ink lg:text-base">
               {t(`nav.${pageKey}`)}
-            </p>
-            <p className="truncate text-[11px] text-text-muted lg:text-xs">
-              {t("brand")}
             </p>
           </div>
         </div>

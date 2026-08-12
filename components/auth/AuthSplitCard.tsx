@@ -1,9 +1,9 @@
 import type { ReactNode } from "react";
+import { BrandLogo } from "@/components/shared/BrandLogo";
 import { LocaleSwitcher } from "@/components/auth/LocaleSwitcher";
 import { cn } from "@/lib/utils";
 
 type AuthSplitCardProps = {
-  brand: string;
   title: string;
   subtitle: string;
   children: ReactNode;
@@ -13,7 +13,6 @@ type AuthSplitCardProps = {
 };
 
 export function AuthSplitCard({
-  brand,
   title,
   subtitle,
   children,
@@ -72,14 +71,7 @@ export function AuthSplitCard({
         />
 
         <div className="relative z-10 flex h-full min-h-[36rem] flex-col justify-between p-10 text-text-inverse xl:p-12">
-          <div className="inline-flex items-center gap-2.5">
-            <span className="grid size-9 place-items-center rounded-lg bg-primary-500 text-xs font-semibold shadow-primary-sm">
-              HR
-            </span>
-            <span className="text-sm font-medium tracking-wide text-neutral-300">
-              {brand}
-            </span>
-          </div>
+          <BrandLogo size="xl" variant="onDark" priority />
 
           <div className="space-y-3 pb-2">
             <p className="max-w-[16rem] text-3xl font-semibold leading-tight tracking-tight text-white xl:text-4xl">
@@ -100,11 +92,8 @@ export function AuthSplitCard({
 
         <div className="mx-auto w-full max-w-none">
           <div className="mb-7 lg:hidden">
-            <div className="mb-4 inline-flex items-center gap-2.5 pe-24">
-              <span className="grid size-9 place-items-center rounded-lg bg-primary-500 text-xs font-semibold text-text-inverse shadow-primary-sm">
-                HR
-              </span>
-              <span className="text-sm font-medium text-ink">{brand}</span>
+            <div className="mb-4 pe-24">
+              <BrandLogo size="lg" priority />
             </div>
             <h1 className="text-2xl font-semibold tracking-tight text-ink">
               {title}

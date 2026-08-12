@@ -35,6 +35,10 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: t("brand"),
     description: t("login.subtitle"),
+    icons: {
+      icon: "/logo.png",
+      apple: "/logo.png",
+    },
   };
 }
 

@@ -13,7 +13,6 @@ export async function Login({
   return (
     <AuthShell>
       <AuthSplitCard
-        brand={t("brand")}
         title={t("login.title")}
         subtitle={t("login.subtitle")}
       >

@@ -144,7 +144,6 @@ export function RegisterForm(): ReactElement {
 
   return (
     <RegisterWizardShell
-      brand={t("brand")}
       title={t("register.title")}
       subtitle={t("register.subtitle")}
       steps={steps}

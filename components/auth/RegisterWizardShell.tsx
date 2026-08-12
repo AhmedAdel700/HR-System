@@ -3,6 +3,7 @@
 import type { ReactElement, ReactNode } from "react";
 import { Check } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { BrandLogo } from "@/components/shared/BrandLogo";
 import { LocaleSwitcher } from "@/components/auth/LocaleSwitcher";
 import { cn } from "@/lib/utils";
 
@@ -15,7 +16,6 @@ interface RegisterStep {
 }
 
 interface RegisterWizardShellProps {
-  brand: string;
   title: string;
   subtitle: string;
   steps: RegisterStep[];
@@ -25,7 +25,6 @@ interface RegisterWizardShellProps {
 }
 
 export function RegisterWizardShell({
-  brand,
   title,
   subtitle,
   steps,
@@ -54,11 +53,8 @@ export function RegisterWizardShell({
           className="pointer-events-none absolute -top-24 start-[-20%] size-56 rounded-full bg-primary-500/30 blur-3xl"
         />
 
-        <div className="relative z-10 flex items-center gap-2.5">
-          <span className="grid size-9 place-items-center rounded-lg bg-primary-500 text-xs font-semibold shadow-primary-sm">
-            HR
-          </span>
-          <span className="text-sm font-medium text-neutral-300">{brand}</span>
+        <div className="relative z-10">
+          <BrandLogo size="xl" variant="onDark" priority />
         </div>
 
         <div className="relative z-10 mt-10 space-y-1">
@@ -110,11 +106,8 @@ export function RegisterWizardShell({
 
       <div className="flex min-h-0 flex-col">
         <div className="flex items-center justify-between gap-3 border-b border-border px-5 py-4 sm:px-7">
-          <div className="inline-flex items-center gap-2.5 lg:hidden">
-            <span className="grid size-8 place-items-center rounded-lg bg-primary-500 text-[10px] font-semibold text-text-inverse shadow-primary-sm">
-              HR
-            </span>
-            <span className="text-sm font-semibold text-ink">{brand}</span>
+          <div className="lg:hidden">
+            <BrandLogo size="lg" />
           </div>
           <LocaleSwitcher tone="light" />
         </div>

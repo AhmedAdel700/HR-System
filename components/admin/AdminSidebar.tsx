@@ -17,6 +17,7 @@ import {
   getAdminSessionSnapshot,
   subscribeAdminSession,
   switchDemoRole,
+  clearAdminSession,
 } from "@/lib/admin/adminSessionStore";
 import { getAdminNavItemsForRole, type AdminNavItem } from "@/lib/admin/adminNav";
 import {
@@ -239,8 +240,11 @@ export function AdminSidebar(): ReactElement {
 
       <div className={cn("mt-auto px-1", showLabels ? "pt-2" : "border-t border-border pt-3")}>
         <Link
-          href="/admin-dashboard/login"
-          onClick={() => setDrawerOpen(false)}
+          href="/login"
+          onClick={() => {
+            setDrawerOpen(false);
+            clearAdminSession();
+          }}
           className={cn(
             "flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors",
             showLabels ? "justify-start" : "justify-center lg:px-2",
