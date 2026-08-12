@@ -7,7 +7,7 @@ import { useRouter } from "@/i18n/navigation";
 import { CreateBranchModal } from "@/components/admin/CreateBranchModal";
 import { DeleteConfirmModal } from "@/components/shared/DeleteConfirmModal";
 import { MainButton } from "@/components/shared/MainButton";
-import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
+import { ModalShell } from "@/components/shared/ModalShell";
 import { MainInput } from "@/components/shared/MainInput";
 import { buildBranchOverviews } from "@/lib/admin/buildBranchOverviews";
 import {
@@ -239,14 +239,12 @@ export function AdminBranchesPage(): ReactElement {
       </section>
 
       {editing ? (
-        <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain">
-          <ModalBackdrop
-            ariaLabel={t("cancel")}
-            onClick={() => setEditing(null)}
-          />
-          <div className="flex min-h-full items-center justify-center p-4">
-            <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-surface p-4 shadow-md">
-              <h2 className="text-base font-semibold text-ink">{t("editTitle")}</h2>
+        <ModalShell
+          open={editing !== null}
+          onClose={() => setEditing(null)}
+          backdropAriaLabel={t("cancel")}
+        >
+          <h2 className="text-base font-semibold text-ink">{t("editTitle")}</h2>
               <div className="mt-4 flex flex-col gap-3">
                 <MainInput
                   label={t("fields.name")}
@@ -295,9 +293,7 @@ export function AdminBranchesPage(): ReactElement {
                   {t("save")}
                 </MainButton>
               </div>
-            </div>
-          </div>
-        </div>
+        </ModalShell>
       ) : null}
 
       <CreateBranchModal open={creating} onClose={() => setCreating(false)} />

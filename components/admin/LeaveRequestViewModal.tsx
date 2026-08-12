@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import type { ReactElement, ReactNode } from "react";
 import { MainButton } from "@/components/shared/MainButton";
-import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
+import { ModalShell } from "@/components/shared/ModalShell";
 import { leaveTypeSurface, type DemoRequest } from "@/lib/employee/demo-data";
 import { formatStoredTime12, resolveTimeLocale } from "@/lib/formatTime";
 import { cn } from "@/lib/utils";
@@ -49,18 +49,18 @@ export function LeaveRequestViewModal({
   const tBranch = useTranslations("auth.branchOptions");
   const tType = useTranslations("employee.requests.types");
 
-  if (!open || !request) return null;
+  if (!request) return null;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain">
-      <ModalBackdrop ariaLabel={t("close")} onClick={onClose} />
-      <div className="flex min-h-full items-center justify-center p-4">
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="leave-request-view-title"
-          className="relative z-10 flex w-full max-w-lg max-h-[calc(100dvh-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-md"
-        >
+    <ModalShell
+      open={open}
+      onClose={onClose}
+      backdropAriaLabel={t("close")}
+      role="dialog"
+      ariaModal
+      ariaLabelledBy="leave-request-view-title"
+      panelClassName="flex max-w-lg max-h-[calc(100dvh-2rem)] flex-col overflow-hidden p-0"
+    >
           <div className="min-h-0 flex-1 overflow-y-auto p-4">
             <div className="space-y-3">
               <div className="space-y-2">
@@ -131,8 +131,6 @@ export function LeaveRequestViewModal({
               {t("close")}
             </MainButton>
           </div>
-        </div>
-      </div>
-    </div>
+    </ModalShell>
   );
 }

@@ -13,7 +13,7 @@ import { useTranslations } from "next-intl";
 import { Building2, MapPinned } from "lucide-react";
 import { EmployeeManagerPicker } from "@/components/admin/EmployeeManagerPicker";
 import { MainButton } from "@/components/shared/MainButton";
-import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
+import { ModalShell } from "@/components/shared/ModalShell";
 import { MainInput } from "@/components/shared/MainInput";
 import { MainSelect } from "@/components/shared/MainSelect";
 import {
@@ -118,14 +118,13 @@ export function EditDepartmentModal({
     onClose();
   };
 
-  if (!open) return null;
-
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain">
-      <ModalBackdrop ariaLabel={tPage("cancel")} onClick={onClose} />
-      <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-surface p-4 shadow-md">
-          <h2 className="text-base font-semibold text-ink">{tPage("editTitle")}</h2>
+    <ModalShell
+      open={open}
+      onClose={onClose}
+      backdropAriaLabel={tPage("cancel")}
+    >
+      <h2 className="text-base font-semibold text-ink">{tPage("editTitle")}</h2>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -190,9 +189,7 @@ export function EditDepartmentModal({
               </MainButton>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
+    </ModalShell>
   );
 }
 

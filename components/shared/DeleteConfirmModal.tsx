@@ -2,7 +2,7 @@
 
 import type { ReactElement } from "react";
 import { MainButton, type ButtonVariant } from "@/components/shared/MainButton";
-import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
+import { ModalShell } from "@/components/shared/ModalShell";
 
 export interface DeleteConfirmModalProps {
   open: boolean;
@@ -27,57 +27,49 @@ export function DeleteConfirmModal({
   loading = false,
   confirmVariant = "delete",
 }: DeleteConfirmModalProps): ReactElement | null {
-  if (!open) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      role="presentation"
+    <ModalShell
+      open={open}
+      onClose={onCancel}
+      backdropAriaLabel={cancelLabel}
+      backdropDisabled={loading}
+      layout="center"
+      role="alertdialog"
+      ariaModal
+      ariaLabelledBy="delete-confirm-title"
+      ariaDescribedBy="delete-confirm-description"
+      panelClassName="max-w-sm overflow-hidden"
     >
-      <ModalBackdrop
-        ariaLabel={cancelLabel}
-        onClick={onCancel}
-        disabled={loading}
-        position="absolute"
-      />
-      <div
-        role="alertdialog"
-        aria-modal="true"
-        aria-labelledby="delete-confirm-title"
-        aria-describedby="delete-confirm-description"
-        className="relative z-10 w-full max-w-sm overflow-hidden rounded-2xl border border-border bg-surface p-4 shadow-md"
+      <h2
+        id="delete-confirm-title"
+        className="text-base font-semibold text-ink"
       >
-        <h2
-          id="delete-confirm-title"
-          className="text-base font-semibold text-ink"
+        {title}
+      </h2>
+      <p
+        id="delete-confirm-description"
+        className="mt-2 text-sm text-text-secondary"
+      >
+        {description}
+      </p>
+      <div className="mt-4 grid w-full grid-cols-2 gap-2">
+        <MainButton
+          variant="neutral"
+          block
+          disabled={loading}
+          onClick={onCancel}
         >
-          {title}
-        </h2>
-        <p
-          id="delete-confirm-description"
-          className="mt-2 text-sm text-text-secondary"
+          {cancelLabel}
+        </MainButton>
+        <MainButton
+          variant={confirmVariant}
+          block
+          loading={loading}
+          onClick={onConfirm}
         >
-          {description}
-        </p>
-        <div className="mt-4 grid w-full grid-cols-2 gap-2">
-          <MainButton
-            variant="neutral"
-            block
-            disabled={loading}
-            onClick={onCancel}
-          >
-            {cancelLabel}
-          </MainButton>
-          <MainButton
-            variant={confirmVariant}
-            block
-            loading={loading}
-            onClick={onConfirm}
-          >
-            {confirmLabel}
-          </MainButton>
-        </div>
+          {confirmLabel}
+        </MainButton>
       </div>
-    </div>
+    </ModalShell>
   );
 }

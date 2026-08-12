@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { Building2, MapPinned } from "lucide-react";
 import { MainButton } from "@/components/shared/MainButton";
-import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
+import { ModalShell } from "@/components/shared/ModalShell";
 import { MainInput } from "@/components/shared/MainInput";
 import { MainSelect } from "@/components/shared/MainSelect";
 import {
@@ -105,14 +105,13 @@ export function EditEmployeeAssignmentModal({
     onClose();
   };
 
-  if (!open) return null;
-
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto overscroll-contain">
-      <ModalBackdrop ariaLabel={t("cancel")} onClick={onClose} />
-      <div className="flex min-h-full items-center justify-center p-4">
-        <div className="relative z-10 w-full max-w-md rounded-2xl border border-border bg-surface p-4 shadow-md">
-          <h2 className="text-base font-semibold text-ink">{t("editTitle")}</h2>
+    <ModalShell
+      open={open}
+      onClose={onClose}
+      backdropAriaLabel={t("cancel")}
+    >
+      <h2 className="text-base font-semibold text-ink">{t("editTitle")}</h2>
           <p className="mt-1 text-sm text-text-secondary">{t("editSubtitle")}</p>
 
           <form
@@ -174,9 +173,7 @@ export function EditEmployeeAssignmentModal({
               </MainButton>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
+    </ModalShell>
   );
 }
 
