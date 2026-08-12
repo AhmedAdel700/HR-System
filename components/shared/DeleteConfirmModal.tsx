@@ -1,7 +1,8 @@
 "use client";
 
 import type { ReactElement } from "react";
-import { MainButton, type ButtonVariant } from "@/components/shared/MainButton";
+import { type ButtonVariant } from "@/components/shared/MainButton";
+import { ModalFormActions } from "@/components/shared/ModalFormActions";
 import { ModalShell } from "@/components/shared/ModalShell";
 
 export interface DeleteConfirmModalProps {
@@ -52,24 +53,17 @@ export function DeleteConfirmModal({
       >
         {description}
       </p>
-      <div className="mt-4 grid w-full grid-cols-2 gap-2">
-        <MainButton
-          variant="neutral"
-          block
-          disabled={loading}
-          onClick={onCancel}
-        >
-          {cancelLabel}
-        </MainButton>
-        <MainButton
-          variant={confirmVariant}
-          block
-          loading={loading}
-          onClick={onConfirm}
-        >
-          {confirmLabel}
-        </MainButton>
-      </div>
+      <ModalFormActions
+        className="mt-4 pt-0"
+        cancelLabel={cancelLabel}
+        onCancel={onCancel}
+        submitLabel={confirmLabel}
+        submitType="button"
+        onSubmit={onConfirm}
+        loading={loading}
+        cancelDisabled={loading}
+        submitVariant={confirmVariant}
+      />
     </ModalShell>
   );
 }

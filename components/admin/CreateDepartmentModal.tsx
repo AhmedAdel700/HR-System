@@ -6,14 +6,16 @@ import {
   useState,
   useSyncExternalStore,
   type ReactElement,
+  type RefObject,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { Building2, MapPinned } from "lucide-react";
 import { EmployeeManagerPicker } from "@/components/admin/EmployeeManagerPicker";
-import { MainButton } from "@/components/shared/MainButton";
+import { ModalFormActions } from "@/components/shared/ModalFormActions";
 import { ModalShell } from "@/components/shared/ModalShell";
+import { useGenieModalClose } from "@/components/shared/GenieModalShell";
 import { MainInput } from "@/components/shared/MainInput";
 import { MainSelect } from "@/components/shared/MainSelect";
 import {
@@ -33,13 +35,39 @@ import {
 interface CreateDepartmentModalProps {
   open: boolean;
   onClose: () => void;
+  triggerRef?: RefObject<HTMLElement | null>;
 }
 
 export function CreateDepartmentModal({
   open,
   onClose,
+  triggerRef,
 }: CreateDepartmentModalProps): ReactElement | null {
   const t = useTranslations("admin.createDepartment");
+
+  return (
+    <ModalShell
+      open={open}
+      onClose={onClose}
+      triggerRef={triggerRef}
+      backdropAriaLabel={t("cancel")}
+    >
+      <CreateDepartmentForm open={open} onClose={onClose} />
+    </ModalShell>
+  );
+}
+
+interface CreateDepartmentFormProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+function CreateDepartmentForm({
+  open,
+  onClose,
+}: CreateDepartmentFormProps): ReactElement {
+  const t = useTranslations("admin.createDepartment");
+  const closeModal = useGenieModalClose(onClose);
   const [submitting, setSubmitting] = useState(false);
 
   useSyncExternalStore(subscribeOrg, getBranchesSnapshot, getBranchesSnapshot);
@@ -56,7 +84,7 @@ export function CreateDepartmentModal({
         nameMin: t("errors.nameMin"),
         managerRequired: t("errors.managerRequired"),
       }),
-    [t]
+    [t],
   );
 
   const {
@@ -90,7 +118,7 @@ export function CreateDepartmentModal({
         value: branch.id,
         label: `${branch.name} · ${branch.city}`,
       })),
-    [branches]
+    [branches],
   );
 
   const handleBranchChange = (value: string): void => {
@@ -115,92 +143,84 @@ export function CreateDepartmentModal({
       return;
     }
 
-    onClose();
+    closeModal();
   };
 
   const noBranches = branches.length === 0;
 
   return (
-    <ModalShell
-      open={open}
-      onClose={onClose}
-      backdropAriaLabel={t("cancel")}
-    >
+    <>
       <h2 className="text-base font-semibold text-ink">{t("title")}</h2>
-          <p className="mt-1 text-sm text-text-secondary">{t("subtitle")}</p>
+      <p className="mt-1 text-sm text-text-secondary">{t("subtitle")}</p>
 
-          {noBranches ? (
-            <div className="mt-4 rounded-xl border border-dashed border-border bg-surface-muted/30 p-4 text-center text-sm text-text-muted">
-              {t("noBranches")}
-            </div>
-          ) : (
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="mt-4 space-y-3"
-              noValidate
-            >
-              <Controller
-                control={control}
-                name="branchId"
-                render={({ field }) => (
-                  <MainSelect
-                    label={t("fields.branch")}
-                    startIcon={<MapPinned />}
-                    placeholder={t("placeholders.branch")}
-                    options={branchOptions}
-                    value={field.value}
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      handleBranchChange(value);
-                    }}
-                    onBlur={field.onBlur}
-                    error={
-                      isSubmitted ? errors.branchId?.message : undefined
-                    }
-                  />
-                )}
+      {noBranches ? (
+        <div className="mt-4 rounded-xl border border-dashed border-border bg-surface-muted/30 p-4 text-center text-sm text-text-muted">
+          {t("noBranches")}
+        </div>
+      ) : (
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="mt-4 space-y-3"
+          noValidate
+        >
+          <Controller
+            control={control}
+            name="branchId"
+            render={({ field }) => (
+              <MainSelect
+                label={t("fields.branch")}
+                startIcon={<MapPinned />}
+                placeholder={t("placeholders.branch")}
+                options={branchOptions}
+                value={field.value}
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  handleBranchChange(value);
+                }}
+                onBlur={field.onBlur}
+                error={isSubmitted ? errors.branchId?.message : undefined}
               />
+            )}
+          />
 
-              <MainInput
-                label={t("fields.name")}
-                startIcon={<Building2 />}
-                error={isSubmitted ? errors.name?.message : undefined}
-                {...register("name")}
-                placeholder={t("placeholders.name")}
+          <MainInput
+            label={t("fields.name")}
+            startIcon={<Building2 />}
+            error={isSubmitted ? errors.name?.message : undefined}
+            {...register("name")}
+            placeholder={t("placeholders.name")}
+          />
+
+          <Controller
+            control={control}
+            name="managerEmployeeId"
+            render={({ field }) => (
+              <EmployeeManagerPicker
+                employees={employees}
+                branchSlug={selectedBranch?.slug}
+                selectedEmployeeId={field.value}
+                onSelect={(employeeId) => {
+                  field.onChange(employeeId);
+                  if (employeeId) {
+                    clearErrors("managerEmployeeId");
+                  }
+                }}
+                error={
+                  isSubmitted ? errors.managerEmployeeId?.message : undefined
+                }
               />
+            )}
+          />
 
-              <Controller
-                control={control}
-                name="managerEmployeeId"
-                render={({ field }) => (
-                  <EmployeeManagerPicker
-                    employees={employees}
-                    branchSlug={selectedBranch?.slug}
-                    selectedEmployeeId={field.value}
-                    onSelect={(employeeId) => {
-                      field.onChange(employeeId);
-                      if (employeeId) {
-                        clearErrors("managerEmployeeId");
-                      }
-                    }}
-                    error={
-                      isSubmitted ? errors.managerEmployeeId?.message : undefined
-                    }
-                  />
-                )}
-              />
-
-              <div className="grid grid-cols-2 gap-2 pt-2">
-                <MainButton variant="neutral" block type="button" onClick={onClose}>
-                  {t("cancel")}
-                </MainButton>
-                <MainButton variant="primary" block type="submit" loading={submitting}>
-                  {t("submit")}
-                </MainButton>
-              </div>
-            </form>
-          )}
-    </ModalShell>
+          <ModalFormActions
+            cancelLabel={t("cancel")}
+            onCancel={closeModal}
+            submitLabel={t("submit")}
+            loading={submitting}
+          />
+        </form>
+      )}
+    </>
   );
 }
 

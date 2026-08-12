@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore, type ReactElement } from "react";
+import { useRef, useState, useSyncExternalStore, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
 import { Plus } from "lucide-react";
 import { CreateLeaveTypeModal } from "@/components/admin/CreateLeaveTypeModal";
@@ -28,6 +28,7 @@ export function AdminLeaveTypesPage(): ReactElement {
   );
 
   const leaveTypes = getLeaveTypesSnapshot();
+  const createLeaveTypeTriggerRef = useRef<HTMLButtonElement>(null);
   const [creating, setCreating] = useState(false);
 
   const columnCount = 4;
@@ -47,6 +48,7 @@ export function AdminLeaveTypesPage(): ReactElement {
             {t("resultsTitle", { count: leaveTypes.length })}
           </p>
           <MainButton
+            ref={createLeaveTypeTriggerRef}
             variant="primary"
             size="sm"
             startIcon={<Plus className="size-4" />}
@@ -125,7 +127,11 @@ export function AdminLeaveTypesPage(): ReactElement {
         </div>
       </section>
 
-      <CreateLeaveTypeModal open={creating} onClose={() => setCreating(false)} />
+      <CreateLeaveTypeModal
+        open={creating}
+        onClose={() => setCreating(false)}
+        triggerRef={createLeaveTypeTriggerRef}
+      />
     </div>
   );
 }

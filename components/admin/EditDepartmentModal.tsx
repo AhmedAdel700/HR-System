@@ -6,14 +6,16 @@ import {
   useState,
   useSyncExternalStore,
   type ReactElement,
+  type RefObject,
 } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { Building2, MapPinned } from "lucide-react";
 import { EmployeeManagerPicker } from "@/components/admin/EmployeeManagerPicker";
-import { MainButton } from "@/components/shared/MainButton";
+import { ModalFormActions } from "@/components/shared/ModalFormActions";
 import { ModalShell } from "@/components/shared/ModalShell";
+import { useGenieModalClose } from "@/components/shared/GenieModalShell";
 import { MainInput } from "@/components/shared/MainInput";
 import { MainSelect } from "@/components/shared/MainSelect";
 import {
@@ -35,15 +37,43 @@ interface EditDepartmentModalProps {
   department: AdminBranchDepartmentRecord;
   open: boolean;
   onClose: () => void;
+  triggerRef?: RefObject<HTMLElement | null>;
 }
 
 export function EditDepartmentModal({
   department,
   open,
   onClose,
+  triggerRef,
 }: EditDepartmentModalProps): ReactElement | null {
+  const tPage = useTranslations("admin.departmentsPage");
+
+  return (
+    <ModalShell
+      open={open}
+      onClose={onClose}
+      triggerRef={triggerRef}
+      backdropAriaLabel={tPage("cancel")}
+    >
+      <EditDepartmentForm department={department} open={open} onClose={onClose} />
+    </ModalShell>
+  );
+}
+
+interface EditDepartmentFormProps {
+  department: AdminBranchDepartmentRecord;
+  open: boolean;
+  onClose: () => void;
+}
+
+function EditDepartmentForm({
+  department,
+  open,
+  onClose,
+}: EditDepartmentFormProps): ReactElement {
   const t = useTranslations("admin.createDepartment");
   const tPage = useTranslations("admin.departmentsPage");
+  const closeModal = useGenieModalClose(onClose);
   const [submitting, setSubmitting] = useState(false);
 
   useSyncExternalStore(subscribeOrg, getBranchesSnapshot, getBranchesSnapshot);
@@ -60,7 +90,7 @@ export function EditDepartmentModal({
         nameMin: t("errors.nameMin"),
         managerRequired: t("errors.managerRequired"),
       }),
-    [t]
+    [t],
   );
 
   const {
@@ -94,7 +124,7 @@ export function EditDepartmentModal({
         value: branch.id,
         label: `${branch.name} · ${branch.city}`,
       })),
-    [branches]
+    [branches],
   );
 
   const handleBranchChange = (value: string): void => {
@@ -115,86 +145,80 @@ export function EditDepartmentModal({
       return;
     }
 
-    onClose();
+    closeModal();
   };
 
   return (
-    <ModalShell
-      open={open}
-      onClose={onClose}
-      backdropAriaLabel={tPage("cancel")}
-    >
+    <>
       <h2 className="text-base font-semibold text-ink">{tPage("editTitle")}</h2>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-4 space-y-3"
-            noValidate
-          >
-            <Controller
-              control={control}
-              name="branchId"
-              render={({ field }) => (
-                <MainSelect
-                  label={t("fields.branch")}
-                  startIcon={<MapPinned />}
-                  placeholder={t("placeholders.branch")}
-                  options={branchOptions}
-                  value={field.value}
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    handleBranchChange(value);
-                  }}
-                  onBlur={field.onBlur}
-                  error={isSubmitted ? errors.branchId?.message : undefined}
-                />
-              )}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-4 space-y-3"
+        noValidate
+      >
+        <Controller
+          control={control}
+          name="branchId"
+          render={({ field }) => (
+            <MainSelect
+              label={t("fields.branch")}
+              startIcon={<MapPinned />}
+              placeholder={t("placeholders.branch")}
+              options={branchOptions}
+              value={field.value}
+              onValueChange={(value) => {
+                field.onChange(value);
+                handleBranchChange(value);
+              }}
+              onBlur={field.onBlur}
+              error={isSubmitted ? errors.branchId?.message : undefined}
             />
+          )}
+        />
 
-            <MainInput
-              label={t("fields.name")}
-              startIcon={<Building2 />}
-              error={isSubmitted ? errors.name?.message : undefined}
-              {...register("name")}
-              placeholder={t("placeholders.name")}
+        <MainInput
+          label={t("fields.name")}
+          startIcon={<Building2 />}
+          error={isSubmitted ? errors.name?.message : undefined}
+          {...register("name")}
+          placeholder={t("placeholders.name")}
+        />
+
+        <Controller
+          control={control}
+          name="managerEmployeeId"
+          render={({ field }) => (
+            <EmployeeManagerPicker
+              employees={employees}
+              branchSlug={selectedBranch?.slug}
+              selectedEmployeeId={field.value}
+              onSelect={(employeeId) => {
+                field.onChange(employeeId);
+                if (employeeId) {
+                  clearErrors("managerEmployeeId");
+                }
+              }}
+              error={
+                isSubmitted ? errors.managerEmployeeId?.message : undefined
+              }
             />
+          )}
+        />
 
-            <Controller
-              control={control}
-              name="managerEmployeeId"
-              render={({ field }) => (
-                <EmployeeManagerPicker
-                  employees={employees}
-                  branchSlug={selectedBranch?.slug}
-                  selectedEmployeeId={field.value}
-                  onSelect={(employeeId) => {
-                    field.onChange(employeeId);
-                    if (employeeId) {
-                      clearErrors("managerEmployeeId");
-                    }
-                  }}
-                  error={
-                    isSubmitted ? errors.managerEmployeeId?.message : undefined
-                  }
-                />
-              )}
-            />
-
-            <div className="grid grid-cols-2 gap-2 pt-2">
-              <MainButton variant="neutral" block type="button" onClick={onClose}>
-                {tPage("cancel")}
-              </MainButton>
-              <MainButton variant="primary" block type="submit" loading={submitting}>
-                {tPage("save")}
-              </MainButton>
-            </div>
-          </form>
-    </ModalShell>
+        <ModalFormActions
+          cancelLabel={tPage("cancel")}
+          onCancel={closeModal}
+          submitLabel={tPage("save")}
+          loading={submitting}
+        />
+      </form>
+    </>
   );
 }
 
 function toFormValues(
-  department: AdminBranchDepartmentRecord
+  department: AdminBranchDepartmentRecord,
 ): UpdateDepartmentFormValues {
   return {
     branchId: department.branchId,

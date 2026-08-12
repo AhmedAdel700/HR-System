@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactElement } from "react";
+import { useEffect, useMemo, useState, type ReactElement, type RefObject } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { CalendarDays, Layers } from "lucide-react";
-import { MainButton } from "@/components/shared/MainButton";
+import { ModalFormActions } from "@/components/shared/ModalFormActions";
 import { ModalShell } from "@/components/shared/ModalShell";
+import { useGenieModalClose } from "@/components/shared/GenieModalShell";
 import { MainInput } from "@/components/shared/MainInput";
 import { MainSelect } from "@/components/shared/MainSelect";
 import { createLeaveType } from "@/lib/admin/leaveTypesStore";
@@ -18,13 +19,39 @@ import {
 interface CreateLeaveTypeModalProps {
   open: boolean;
   onClose: () => void;
+  triggerRef?: RefObject<HTMLElement | null>;
 }
 
 export function CreateLeaveTypeModal({
   open,
   onClose,
+  triggerRef,
 }: CreateLeaveTypeModalProps): ReactElement | null {
   const t = useTranslations("admin.createLeaveType");
+
+  return (
+    <ModalShell
+      open={open}
+      onClose={onClose}
+      triggerRef={triggerRef}
+      backdropAriaLabel={t("cancel")}
+    >
+      <CreateLeaveTypeForm open={open} onClose={onClose} />
+    </ModalShell>
+  );
+}
+
+interface CreateLeaveTypeFormProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+function CreateLeaveTypeForm({
+  open,
+  onClose,
+}: CreateLeaveTypeFormProps): ReactElement {
+  const t = useTranslations("admin.createLeaveType");
+  const closeModal = useGenieModalClose(onClose);
   const tLeave = useTranslations("employee.leave");
   const [submitting, setSubmitting] = useState(false);
 
@@ -39,7 +66,7 @@ export function CreateLeaveTypeModal({
         entitlementRequired: t("errors.entitlementRequired"),
         entitlementMin: t("errors.entitlementMin"),
       }),
-    [t]
+    [t],
   );
 
   const {
@@ -65,7 +92,7 @@ export function CreateLeaveTypeModal({
       { value: "days", label: tLeave("units.days") },
       { value: "hours", label: tLeave("units.hours") },
     ],
-    [tLeave]
+    [tLeave],
   );
 
   const onSubmit = (values: CreateLeaveTypeFormValues): void => {
@@ -76,75 +103,69 @@ export function CreateLeaveTypeModal({
       defaultEntitlement: Number(values.defaultEntitlement),
     });
     setSubmitting(false);
-    onClose();
+    closeModal();
   };
 
   return (
-    <ModalShell
-      open={open}
-      onClose={onClose}
-      backdropAriaLabel={t("cancel")}
-    >
+    <>
       <h2 className="text-base font-semibold text-ink">{t("title")}</h2>
-          <p className="mt-1 text-sm text-text-secondary">{t("subtitle")}</p>
+      <p className="mt-1 text-sm text-text-secondary">{t("subtitle")}</p>
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className="mt-4 space-y-3"
-            noValidate
-          >
-            <MainInput
-              label={t("fields.name")}
-              error={isSubmitted ? errors.name?.message : undefined}
-              {...register("name")}
-              placeholder={t("placeholders.name")}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="mt-4 space-y-3"
+        noValidate
+      >
+        <MainInput
+          label={t("fields.name")}
+          error={isSubmitted ? errors.name?.message : undefined}
+          {...register("name")}
+          placeholder={t("placeholders.name")}
+        />
+
+        <Controller
+          control={control}
+          name="unit"
+          render={({ field }) => (
+            <MainSelect
+              label={t("fields.unit")}
+              startIcon={<CalendarDays />}
+              placeholder={t("placeholders.unit")}
+              options={unitOptions}
+              value={field.value}
+              onValueChange={field.onChange}
+              onBlur={field.onBlur}
+              error={isSubmitted ? errors.unit?.message : undefined}
             />
+          )}
+        />
 
-            <Controller
-              control={control}
-              name="unit"
-              render={({ field }) => (
-                <MainSelect
-                  label={t("fields.unit")}
-                  startIcon={<CalendarDays />}
-                  placeholder={t("placeholders.unit")}
-                  options={unitOptions}
-                  value={field.value}
-                  onValueChange={field.onChange}
-                  onBlur={field.onBlur}
-                  error={isSubmitted ? errors.unit?.message : undefined}
-                />
-              )}
-            />
+        <MainInput
+          label={t("fields.category")}
+          startIcon={<Layers />}
+          error={isSubmitted ? errors.category?.message : undefined}
+          {...register("category")}
+          placeholder={t("placeholders.category")}
+        />
 
-            <MainInput
-              label={t("fields.category")}
-              startIcon={<Layers />}
-              error={isSubmitted ? errors.category?.message : undefined}
-              {...register("category")}
-              placeholder={t("placeholders.category")}
-            />
+        <MainInput
+          label={t("fields.defaultEntitlement")}
+          type="number"
+          min={1}
+          inputMode="numeric"
+          error={isSubmitted ? errors.defaultEntitlement?.message : undefined}
+          {...register("defaultEntitlement")}
+          placeholder={t("placeholders.defaultEntitlement")}
+        />
 
-            <MainInput
-              label={t("fields.defaultEntitlement")}
-              type="number"
-              min={1}
-              inputMode="numeric"
-              error={isSubmitted ? errors.defaultEntitlement?.message : undefined}
-              {...register("defaultEntitlement")}
-              placeholder={t("placeholders.defaultEntitlement")}
-            />
-
-            <div className="grid grid-cols-1 gap-2 pt-2 sm:grid-cols-2">
-              <MainButton variant="neutral" block type="button" onClick={onClose}>
-                {t("cancel")}
-              </MainButton>
-              <MainButton variant="primary" block type="submit" loading={submitting}>
-                {t("submit")}
-              </MainButton>
-            </div>
-          </form>
-    </ModalShell>
+        <ModalFormActions
+          cancelLabel={t("cancel")}
+          onCancel={closeModal}
+          submitLabel={t("submit")}
+          loading={submitting}
+        />
+      </form>
+    </>
   );
 }
 

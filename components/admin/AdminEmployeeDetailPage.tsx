@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useSyncExternalStore, type ReactElement, type ReactNode } from "react";
+import { useRef, useState, useSyncExternalStore, type ReactElement, type ReactNode } from "react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
 import {
@@ -65,6 +65,7 @@ export function AdminEmployeeDetailPage(): ReactElement {
 
   const [editOpen, setEditOpen] = useState(false);
   const [deleteOpen, setDeleteOpen] = useState(false);
+  const editEmployeeTriggerRef = useRef<HTMLButtonElement>(null);
 
   if (!employee || !canView) {
     return (
@@ -183,6 +184,7 @@ export function AdminEmployeeDetailPage(): ReactElement {
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {canEdit ? (
             <MainButton
+              ref={editEmployeeTriggerRef}
               variant="primary"
               block
               startIcon={<Pencil className="size-4" />}
@@ -220,6 +222,7 @@ export function AdminEmployeeDetailPage(): ReactElement {
           employee={employee}
           open={editOpen}
           onClose={() => setEditOpen(false)}
+          triggerRef={editEmployeeTriggerRef}
         />
       ) : null}
     </div>

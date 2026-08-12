@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore, type ReactElement } from "react";
+import { useMemo, useState, useSyncExternalStore, type MouseEvent, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
 import { Eye, Pencil, Search } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
@@ -28,6 +28,7 @@ import {
 import { getDepartmentManagerName } from "@/lib/admin/departmentManagers";
 import { filterEmployeesByBranchAndDepartment } from "@/lib/admin/filterEmployees";
 import { searchEmployees } from "@/lib/admin/searchEmployees";
+import { useModalTriggerRef } from "@/lib/useModalTriggerRef";
 import { MainSelect } from "@/components/shared/MainSelect";
 
 const PAGE_SIZE = 5;
@@ -124,6 +125,8 @@ export function AdminEmployeesPage(): ReactElement {
   };
 
   const [editingEmployeeId, setEditingEmployeeId] = useState<string | null>(null);
+  const { triggerRef: editEmployeeTriggerRef, bindTrigger: bindEditEmployeeTrigger } =
+    useModalTriggerRef();
   const editingEmployee = editingEmployeeId
     ? getEmployeeById(editingEmployeeId)
     : undefined;
@@ -292,7 +295,10 @@ export function AdminEmployeesPage(): ReactElement {
                           iconOnly
                           aria-label={t("edit")}
                           startIcon={<Pencil className="size-4" />}
-                          onClick={() => setEditingEmployeeId(employee.id)}
+                          onClick={(event) => {
+                            bindEditEmployeeTrigger(event);
+                            setEditingEmployeeId(employee.id);
+                          }}
                         />
                       ) : null}
                     </div>
@@ -323,6 +329,7 @@ export function AdminEmployeesPage(): ReactElement {
           employee={editingEmployee}
           open={Boolean(editingEmployeeId)}
           onClose={() => setEditingEmployeeId(null)}
+          triggerRef={editEmployeeTriggerRef}
         />
       ) : null}
     </div>

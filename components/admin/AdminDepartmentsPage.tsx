@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore, type ReactElement } from "react";
+import { useMemo, useRef, useState, useSyncExternalStore, type MouseEvent, type ReactElement } from "react";
 import { useTranslations } from "next-intl";
 import { Eye, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
@@ -26,6 +26,7 @@ import {
   getBranchDepartmentById,
 } from "@/lib/admin/adminOrgStore";
 import { searchBranchDepartments } from "@/lib/admin/searchBranchDepartments";
+import { useModalTriggerRef } from "@/lib/useModalTriggerRef";
 import type { AdminBranchDepartmentRecord } from "@/types/AdminApiTypes";
 
 export function AdminDepartmentsPage(): ReactElement {
@@ -42,6 +43,9 @@ export function AdminDepartmentsPage(): ReactElement {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [branchFilter, setBranchFilter] = useState("all");
+  const createDepartmentTriggerRef = useRef<HTMLButtonElement>(null);
+  const { triggerRef: editDepartmentTriggerRef, bindTrigger: bindEditDepartmentTrigger } =
+    useModalTriggerRef();
   const [creating, setCreating] = useState(false);
   const [editing, setEditing] = useState<AdminBranchDepartmentRecord | null>(null);
   const [deleteId, setDeleteId] = useState<string | null>(null);
@@ -78,7 +82,11 @@ export function AdminDepartmentsPage(): ReactElement {
 
   const deleteTarget = deleteId ? getBranchDepartmentById(deleteId) ?? null : null;
 
-  const openEdit = (department: AdminBranchDepartmentRecord): void => {
+  const openEdit = (
+    department: AdminBranchDepartmentRecord,
+    event: MouseEvent<HTMLButtonElement>,
+  ): void => {
+    bindEditDepartmentTrigger(event);
     setEditing(department);
   };
 
@@ -132,6 +140,7 @@ export function AdminDepartmentsPage(): ReactElement {
                 {t("departmentsTitle", { count: filteredDepartments.length })}
               </h2>
               <MainButton
+                ref={createDepartmentTriggerRef}
                 variant="primary"
                 size="sm"
                 startIcon={<Plus className="size-4" />}
@@ -234,7 +243,7 @@ export function AdminDepartmentsPage(): ReactElement {
                               iconOnly
                               aria-label={t("edit")}
                               startIcon={<Pencil className="size-4" />}
-                              onClick={() => openEdit(department)}
+                              onClick={(event) => openEdit(department, event)}
                             />
                             <MainButton
                               variant="delete-soft"
@@ -264,10 +273,15 @@ export function AdminDepartmentsPage(): ReactElement {
           department={editing}
           open={editing !== null}
           onClose={() => setEditing(null)}
+          triggerRef={editDepartmentTriggerRef}
         />
       ) : null}
 
-      <CreateDepartmentModal open={creating} onClose={() => setCreating(false)} />
+      <CreateDepartmentModal
+        open={creating}
+        onClose={() => setCreating(false)}
+        triggerRef={createDepartmentTriggerRef}
+      />
 
       <DeleteConfirmModal
         open={deleteTarget !== null}

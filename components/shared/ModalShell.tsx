@@ -1,7 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { type ReactElement, type ReactNode } from "react";
+import { type ReactElement, type ReactNode, type RefObject } from "react";
+import { GenieModalShell } from "@/components/shared/GenieModalShell";
 import { ModalBackdrop } from "@/components/shared/ModalBackdrop";
 import { useLargeScreen } from "@/lib/useLargeScreen";
 import { cn } from "@/lib/utils";
@@ -54,6 +55,8 @@ export interface ModalShellProps {
   onClose: () => void;
   backdropAriaLabel: string;
   backdropDisabled?: boolean;
+  /** When set, uses the genie open/close animation from this element on lg+ screens. */
+  triggerRef?: RefObject<HTMLElement | null>;
   children: ReactNode;
   panelClassName?: string;
   layout?: "scroll" | "center";
@@ -256,6 +259,7 @@ export function ModalShell({
   onClose,
   backdropAriaLabel,
   backdropDisabled = false,
+  triggerRef,
   children,
   panelClassName,
   layout = "scroll",
@@ -266,6 +270,22 @@ export function ModalShell({
 }: ModalShellProps): ReactElement | null {
   const isLargeScreen = useLargeScreen();
   const reduceMotion = useReducedMotion();
+
+  if (triggerRef) {
+    return (
+      <GenieModalShell
+        open={open}
+        onClose={onClose}
+        triggerRef={triggerRef}
+        backdropAriaLabel={backdropAriaLabel}
+        backdropDisabled={backdropDisabled}
+        panelClassName={panelClassName}
+      >
+        {children}
+      </GenieModalShell>
+    );
+  }
+
   const shouldAnimate = isLargeScreen && reduceMotion !== true;
 
   const resolvedPanelClassName = cn(

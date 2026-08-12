@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore, type ReactElement } from "react";
+import { useMemo, useRef, useState, useSyncExternalStore, type Dispatch, type MouseEvent, type ReactElement, type SetStateAction } from "react";
 import { useTranslations } from "next-intl";
 import { Eye, Pencil, Plus, Search, Trash2 } from "lucide-react";
 import { useRouter } from "@/i18n/navigation";
@@ -8,8 +8,11 @@ import { CreateBranchModal } from "@/components/admin/CreateBranchModal";
 import { DeleteConfirmModal } from "@/components/shared/DeleteConfirmModal";
 import { MainButton } from "@/components/shared/MainButton";
 import { ModalShell } from "@/components/shared/ModalShell";
+import { ModalFormActions } from "@/components/shared/ModalFormActions";
+import { useGenieModalClose } from "@/components/shared/GenieModalShell";
 import { MainInput } from "@/components/shared/MainInput";
 import { buildBranchOverviews } from "@/lib/admin/buildBranchOverviews";
+import { useModalTriggerRef } from "@/lib/useModalTriggerRef";
 import {
   getEmployeesSnapshot,
   subscribeEmployees,
@@ -36,6 +39,9 @@ export function AdminBranchesPage(): ReactElement {
   useSyncExternalStore(subscribeEmployees, getEmployeesSnapshot, getEmployeesSnapshot);
   useSyncExternalStore(subscribeOrg, getBranchesSnapshot, getBranchesSnapshot);
 
+  const createBranchTriggerRef = useRef<HTMLButtonElement>(null);
+  const { triggerRef: editBranchTriggerRef, bindTrigger: bindEditBranchTrigger } =
+    useModalTriggerRef();
   const [creating, setCreating] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [editing, setEditing] = useState<AdminBranchRecord | null>(null);
@@ -62,7 +68,11 @@ export function AdminBranchesPage(): ReactElement {
     ? branchRows.find((row) => row.branch.id === deleteId)?.branch ?? null
     : null;
 
-  const openEdit = (branch: AdminBranchRecord): void => {
+  const openEdit = (
+    branch: AdminBranchRecord,
+    event: MouseEvent<HTMLButtonElement>,
+  ): void => {
+    bindEditBranchTrigger(event);
     setEditing(branch);
     setDraft({
       name: branch.name,
@@ -76,6 +86,10 @@ export function AdminBranchesPage(): ReactElement {
   const saveEdit = (): void => {
     if (!editing) return;
     updateBranch(editing.id, draft);
+    setDraft(emptyDraft());
+  };
+
+  const closeEdit = (): void => {
     setEditing(null);
     setDraft(emptyDraft());
   };
@@ -125,6 +139,7 @@ export function AdminBranchesPage(): ReactElement {
               {t("branchesTitle", { count: filteredBranchRows.length })}
             </h2>
             <MainButton
+              ref={createBranchTriggerRef}
               variant="primary"
               size="sm"
               startIcon={<Plus className="size-4" />}
@@ -214,7 +229,7 @@ export function AdminBranchesPage(): ReactElement {
                             iconOnly
                             aria-label={t("edit")}
                             startIcon={<Pencil className="size-4" />}
-                            onClick={() => openEdit(branch)}
+                            onClick={(event) => openEdit(branch, event)}
                           />
                           <MainButton
                             variant="delete-soft"
@@ -241,62 +256,34 @@ export function AdminBranchesPage(): ReactElement {
       {editing ? (
         <ModalShell
           open={editing !== null}
-          onClose={() => setEditing(null)}
+          onClose={closeEdit}
+          triggerRef={editBranchTriggerRef}
           backdropAriaLabel={t("cancel")}
         >
-          <h2 className="text-base font-semibold text-ink">{t("editTitle")}</h2>
-              <div className="mt-4 flex flex-col gap-3">
-                <MainInput
-                  label={t("fields.name")}
-                  value={draft.name}
-                  onChange={(event) =>
-                    setDraft((prev) => ({ ...prev, name: event.target.value }))
-                  }
-                />
-                <MainInput
-                  label={t("fields.city")}
-                  value={draft.city}
-                  onChange={(event) =>
-                    setDraft((prev) => ({ ...prev, city: event.target.value }))
-                  }
-                />
-                <MainInput
-                  as="textarea"
-                  label={t("fields.address")}
-                  value={draft.address}
-                  onChange={(event) =>
-                    setDraft((prev) => ({ ...prev, address: event.target.value }))
-                  }
-                />
-                <MainInput
-                  label={t("fields.phone")}
-                  type="tel"
-                  value={draft.phone}
-                  onChange={(event) =>
-                    setDraft((prev) => ({ ...prev, phone: event.target.value }))
-                  }
-                />
-                <MainInput
-                  label={t("fields.email")}
-                  type="email"
-                  value={draft.email}
-                  onChange={(event) =>
-                    setDraft((prev) => ({ ...prev, email: event.target.value }))
-                  }
-                />
-              </div>
-              <div className="mt-4 grid grid-cols-2 gap-2">
-                <MainButton variant="neutral" block onClick={() => setEditing(null)}>
-                  {t("cancel")}
-                </MainButton>
-                <MainButton variant="primary" block onClick={saveEdit}>
-                  {t("save")}
-                </MainButton>
-              </div>
+          <EditBranchDialog
+            draft={draft}
+            setDraft={setDraft}
+            onSave={saveEdit}
+            onClose={closeEdit}
+            cancelLabel={t("cancel")}
+            saveLabel={t("save")}
+            title={t("editTitle")}
+            fieldLabels={{
+              name: t("fields.name"),
+              city: t("fields.city"),
+              address: t("fields.address"),
+              phone: t("fields.phone"),
+              email: t("fields.email"),
+            }}
+          />
         </ModalShell>
       ) : null}
 
-      <CreateBranchModal open={creating} onClose={() => setCreating(false)} />
+      <CreateBranchModal
+        open={creating}
+        onClose={() => setCreating(false)}
+        triggerRef={createBranchTriggerRef}
+      />
 
       <DeleteConfirmModal
         open={deleteTarget !== null}
@@ -325,6 +312,95 @@ interface UpdateBranchDraft {
   address: string;
   phone: string;
   email: string;
+}
+
+interface EditBranchDialogProps {
+  draft: UpdateBranchDraft;
+  setDraft: Dispatch<SetStateAction<UpdateBranchDraft>>;
+  onSave: () => void;
+  onClose: () => void;
+  title: string;
+  cancelLabel: string;
+  saveLabel: string;
+  fieldLabels: {
+    name: string;
+    city: string;
+    address: string;
+    phone: string;
+    email: string;
+  };
+}
+
+function EditBranchDialog({
+  draft,
+  setDraft,
+  onSave,
+  onClose,
+  title,
+  cancelLabel,
+  saveLabel,
+  fieldLabels,
+}: EditBranchDialogProps): ReactElement {
+  const closeModal = useGenieModalClose(onClose);
+
+  const handleSave = (): void => {
+    onSave();
+    closeModal();
+  };
+
+  return (
+    <>
+      <h2 className="text-base font-semibold text-ink">{title}</h2>
+      <div className="mt-4 flex flex-col gap-3">
+        <MainInput
+          label={fieldLabels.name}
+          value={draft.name}
+          onChange={(event) =>
+            setDraft((prev) => ({ ...prev, name: event.target.value }))
+          }
+        />
+        <MainInput
+          label={fieldLabels.city}
+          value={draft.city}
+          onChange={(event) =>
+            setDraft((prev) => ({ ...prev, city: event.target.value }))
+          }
+        />
+        <MainInput
+          as="textarea"
+          label={fieldLabels.address}
+          value={draft.address}
+          onChange={(event) =>
+            setDraft((prev) => ({ ...prev, address: event.target.value }))
+          }
+        />
+        <MainInput
+          label={fieldLabels.phone}
+          type="tel"
+          value={draft.phone}
+          onChange={(event) =>
+            setDraft((prev) => ({ ...prev, phone: event.target.value }))
+          }
+        />
+        <MainInput
+          label={fieldLabels.email}
+          type="email"
+          value={draft.email}
+          onChange={(event) =>
+            setDraft((prev) => ({ ...prev, email: event.target.value }))
+          }
+        />
+      </div>
+      <ModalFormActions
+        className="mt-4 pt-0"
+        cancelLabel={cancelLabel}
+        onCancel={closeModal}
+        submitLabel={saveLabel}
+        submitType="button"
+        onSubmit={handleSave}
+      />
+    </>
+  );
 }
 
 function emptyDraft(): UpdateBranchDraft {
