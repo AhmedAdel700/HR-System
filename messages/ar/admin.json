@@ -21,7 +21,8 @@
     "registrations": "طلبات التسجيل",
     "leaveTypes": "أنواع الإجازات",
     "leaveRequests": "طلبات الإجازة",
-    "departments": "الأقسام"
+    "departments": "الأقسام",
+    "fingerprintImport": "استيراد البصمة"
   },
   "sidebar": {
     "expand": "توسيع الشريط الجانبي",
@@ -456,6 +457,77 @@
       "manager": "المدير",
       "members": "الأعضاء",
       "actions": "إجراءات"
+    }
+  },
+  "fingerprintImportPage": {
+    "title": "استيراد البصمة",
+    "subtitle": "ارفع كشوف الحضور من جهاز البصمة واطّلع على السجلات المستوردة حسب الشهر.",
+    "uploadSectionTitle": "رفع كشف الحضور",
+    "uploadSectionSubtitle": "اختر السنة والشهر، ثم اسحب ملف Excel المُصدَّر من جهاز البصمة.",
+    "fields": {
+      "year": "السنة",
+      "month": "الشهر",
+      "file": "ملف الجدول",
+      "fileHint": "صدّر التقرير الشهري من جهاز البصمة بصيغة .xlsx أو .xls أو .csv."
+    },
+    "months": {
+      "1": "يناير",
+      "2": "فبراير",
+      "3": "مارس",
+      "4": "أبريل",
+      "5": "مايو",
+      "6": "يونيو",
+      "7": "يوليو",
+      "8": "أغسطس",
+      "9": "سبتمبر",
+      "10": "أكتوبر",
+      "11": "نوفمبر",
+      "12": "ديسمبر"
+    },
+    "upload": {
+      "dropLabel": "أسقط ملف الجدول هنا",
+      "browseLabel": "أو انقر للتصفح",
+      "supportedFormats": ".xlsx, .xls, .csv",
+      "removeFile": "إزالة الملف",
+      "submit": "رفع واستيراد"
+    },
+    "loadingMonth": "جاري تحميل بيانات الشهر المحدد…",
+    "historyTitle": "سجل الرفع ({count})",
+    "historyEmpty": "لم يُرفع أي ملف لهذا الشهر بعد.",
+    "historyColumns": {
+      "fileName": "الملف",
+      "period": "الفترة",
+      "uploadedAt": "تاريخ الرفع",
+      "uploadedBy": "رفعه",
+      "recordCount": "السجلات"
+    },
+    "otherMonthsHint": "انتقل إلى شهر فيه رفعات سابقة",
+    "recordsTitle": "سجلات الحضور لـ {month} {year} ({count})",
+    "recordsEmpty": "لا توجد سجلات حضور لهذا الشهر بعد. ارفع ملفًا لاستيراد البيانات.",
+    "recordsNoResults": "لا توجد سجلات تطابق بحثك.",
+    "recordsSearchPlaceholder": "البحث بالاسم أو الهاتف أو رقم البصمة أو السريال أو الوقت…",
+    "recordsUnknownEmployee": "موظف غير معروف",
+    "attendanceStatus": {
+      "in": "حضور",
+      "out": "انصراف",
+      "in_out": "حضور وانصراف"
+    },
+    "recordsColumns": {
+      "name": "الاسم",
+      "phoneNumber": "رقم الهاتف",
+      "fingerprintId": "رقم البصمة",
+      "fingerprintSerial": "السريال",
+      "clockIn": "وقت الحضور",
+      "clockOut": "وقت الانصراف",
+      "attendanceStatus": "حالة الحضور"
+    },
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "summary": "عرض {start}–{end} من {total}"
+    },
+    "errors": {
+      "noFile": "اختر ملف جدول قبل الرفع."
     }
   }
 }

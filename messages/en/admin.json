@@ -21,7 +21,8 @@
     "registrations": "Registrations",
     "leaveTypes": "Leave types",
     "leaveRequests": "Leave requests",
-    "departments": "Departments"
+    "departments": "Departments",
+    "fingerprintImport": "Fingerprint import"
   },
   "sidebar": {
     "expand": "Expand sidebar",
@@ -456,6 +457,77 @@
       "manager": "Manager",
       "members": "Members",
       "actions": "Actions"
+    }
+  },
+  "fingerprintImportPage": {
+    "title": "Fingerprint import",
+    "subtitle": "Upload attendance sheets from the fingerprint machine and review imported records by month.",
+    "uploadSectionTitle": "Upload attendance sheet",
+    "uploadSectionSubtitle": "Select the year and month, then drop the Excel export from your fingerprint device.",
+    "fields": {
+      "year": "Year",
+      "month": "Month",
+      "file": "Spreadsheet file",
+      "fileHint": "Export the monthly report from your fingerprint machine as .xlsx, .xls, or .csv."
+    },
+    "months": {
+      "1": "January",
+      "2": "February",
+      "3": "March",
+      "4": "April",
+      "5": "May",
+      "6": "June",
+      "7": "July",
+      "8": "August",
+      "9": "September",
+      "10": "October",
+      "11": "November",
+      "12": "December"
+    },
+    "upload": {
+      "dropLabel": "Drop your spreadsheet here",
+      "browseLabel": "or click to browse",
+      "supportedFormats": ".xlsx, .xls, .csv",
+      "removeFile": "Remove file",
+      "submit": "Upload and import"
+    },
+    "loadingMonth": "Loading data for selected month…",
+    "historyTitle": "Upload history ({count})",
+    "historyEmpty": "No sheets uploaded for this month yet.",
+    "historyColumns": {
+      "fileName": "File",
+      "period": "Period",
+      "uploadedAt": "Uploaded",
+      "uploadedBy": "Uploaded by",
+      "recordCount": "Records"
+    },
+    "otherMonthsHint": "Jump to a month with previous uploads",
+    "recordsTitle": "Attendance records for {month} {year} ({count})",
+    "recordsEmpty": "No attendance records for this month yet. Upload a sheet to import data.",
+    "recordsNoResults": "No records match your search.",
+    "recordsSearchPlaceholder": "Search by name, phone, fingerprint ID, serial, or time…",
+    "recordsUnknownEmployee": "Unknown employee",
+    "attendanceStatus": {
+      "in": "In",
+      "out": "Out",
+      "in_out": "In & Out"
+    },
+    "recordsColumns": {
+      "name": "Name",
+      "phoneNumber": "Phone number",
+      "fingerprintId": "Fing-ID",
+      "fingerprintSerial": "Fing serial",
+      "clockIn": "Clock in",
+      "clockOut": "Clock out",
+      "attendanceStatus": "Attendance status"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "summary": "Showing {start}–{end} of {total}"
+    },
+    "errors": {
+      "noFile": "Choose a spreadsheet file before uploading."
     }
   }
 }

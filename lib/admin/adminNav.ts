@@ -2,6 +2,7 @@ import {
   Building2,
   CalendarDays,
   ClipboardList,
+  Fingerprint,
   LayoutDashboard,
   MapPinned,
   UserPlus,
@@ -20,7 +21,8 @@ export interface AdminNavItem {
     | "leaveTypes"
     | "leaveRequests"
     | "branches"
-    | "departments";
+    | "departments"
+    | "fingerprintImport";
   icon: LucideIcon;
   match: (pathname: string) => boolean;
   superAdminOnly?: boolean;
@@ -59,6 +61,14 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
     key: "leaveTypes",
     icon: ClipboardList,
     match: (pathname) => pathname.startsWith("/admin-dashboard/leave-types"),
+    superAdminOnly: true,
+  },
+  {
+    href: "/admin-dashboard/fingerprint-import",
+    key: "fingerprintImport",
+    icon: Fingerprint,
+    match: (pathname) =>
+      pathname.startsWith("/admin-dashboard/fingerprint-import"),
     superAdminOnly: true,
   },
   {
