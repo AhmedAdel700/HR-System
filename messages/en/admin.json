@@ -22,6 +22,7 @@
     "leaveTypes": "Leave types",
     "leaveRequests": "Leave requests",
     "departments": "Departments",
+    "positions": "Positions",
     "fingerprintImport": "Fingerprint import"
   },
   "sidebar": {
@@ -92,25 +93,29 @@
     "view": "View employee",
     "delete": "Delete employee",
     "editTitle": "Edit assignment",
-    "editSubtitle": "Update branch, department, and position only. Contact details cannot be changed here.",
+    "editSubtitle": "Update branch, department, position, and fingerprint number. Contact details cannot be changed here.",
     "fields": {
       "name": "Full name",
       "email": "Email",
       "phone": "Phone",
       "position": "Position",
       "branch": "Branch",
-      "department": "Department"
+      "department": "Department",
+      "fingerprintNumber": "Fingerprint number"
     },
     "placeholders": {
       "branch": "Select branch",
       "department": "Select department",
-      "position": "e.g. HR Specialist"
+      "position": "Select position",
+      "fingerprintNumber": "e.g. 100001"
     },
     "errors": {
       "branchRequired": "Branch is required.",
       "departmentRequired": "Department is required.",
       "positionRequired": "Position is required.",
-      "positionMin": "Position must be at least 2 characters."
+      "positionMin": "Position must be at least 2 characters.",
+      "fingerprintRequired": "Fingerprint number is required.",
+      "fingerprintInvalid": "Enter a valid fingerprint number (1–20 digits)."
     },
     "save": "Save changes",
     "cancel": "Cancel",
@@ -348,6 +353,45 @@
       "nameMin": "Department name must be at least 2 characters.",
       "managerRequired": "Select an employee as department manager.",
       "duplicate": "A department with this name already exists in the selected branch."
+    }
+  },
+  "createPosition": {
+    "title": "Create position",
+    "subtitle": "Add a job title that employees can select during registration.",
+    "submit": "Create position",
+    "cancel": "Cancel",
+    "fields": {
+      "name": "Position name"
+    },
+    "placeholders": {
+      "name": "e.g. HR Specialist"
+    },
+    "errors": {
+      "nameRequired": "Position name is required.",
+      "nameMin": "Position name must be at least 2 characters.",
+      "duplicate": "A position with this name already exists."
+    }
+  },
+  "positionsPage": {
+    "title": "Positions",
+    "subtitle": "Manage company job titles used in registration and employee assignment.",
+    "create": "Create position",
+    "searchPlaceholder": "Search positions…",
+    "resultsTitle": "Positions ({count})",
+    "empty": "No positions configured yet.",
+    "noResults": "No positions match your search.",
+    "edit": "Edit position",
+    "delete": "Delete position",
+    "editTitle": "Edit position",
+    "editSubtitle": "Update the job title shown in registration and employee forms.",
+    "save": "Save changes",
+    "cancel": "Cancel",
+    "deleteTitle": "Delete this position?",
+    "deleteDescription": "Remove “{name}” from the company position list. Existing employee records keep their current title.",
+    "deleteConfirm": "Delete",
+    "columns": {
+      "name": "Position",
+      "actions": "Actions"
     }
   },
   "createLeaveType": {

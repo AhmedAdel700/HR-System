@@ -1,4 +1,5 @@
 import {
+  Briefcase,
   Building2,
   CalendarDays,
   ClipboardList,
@@ -22,6 +23,7 @@ export interface AdminNavItem {
     | "leaveRequests"
     | "branches"
     | "departments"
+    | "positions"
     | "fingerprintImport";
   icon: LucideIcon;
   match: (pathname: string) => boolean;
@@ -54,6 +56,13 @@ export const ADMIN_NAV_ITEMS: AdminNavItem[] = [
     key: "departments",
     icon: Building2,
     match: (pathname) => pathname.startsWith("/admin-dashboard/departments"),
+    superAdminOnly: true,
+  },
+  {
+    href: "/admin-dashboard/positions",
+    key: "positions",
+    icon: Briefcase,
+    match: (pathname) => pathname.startsWith("/admin-dashboard/positions"),
     superAdminOnly: true,
   },
   {

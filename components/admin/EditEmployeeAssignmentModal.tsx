@@ -1,10 +1,17 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactElement, type RefObject } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  useSyncExternalStore,
+  type ReactElement,
+  type RefObject,
+} from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
-import { Building2, MapPinned } from "lucide-react";
+import { Briefcase, Building2, Fingerprint, MapPinned } from "lucide-react";
 import { ModalFormActions } from "@/components/shared/ModalFormActions";
 import { ModalShell } from "@/components/shared/ModalShell";
 import { useGenieModalClose } from "@/components/shared/GenieModalShell";
@@ -15,6 +22,15 @@ import {
   getBranchesSnapshot,
 } from "@/lib/admin/adminOrgStore";
 import { updateEmployee } from "@/lib/admin/adminDataStore";
+import {
+  getAdminSessionSnapshot,
+  subscribeAdminSession,
+} from "@/lib/admin/adminSessionStore";
+import {
+  getPositionsSnapshot,
+  subscribePositions,
+} from "@/lib/admin/positionsStore";
+import { isSuperAdmin } from "@/lib/admin/permissions";
 import {
   updateEmployeeAssignmentSchema,
   type UpdateEmployeeAssignmentFormValues,
@@ -68,6 +84,16 @@ function EditEmployeeAssignmentForm({
   const closeModal = useGenieModalClose(onClose);
   const [submitting, setSubmitting] = useState(false);
 
+  useSyncExternalStore(
+    subscribeAdminSession,
+    getAdminSessionSnapshot,
+    getAdminSessionSnapshot,
+  );
+  useSyncExternalStore(subscribePositions, getPositionsSnapshot, getPositionsSnapshot);
+
+  const canEditFingerprint = isSuperAdmin(getAdminSessionSnapshot().role);
+  const positions = getPositionsSnapshot();
+
   const schema = useMemo(
     () =>
       updateEmployeeAssignmentSchema({
@@ -75,6 +101,8 @@ function EditEmployeeAssignmentForm({
         departmentRequired: t("errors.departmentRequired"),
         positionRequired: t("errors.positionRequired"),
         positionMin: t("errors.positionMin"),
+        fingerprintRequired: t("errors.fingerprintRequired"),
+        fingerprintInvalid: t("errors.fingerprintInvalid"),
       }),
     [t],
   );
@@ -123,6 +151,25 @@ function EditEmployeeAssignmentForm({
       }));
   }, [departments, selectedBranch]);
 
+  const positionOptions = useMemo(() => {
+    const options = positions.map((position) => ({
+      value: position.name,
+      label: position.name,
+    }));
+
+    if (
+      employee.position &&
+      !options.some((option) => option.value === employee.position)
+    ) {
+      options.unshift({
+        value: employee.position,
+        label: employee.position,
+      });
+    }
+
+    return options;
+  }, [positions, employee.position]);
+
   const handleBranchChange = (): void => {
     setValue("department", "", { shouldValidate: isSubmitted });
   };
@@ -133,6 +180,9 @@ function EditEmployeeAssignmentForm({
       branch: values.branch as BranchOption,
       department: values.department as DepartmentOption,
       position: values.position.trim(),
+      ...(canEditFingerprint
+        ? { fingerprintNumber: values.fingerprintNumber.trim() }
+        : {}),
     });
     setSubmitting(false);
     closeModal();
@@ -186,12 +236,33 @@ function EditEmployeeAssignmentForm({
           )}
         />
 
-        <MainInput
-          label={t("fields.position")}
-          error={isSubmitted ? errors.position?.message : undefined}
-          {...register("position")}
-          placeholder={t("placeholders.position")}
+        <Controller
+          control={control}
+          name="position"
+          render={({ field }) => (
+            <MainSelect
+              label={t("fields.position")}
+              startIcon={<Briefcase />}
+              placeholder={t("placeholders.position")}
+              options={positionOptions}
+              value={field.value}
+              onValueChange={field.onChange}
+              onBlur={field.onBlur}
+              error={isSubmitted ? errors.position?.message : undefined}
+            />
+          )}
         />
+
+        {canEditFingerprint ? (
+          <MainInput
+            label={t("fields.fingerprintNumber")}
+            startIcon={<Fingerprint />}
+            inputMode="numeric"
+            error={isSubmitted ? errors.fingerprintNumber?.message : undefined}
+            {...register("fingerprintNumber")}
+            placeholder={t("placeholders.fingerprintNumber")}
+          />
+        ) : null}
 
         <ModalFormActions
           cancelLabel={t("cancel")}
@@ -211,5 +282,6 @@ function toFormValues(
     branch: employee.branch,
     department: employee.department,
     position: employee.position,
+    fingerprintNumber: employee.fingerprintNumber,
   };
 }
