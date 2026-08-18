@@ -16,6 +16,7 @@ import {
   useMap,
   useMapEvents,
 } from "react-leaflet";
+import type { DragEndEvent, LeafletMouseEvent } from "leaflet";
 import L from "leaflet";
 import { Search } from "lucide-react";
 import "leaflet/dist/leaflet.css";
@@ -46,7 +47,7 @@ interface MapClickHandlerProps {
 
 function MapClickHandler({ onPick }: MapClickHandlerProps): null {
   useMapEvents({
-    click(event) {
+    click(event: LeafletMouseEvent) {
       onPick({
         latitude: event.latlng.lat,
         longitude: event.latlng.lng,
@@ -377,7 +378,7 @@ export function MapLocationPicker({
             eventHandlers={
               interactive
                 ? {
-                    dragend: (event) => {
+                    dragend: (event: DragEndEvent) => {
                       const marker = event.target as L.Marker;
                       const next = marker.getLatLng();
                       handlePickLocation({

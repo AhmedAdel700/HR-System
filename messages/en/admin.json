@@ -393,6 +393,45 @@
       "slug": "Slug"
     }
   },
+  "positionsPage": {
+    "title": "Positions",
+    "subtitle": "Manage job titles used across the organization.",
+    "create": "Create position",
+    "searchPlaceholder": "Search positions…",
+    "resultsTitle": "Positions ({count})",
+    "empty": "No positions configured yet.",
+    "noResults": "No positions match your search.",
+    "edit": "Edit position",
+    "delete": "Delete position",
+    "editTitle": "Edit position",
+    "editSubtitle": "Update the position name.",
+    "deleteTitle": "Delete this position?",
+    "deleteDescription": "{name} will be removed from the directory.",
+    "deleteConfirm": "Delete",
+    "cancel": "Cancel",
+    "save": "Save changes",
+    "columns": {
+      "name": "Position",
+      "actions": "Actions"
+    }
+  },
+  "createPosition": {
+    "title": "Create position",
+    "subtitle": "Add a new job title for employees and assignments.",
+    "submit": "Create position",
+    "cancel": "Cancel",
+    "fields": {
+      "name": "Position name"
+    },
+    "placeholders": {
+      "name": "e.g. HR Specialist"
+    },
+    "errors": {
+      "nameRequired": "Position name is required.",
+      "nameMin": "Position name must be at least 2 characters.",
+      "duplicate": "A position with this name already exists."
+    }
+  },
   "departmentsPage": {
     "title": "Departments",
     "subtitle": "Manage departments across branches.",
