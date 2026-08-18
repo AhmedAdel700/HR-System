@@ -1,0 +1,191 @@
+/* Themed Leaflet chrome — black & white basemap + brand pin */
+
+/* Keep Leaflet geometry LTR; Arabic text uses dir on tooltip body. */
+.branch-map-theme {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  direction: ltr;
+  unicode-bidi: isolate;
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--color-neutral-900) 6%, transparent);
+}
+
+.branch-map-theme .leaflet-container,
+.branch-map-theme__canvas {
+  direction: ltr;
+  background: var(--color-neutral-100);
+  font-family: inherit;
+  border-radius: inherit;
+}
+
+.branch-map-theme .leaflet-tile-pane {
+  filter: grayscale(1) contrast(1.08) brightness(1.02);
+}
+
+.branch-map-theme .leaflet-tooltip-pane {
+  z-index: 700;
+}
+
+.branch-map-theme .leaflet-control-attribution {
+  background: color-mix(in srgb, var(--color-surface) 90%, transparent);
+  color: var(--color-neutral-500);
+  font-size: 10px;
+  border-radius: 0.5rem 0 0 0;
+  box-shadow: none;
+  margin: 0 !important;
+  padding: 2px 8px;
+}
+
+.branch-map-theme .leaflet-control-attribution a {
+  color: var(--color-primary-700);
+}
+
+.branch-map-theme .leaflet-control-zoom {
+  border: 1px solid var(--color-border) !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+  margin: 12px !important;
+  box-shadow: var(--shadow-sm, 0 2px 8px rgb(28 26 24 / 0.08)) !important;
+}
+
+.branch-map-theme .leaflet-control-zoom a {
+  background: var(--color-surface, #fff) !important;
+  color: var(--color-ink) !important;
+  border-bottom-color: var(--color-border) !important;
+  width: 2.125rem;
+  height: 2.125rem;
+  line-height: 2.125rem;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.branch-map-theme .leaflet-control-zoom a:hover {
+  background: var(--color-primary-50) !important;
+  color: var(--color-primary-700) !important;
+}
+
+.branch-map-theme .leaflet-control-zoom-in {
+  border-top-left-radius: 0.75rem !important;
+  border-top-right-radius: 0.75rem !important;
+}
+
+.branch-map-theme .leaflet-control-zoom-out {
+  border-bottom-left-radius: 0.75rem !important;
+  border-bottom-right-radius: 0.75rem !important;
+}
+
+.branch-map-marker {
+  background: transparent;
+  border: none;
+}
+
+.branch-map-marker__pin {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 9999px;
+  background: linear-gradient(
+    160deg,
+    var(--color-primary-400),
+    var(--color-primary-600)
+  );
+  border: 2px solid #fff7f0;
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--color-primary-500) 18%, transparent),
+    0 10px 18px -4px rgb(217 101 18 / 0.5);
+}
+
+.branch-map-marker__pin::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  width: 11px;
+  height: 11px;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: var(--color-primary-600);
+  border-radius: 0 0 2px 0;
+}
+
+.branch-map-marker__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  background: #fff7f0;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--color-primary-700) 20%, transparent);
+}
+
+.branch-map-theme .leaflet-tooltip.branch-map-tooltip {
+  background: var(--color-surface);
+  color: var(--color-ink);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+  box-shadow: var(--shadow-md, 0 8px 20px -6px rgb(28 26 24 / 0.18));
+  padding: 0;
+  width: max-content;
+  max-width: none;
+  white-space: nowrap;
+  pointer-events: none;
+  transform-origin: center bottom;
+}
+
+.branch-map-theme .leaflet-tooltip.branch-map-tooltip::before {
+  border-top-color: var(--color-border);
+}
+
+.branch-map-theme .leaflet-tooltip-top.branch-map-tooltip::before {
+  border-top-color: var(--color-surface);
+  margin-top: -1px;
+  left: 50%;
+  right: auto;
+  margin-left: -6px;
+  margin-inline-start: -6px;
+  margin-inline-end: 0;
+}
+
+.branch-map-tooltip__body {
+  display: flex;
+  width: max-content;
+  max-width: min(22rem, 70vw);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 8px 10px;
+  text-align: start;
+  unicode-bidi: isolate;
+}
+
+.branch-map-tooltip__body[dir="rtl"] {
+  direction: rtl;
+}
+
+.branch-map-tooltip__body[dir="ltr"] {
+  direction: ltr;
+}
+
+.branch-map-tooltip__title,
+.branch-map-tooltip__address {
+  display: block;
+  width: 100%;
+  text-align: start;
+}
+
+.branch-map-tooltip__title {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.branch-map-tooltip__address {
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--color-neutral-600);
+  white-space: normal;
+  overflow-wrap: break-word;
+}
