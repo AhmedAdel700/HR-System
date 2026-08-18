@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useSyncExternalStore, type ReactElement } from "react";
+import { useMemo, useState, type ReactElement } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
@@ -26,10 +26,6 @@ import { MainButton } from "@/components/shared/MainButton";
 import { MainInput } from "@/components/shared/MainInput";
 import { MainSelect } from "@/components/shared/MainSelect";
 import {
-  getPositionsSnapshot,
-  subscribePositions,
-} from "@/lib/admin/positionsStore";
-import {
   BRANCH_OPTIONS,
   DEPARTMENT_OPTIONS,
 } from "@/lib/auth/register-options";
@@ -51,9 +47,6 @@ export function RegisterForm(): ReactElement {
   const tBranch = useTranslations("auth.branchOptions");
   const tDepartment = useTranslations("auth.departmentOptions");
   const [step, setStep] = useState<RegisterStepId>("profile");
-
-  useSyncExternalStore(subscribePositions, getPositionsSnapshot, getPositionsSnapshot);
-  const positions = getPositionsSnapshot();
 
   const schema = useMemo(
     () =>
@@ -106,15 +99,6 @@ export function RegisterForm(): ReactElement {
         label: tDepartment(value),
       })),
     [tDepartment],
-  );
-
-  const positionOptions = useMemo(
-    () =>
-      positions.map((position) => ({
-        value: position.name,
-        label: position.name,
-      })),
-    [positions],
   );
 
   const {
@@ -265,22 +249,13 @@ export function RegisterForm(): ReactElement {
 
         {step === "work" ? (
           <>
-            <Controller
-              name="position"
-              control={control}
-              render={({ field }) => (
-                <MainSelect
-                  label={t("register.position")}
-                  startIcon={<Briefcase />}
-                  error={errors.position?.message}
-                  options={positionOptions}
-                  placeholder={t("register.positionPlaceholder")}
-                  value={field.value}
-                  onValueChange={field.onChange}
-                  onBlur={field.onBlur}
-                  name={field.name}
-                />
-              )}
+            <MainInput
+              label={t("register.position")}
+              autoComplete="organization-title"
+              startIcon={<Briefcase />}
+              error={errors.position?.message}
+              {...register("position")}
+              placeholder={t("register.positionPlaceholder")}
             />
             <MainInput
               label={t("register.fingerprintNumber")}

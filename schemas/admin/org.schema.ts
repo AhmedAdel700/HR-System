@@ -5,8 +5,9 @@ export type CreateBranchFormErrorMessages = {
   nameMin: string;
   cityRequired: string;
   addressRequired: string;
+  phoneRequired: string;
+  emailRequired: string;
   emailInvalid: string;
-  locationRequired: string;
 };
 
 export function createBranchSchema(errors: CreateBranchFormErrorMessages) {
@@ -17,16 +18,11 @@ export function createBranchSchema(errors: CreateBranchFormErrorMessages) {
       .min(2, { error: errors.nameMin }),
     city: z.string().min(1, { error: errors.cityRequired }),
     address: z.string().min(1, { error: errors.addressRequired }),
-    phone: z.string(),
-    email: z.string().refine(
-      (value) => {
-        const trimmed = value.trim();
-        return trimmed === "" || z.email().safeParse(trimmed).success;
-      },
-      { error: errors.emailInvalid },
-    ),
-    latitude: z.number({ error: errors.locationRequired }),
-    longitude: z.number({ error: errors.locationRequired }),
+    phone: z.string().min(1, { error: errors.phoneRequired }),
+    email: z
+      .string()
+      .min(1, { error: errors.emailRequired })
+      .email({ error: errors.emailInvalid }),
   });
 }
 
